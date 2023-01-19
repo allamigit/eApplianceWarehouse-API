@@ -1,34 +1,50 @@
 package e_appliance_warehouse.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "stock")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stock {
+public class Stock extends CommonColumns {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@SequenceGenerator(name = "stockseq", sequenceName = "stock_seq", initialValue = 101, allocationSize = 1)
+	@SequenceGenerator(name = "stockseq", sequenceName = "stock_seq", initialValue = 201, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stockseq")
-	@Column(name = "item_id")
-	private Integer itemId;
+	@Column(name = "item_code")
+	private Integer itemCode;
 	
 	@Column(name = "item_name", nullable = false, unique = true)
 	private String itemName;
 	
-	@Column(name = "item_photo")  //*
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "color_id")
+	private Color itemColor;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "brand_id")
+	private Brand itemBrand;
+	
+	@Column(name = "item_photo")
 	private Byte[] itemPhoto;
 	
 	@Column(name = "item_size")
@@ -40,8 +56,12 @@ public class Stock {
 	@Column(name = "item_qty", nullable = false)
 	private Integer itemQTY;
 	
-	@Column(name = "item_weight")  //*
+	@Column(name = "item_weight")
 	private Double itemWeight;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "zone_id")
+	private Zone itemZone;
 	
 	@Column(name = "cost_price", nullable = false)
 	private Double costPrice;
@@ -52,19 +72,16 @@ public class Stock {
 	@Column(name = "sale_price")
 	private Double salePrice;
 	
-	@Column(name = "item_status", nullable = false)
-	private Boolean itemStatus;
+	@Column(name = "item_defect_status")
+	private Boolean itemDefectStatus;
 	
-	@Column(name = "tax_status")  //*
+	@Column(name = "item_list_status", nullable = false)
+	private Boolean itemListStatus;
+	
+	@Column(name = "tax_status")
 	private Boolean taxStatus;
 	
 	@Column(name = "item_comment")
 	private String itemComment;
-	
-	@Column(name = "created_by")
-	private String createdBy;
-	
-	@Column(name = "updated_by")
-	private String updatedBy;
 	
 }

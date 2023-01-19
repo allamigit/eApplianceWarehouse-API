@@ -8,16 +8,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "access_group")
+@Table(name = "permission_groups")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccessGroup {
+public class PermissionGroups extends CommonColumns {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "group_id")
@@ -42,10 +46,10 @@ public class AccessGroup {
 	@Column(name = "groups_readonly")
 	private Boolean groupsReadOnly;
 	
-	@Column(name = "general")  //*
+	@Column(name = "general")
 	private Boolean general;
 	
-	@Column(name = "general_readonly")  //*
+	@Column(name = "general_readonly")
 	private Boolean generalReadOnly;
 	
 	// STOCK
@@ -107,7 +111,7 @@ public class AccessGroup {
 	@Column(name = "order_info")
 	private Boolean orderInfo;
 	
-	@Column(name = "order_invoice")  //***
+	@Column(name = "order_invoice")
 	private Boolean orderInvoice;
 	
 	@Column(name = "order_payment")
@@ -116,7 +120,7 @@ public class AccessGroup {
 	@Column(name = "order_pickup")
 	private Boolean orderPickup;
 	
-	@Column(name = "order_pickup_readonly")  //***
+	@Column(name = "order_pickup_readonly")
 	private Boolean orderPickupReadOnly;
 	
 }

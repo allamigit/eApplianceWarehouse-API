@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import e_appliance_warehouse.model.User;
-import e_appliance_warehouse.repository.UserRepo;
+import e_appliance_warehouse.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class UserService {
 	
-	private UserRepo userRepo;
+	private UserRepository userRepo;
 	
 	// ADD NEW USER
 	public void addUser(User user) {

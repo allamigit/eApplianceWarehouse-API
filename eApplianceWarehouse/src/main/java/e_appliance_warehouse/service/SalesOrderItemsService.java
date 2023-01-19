@@ -8,32 +8,32 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import e_appliance_warehouse.controller.UserController;
-import e_appliance_warehouse.model.AccessGroup;
-import e_appliance_warehouse.model.SaleOrder;
-import e_appliance_warehouse.model.SaleOrderItems;
+import e_appliance_warehouse.model.PermissionGroups;
+import e_appliance_warehouse.model.SalesOrder;
+import e_appliance_warehouse.model.SalesOrderItems;
 import e_appliance_warehouse.model.User;
-import e_appliance_warehouse.repository.SaleOrderItemsRepo;
-import e_appliance_warehouse.repository.SaleOrderRepo;
-import e_appliance_warehouse.repository.StockRepo;
-import e_appliance_warehouse.repository.UserRepo;
+import e_appliance_warehouse.repository.SalesOrderItemsRepository;
+import e_appliance_warehouse.repository.SalesOrderRepository;
+import e_appliance_warehouse.repository.StockRepository;
+import e_appliance_warehouse.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class SaleOrderItemsService {
+public class SalesOrderItemsService {
 	
-	private StockRepo stockRepo;
-	private SaleOrderRepo saleOrderRepo;
-	private SaleOrderItemsRepo saleOrderItemsRepo;
-	private UserRepo userRepo;
+	private StockRepository stockRepo;
+	private SalesOrderRepository saleOrderRepo;
+	private SalesOrderItemsRepository saleOrderItemsRepo;
+	private UserRepository userRepo;
 	
 	// GET USER PERMISSIONS
-	public AccessGroup getUserPermissions() {
+	public PermissionGroups getUserPermissions() {
 		return userRepo.getUserByUsername(UserController.uEmail).getAccessGroup();
 	}
 	
 	// ADD NEW ITEM TO SALE ORDER
-	public Boolean addOrderItem(SaleOrderItems saleOrderItems) {
+	public Boolean addOrderItem(SalesOrderItems saleOrderItems) {
 		boolean resp = false;		
 		int orderId = saleOrderItems.getSaleOrder().getOrderId();
 		int soldItemId = saleOrderItems.getStock().getItemId();
@@ -44,7 +44,7 @@ public class SaleOrderItemsService {
 		double itemWeight = stockRepo.getItemById(soldItemId).getItemWeight();
 		boolean taxStatus = stockRepo.getItemById(soldItemId).getTaxStatus();
 		
-		SaleOrder saleOrder = saleOrderRepo.getOrderById(orderId);
+		SalesOrder saleOrder = saleOrderRepo.getOrderById(orderId);
 		User createdUser = saleOrder.getUser();
 		
 		// Save cost price from Stock to cost price in SaleOrderItems 
@@ -103,8 +103,8 @@ public class SaleOrderItemsService {
 	}
 	
 	// GET ALL SALE ORDER ITEMS BY ORDER ID
-	public List<SaleOrderItems> getAllOrderItems(int orderId) {
-		List<SaleOrderItems> itemsList = saleOrderItemsRepo.getAllOrderItems(orderId);
+	public List<SalesOrderItems> getAllOrderItems(int orderId) {
+		List<SalesOrderItems> itemsList = saleOrderItemsRepo.getAllOrderItems(orderId);
 		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < itemsList.size(); i++) {
@@ -118,8 +118,8 @@ public class SaleOrderItemsService {
 	}
 	
 	// GET ONE ORDER ITEM
-	public SaleOrderItems getOrderItem(int itemSEQ) {
-		SaleOrderItems saleOrderItems = saleOrderItemsRepo.getOrderItem(itemSEQ);
+	public SalesOrderItems getOrderItem(int itemSEQ) {
+		SalesOrderItems saleOrderItems = saleOrderItemsRepo.getOrderItem(itemSEQ);
 		
 		if(!getUserPermissions().getOrderCost()) {
 			saleOrderItems.setCostPrice(null);
@@ -135,12 +135,12 @@ public class SaleOrderItemsService {
 	
 	// RETRIEVE CURRENT UNIT PRICE FOR ALL ORDER ITEMS BY ORDER ID  *** NOT USED
 	public void retrieveUnitPrice(int orderId) {
-		List<SaleOrderItems> itemsList = new ArrayList<>();
+		List<SalesOrderItems> itemsList = new ArrayList<>();
 		itemsList = saleOrderItemsRepo.getAllOrderItems(orderId);
 		
 		int itemId = 0;
 		double unitPrice = 0;
-		for(SaleOrderItems item : itemsList) {
+		for(SalesOrderItems item : itemsList) {
 			itemId = item.getStock().getItemId();
 			unitPrice = stockRepo.getItemById(itemId).getSellingPrice();
 			updateOrderItem(item.getSoldQTY(), unitPrice, item.getSalePrice(), item.getTaxStatus(), item.getItemSEQ());
@@ -149,12 +149,12 @@ public class SaleOrderItemsService {
 
 	// RETRIEVE CURRENT SALE PRICE FOR ALL ORDER ITEMS BY ORDER ID  *** NOT USED
 	public void retrieveSalePrice(int orderId) {
-		List<SaleOrderItems> itemsList = new ArrayList<>();
+		List<SalesOrderItems> itemsList = new ArrayList<>();
 		itemsList = saleOrderItemsRepo.getAllOrderItems(orderId);
 		
 		int itemId = 0;
 		double salePrice = 0;
-		for(SaleOrderItems item : itemsList) {
+		for(SalesOrderItems item : itemsList) {
 			itemId = item.getStock().getItemId();
 			salePrice = stockRepo.getItemById(itemId).getSalePrice();
 			updateOrderItem(item.getSoldQTY(), item.getUnitPrice(), salePrice, item.getTaxStatus(), item.getItemSEQ());
@@ -231,13 +231,13 @@ public class SaleOrderItemsService {
 
 	// REMOVE ALL ORDER ITEMS BY ORDER ID - VOID SALE ORDER
 	public void removeAllOrderItems(int orderId) {
-		List<SaleOrderItems> itemsList = new ArrayList<>();
+		List<SalesOrderItems> itemsList = new ArrayList<>();
 		itemsList = saleOrderItemsRepo.getAllOrderItems(orderId);
 		
 		// Update stock QTY
 		int itemId = 0;
 		int newQty = 0;
-		for(SaleOrderItems item : itemsList) {
+		for(SalesOrderItems item : itemsList) {
 			itemId = item.getStock().getItemId();
 			newQty = stockRepo.getItemById(itemId).getItemQTY() + item.getSoldQTY();
 			stockRepo.updateStockQty(newQty, itemId);			
@@ -249,7 +249,7 @@ public class SaleOrderItemsService {
 	
 	// UPDATE SALE ORDER RECORD
 	public void updateSaleOrderRecord(int orderId, String updatedByMessage) {		
-		SaleOrder saleOrder = saleOrderRepo.getOrderById(orderId);
+		SalesOrder saleOrder = saleOrderRepo.getOrderById(orderId);
 		
 		saleOrder.setGrossTotal(saleOrderItemsRepo.calculateOrderTotal(orderId));			
 		saleOrder.setOrderCost(saleOrderItemsRepo.calculateOrderCost(orderId));

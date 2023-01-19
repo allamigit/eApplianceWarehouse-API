@@ -7,21 +7,21 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import e_appliance_warehouse.controller.UserController;
-import e_appliance_warehouse.model.AccessGroup;
+import e_appliance_warehouse.model.PermissionGroups;
 import e_appliance_warehouse.model.Stock;
-import e_appliance_warehouse.repository.StockRepo;
-import e_appliance_warehouse.repository.UserRepo;
+import e_appliance_warehouse.repository.StockRepository;
+import e_appliance_warehouse.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class StockService {
 	
-	private StockRepo stockRepo;
-	private UserRepo userRepo;
+	private StockRepository stockRepo;
+	private UserRepository userRepo;
 	
 	// GET USER PERMISSIONS
-	public AccessGroup getUserPermissions() {
+	public PermissionGroups getUserPermissions() {
 		return userRepo.getUserByUsername(UserController.uEmail).getAccessGroup();
 	}
 	

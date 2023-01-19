@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import e_appliance_warehouse.model.AccessGroup;
-import e_appliance_warehouse.repository.AccessGroupRepo;
+import e_appliance_warehouse.model.PermissionGroups;
+import e_appliance_warehouse.repository.PermissionGroupsRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AccessGroupService {
+public class PermissionGroupsService {
 
-	private AccessGroupRepo accessGroupRepo;
+	private PermissionGroupsRepository accessGroupRepo;
 	
 	// ADD NEW GROUP
-	public void addGroup(AccessGroup group) {
+	public void addGroup(PermissionGroups group) {
 		accessGroupRepo.save(group);
 	}
 	
@@ -23,8 +23,8 @@ public class AccessGroupService {
 	public Boolean copyGroup(int sourceGroupId, String targetGroupName) {
 		boolean resp = false;
 		
-		AccessGroup sourceGroup = accessGroupRepo.getGroupById(sourceGroupId);
-		AccessGroup targetGroup = sourceGroup;
+		PermissionGroups sourceGroup = accessGroupRepo.getGroupById(sourceGroupId);
+		PermissionGroups targetGroup = sourceGroup;
 		targetGroup.setGroupId(0);
 		targetGroup.setGroupName(targetGroupName);
 		
@@ -37,22 +37,22 @@ public class AccessGroupService {
 	}
 	
 	// GET ALL GROUPS
-	public List<AccessGroup> getAllGroups() {
+	public List<PermissionGroups> getAllGroups() {
 		return accessGroupRepo.getAllGroups();
 	}
 	
 	// GET GROUP BY groupID
-	public AccessGroup getGroupById(int groupId) {
+	public PermissionGroups getGroupById(int groupId) {
 		return accessGroupRepo.getGroupById(groupId);
 	}
 	
 	// GET GROUP BY groupNAME (OR CONTAINS PART OF THE NAME)
-	public List<AccessGroup> getGroupByName(String groupName) {
+	public List<PermissionGroups> getGroupByName(String groupName) {
 		return accessGroupRepo.getGroupByName(groupName);
 	}
 	
 	// UPDATE GROUP
-	public void updateGroup(AccessGroup group) {
+	public void updateGroup(PermissionGroups group) {
 		accessGroupRepo.save(group);
 	}
 		

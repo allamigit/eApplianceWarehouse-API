@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.model.AccessGroup;
+import e_appliance_warehouse.model.PermissionGroups;
 import e_appliance_warehouse.model.User;
 import e_appliance_warehouse.model.UserInfo;
 import e_appliance_warehouse.service.UserService;
@@ -129,8 +129,8 @@ public class UserController {
 	// GET USER PERMISSIONS
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getUserPermissions.iwh:Username={username}")
-	public AccessGroup getUserPermissions(HttpServletRequest req, @PathVariable String username) {
-		AccessGroup group = userService.getUserByUsername(username).getAccessGroup();
+	public PermissionGroups getUserPermissions(HttpServletRequest req, @PathVariable String username) {
+		PermissionGroups group = userService.getUserByUsername(username).getAccessGroup();
 		return group;
 	}
 	

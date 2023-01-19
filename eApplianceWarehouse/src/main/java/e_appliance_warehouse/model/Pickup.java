@@ -4,62 +4,48 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sale_order_items")
+@Table(name = "pickup")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleOrderItems {
+public class Pickup extends CommonColumns {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "item_seq")
-	private Integer itemSEQ;
+	@Column(name = "pickup_id")
+	private String pickupId;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "order_id")
-	private SaleOrder saleOrder;
+	private SalesOrder salesOrder;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "item_id")	
-	private Stock stock;
+	@JoinColumn(name = "item_code")	
+	private Stock soldItem;
 	
-	@Column(name = "sold_qty", nullable = false)
+	@Column(name = "sold_qty")
 	private Integer soldQTY;
 	
-	@Column(name = "cost_price")
-	private Double costPrice;
-	
-	@Column(name = "unit_price", nullable = false)
-	private Double unitPrice;
-
-	@Column(name = "sale_price")
-	private Double salePrice;
-	
-	@Column(name = "subtotal")
-	private Double subtotal;
-	
-	@Column(name = "tax_status")  //***
-	private Boolean taxStatus;
-
 	@Column(name = "item_weight")
 	private Double itemWeight;
 
 	@Column(name = "pickup_count")
 	private Integer pickupCount;
 	
-	@Column(name = "items_left")  //***
+	@Column(name = "items_left")
 	private Integer itemsLeft;
 	
 }

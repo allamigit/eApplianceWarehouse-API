@@ -13,7 +13,7 @@ import e_appliance_warehouse.model.Stock;
 
 @Repository
 @Transactional
-public interface StockRepo extends JpaRepository<Stock,Integer> {
+public interface StockRepository extends JpaRepository<Stock,Integer> {
 
 	// Get List of All Stock Items
 	@Query(value = "SELECT * FROM stock ORDER BY item_name ASC", nativeQuery = true)

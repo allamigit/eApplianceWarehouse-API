@@ -13,7 +13,7 @@ import e_appliance_warehouse.model.User;
 
 @Repository
 @Transactional
-public interface UserRepo extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<User,Integer> {
 
 	// Get List of All Users
 	@Query(value = "SELECT * FROM user_table ORDER BY first_name ASC", nativeQuery = true)

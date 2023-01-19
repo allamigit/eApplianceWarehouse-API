@@ -10,23 +10,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sale_order")
+@Table(name = "sales_order")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleOrder {
+public class SalesOrder extends CommonColumns {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@SequenceGenerator(name = "orderseq", sequenceName = "order_seq", initialValue = 6101, allocationSize = 1)
+	@SequenceGenerator(name = "orderseq", sequenceName = "order_seq", initialValue = 2101, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderseq")
 	@Column(name = "order_id")
 	private Integer orderId;
@@ -34,8 +38,11 @@ public class SaleOrder {
 	@Column(name = "order_date", nullable = false)
 	private LocalDate orderDate;
 	
-	@Column(name = "order_po")  //*
+	@Column(name = "order_po")
 	private String orderPO;
+	
+	@Column(name = "approval_needed")
+	private Boolean approvalNeeded;
 	
 	@Column(name = "customer_name", nullable = false)
 	private String customerName;
@@ -46,32 +53,32 @@ public class SaleOrder {
 	@Column(name = "invoice_comment")
 	private String invoiceComment;
 	
-	@Column(name = "gross_total")
-	private Double grossTotal;
+	@Column(name = "gross_total_amount")
+	private Double grossTotalAmount;
 	
-	@Column(name = "order_cost")
-	private Double orderCost;
+	@Column(name = "order_cost_amount")
+	private Double orderCostAmount;
 
-	@Column(name = "discount_percent")  //***
+	@Column(name = "discount_percent")
 	private Double discountPercent;
 
 	@Column(name = "discount_amount")
 	private Double discountAmount;
 
-	@Column(name = "discount_total")
-	private Double discountTotal;
-
-	@Column(name = "order_total")
-	private Double orderTotal;
-
-	@Column(name = "sale_tax")
-	private Double saleTax;
-
-	@Column(name = "state_tax")
-	private Double stateTax;
+	@Column(name = "discount_total_amount")
+	private Double discountTotalAmount;
 
 	@Column(name = "total_amount")
 	private Double totalAmount;
+
+	@Column(name = "tax_exempt_status")
+	private Boolean taxExemptStatus;
+
+	@Column(name = "sales_tax_amount")
+	private Double salesTaxAmount;
+
+	@Column(name = "order_total_amount")
+	private Double orderTotalAmount;
 
 	@Column(name = "amount_paid")
 	private Double amountPaid;
@@ -88,23 +95,17 @@ public class SaleOrder {
 	@Column(name = "pickup_count")
 	private Integer pickupCount;
 	
+	@Column(name = "items_left")
+	private Integer itemsLeft;
+	
 	@Column(name = "billing_status")
 	private Boolean billingStatus;
 	
-	@Column(name = "billing_date")  //***
+	@Column(name = "billing_date")
 	private LocalDate billingDate;
 	
-	/*@Column(name = "created_user")
-	private String createdUser;*/
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "user_id")
-	private User user;
-	
-	@Column(name = "created_by")
-	private String createdBy;
-	
-	@Column(name = "updated_by")
-	private String updatedBy;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "order_id")
+	private SalesOrderItems orderItems;
 	
 }

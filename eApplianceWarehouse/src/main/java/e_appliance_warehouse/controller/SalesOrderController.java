@@ -23,31 +23,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.excel.SaleOrderListExcel;
-import e_appliance_warehouse.model.SaleOrder;
-import e_appliance_warehouse.service.SaleOrderService;
+import e_appliance_warehouse.excel.SalesOrderListExcel;
+import e_appliance_warehouse.model.SalesOrder;
+import e_appliance_warehouse.service.SalesOrderService;
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(value = "order")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @AllArgsConstructor
-public class SaleOrderController {
+public class SalesOrderController {
 	
-	private SaleOrderService saleOrderService;
-	private List<SaleOrder> ordersList;
+	private SalesOrderService saleOrderService;
+	private List<SalesOrder> ordersList;
 	
 	// ADD NEW SALE ORDER
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping(value = "addNewOrder.iwh")
-	public SaleOrder addSaleOrder(HttpServletRequest req, @RequestBody SaleOrder saleOrder) {
+	public SalesOrder addSaleOrder(HttpServletRequest req, @RequestBody SalesOrder saleOrder) {
 		return saleOrderService.addSaleOrder(saleOrder);
 	}
 	
 	// GET ALL SALE ORDERS
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "listAllOrders.iwh")
-	public List<SaleOrder> getAllSaleOrders(HttpServletRequest req) {
+	public List<SalesOrder> getAllSaleOrders(HttpServletRequest req) {
 		ordersList = saleOrderService.getAllSaleOrders();
 		return ordersList;
 	}
@@ -55,14 +55,14 @@ public class SaleOrderController {
 	// GET SALE ORDERS FOR TODAY DATE
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "listTodayOrders.iwh")
-	public List<SaleOrder> getTodayOrders(HttpServletRequest req) {
+	public List<SalesOrder> getTodayOrders(HttpServletRequest req) {
 		return saleOrderService.getTodayOrders();
 	}
 	
 	// GET SALE ORDERS FOR DATE RANGE
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "listDateRangeOrders.iwh:From={dateFrom}&To={dateTo}")
-	public List<SaleOrder> getDateRangeOrders(HttpServletRequest req, @PathVariable String dateFrom, @PathVariable String dateTo) {
+	public List<SalesOrder> getDateRangeOrders(HttpServletRequest req, @PathVariable String dateFrom, @PathVariable String dateTo) {
 		try {
 			return saleOrderService.getDateRangeOrders(LocalDate.parse(dateFrom), LocalDate.parse(dateTo));
 		} catch(DateTimeParseException e) {
@@ -73,49 +73,49 @@ public class SaleOrderController {
 	// GET SALE ORDER BY ID
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getOrder.iwh:Id={orderId}")
-	public SaleOrder getOrderById(HttpServletRequest req, @PathVariable int orderId) {
+	public SalesOrder getOrderById(HttpServletRequest req, @PathVariable int orderId) {
 		return saleOrderService.getOrderById(orderId);
 	}
 	
 	// GET SALE ORDER BY CUSTOMER NAME (OR PART OF THE NAME)
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getOrders.iwh:customerName={customerName}")
-	public List<SaleOrder> getOrdersByCustomerName(HttpServletRequest req, @PathVariable String customerName) {
+	public List<SalesOrder> getOrdersByCustomerName(HttpServletRequest req, @PathVariable String customerName) {
 		return saleOrderService.getOrdersByCustomerName(customerName);
 	}
 	
 	// GET SALE ORDER BY CREATED USER
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getOrders.iwh:createdUser={createdUser}")
-	public List<SaleOrder> getOrdersByCreatedUser(HttpServletRequest req, @PathVariable String createdUser) {
+	public List<SalesOrder> getOrdersByCreatedUser(HttpServletRequest req, @PathVariable String createdUser) {
 		return saleOrderService.getOrdersByCreatedUser(createdUser);
 	}
 	
 	// GET SALE ORDER BY CUSTOMER NAME & CREATED USER   // *** NOT USED
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getOrders.iwh:customerName={customerName}&createdUser={createdUser}")
-	public List<SaleOrder> getOrdersByCustomerNameAndCreatedUser(HttpServletRequest req, @PathVariable String customerName, @PathVariable String createdUser) {
+	public List<SalesOrder> getOrdersByCustomerNameAndCreatedUser(HttpServletRequest req, @PathVariable String customerName, @PathVariable String createdUser) {
 		return saleOrderService.getOrdersByCustomerNameAndCreatedUser(customerName, createdUser);
 	}
 	
 	// GET ALL SALE ORDERS FOR STOCK ITEM BY itemID
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getOrders.iwh:itemId={itemId}")
-	public List<SaleOrder> getOrdersForStockItem(HttpServletRequest req, @PathVariable int itemId) {
+	public List<SalesOrder> getOrdersForStockItem(HttpServletRequest req, @PathVariable int itemId) {
 		return saleOrderService.getOrdersForStockItem(itemId);
 	}
 	
 	// UPDATE SALE ORDER
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping(value = "updateOrder.iwh:Id={orderId}")
-	public SaleOrder updateOrder(HttpServletRequest req, @RequestBody SaleOrder saleOrder, @PathVariable int orderId) {
+	public SalesOrder updateOrder(HttpServletRequest req, @RequestBody SalesOrder saleOrder, @PathVariable int orderId) {
 		return saleOrderService.updateOrder(saleOrder);
 	}
 	
 	// CANCEL SALE ORDER
 	@DeleteMapping(value = "cancelOrder.iwh:Id={orderId}")
-	public SaleOrder cancelOrder(HttpServletRequest req, HttpServletResponse resp, @PathVariable int orderId) {
-		SaleOrder saleOrder = saleOrderService.getOrderById(orderId);
+	public SalesOrder cancelOrder(HttpServletRequest req, HttpServletResponse resp, @PathVariable int orderId) {
+		SalesOrder saleOrder = saleOrderService.getOrderById(orderId);
 		
 		if(saleOrderService.cancelOrder(orderId)) {
 			resp.setStatus(200);  // Order cancelled successfully
@@ -144,7 +144,7 @@ public class SaleOrderController {
          
         //List<SaleOrder> ordersList = saleOrderService.getAllSaleOrders();
          
-        SaleOrderListExcel excelList = new SaleOrderListExcel(ordersList);
+        SalesOrderListExcel excelList = new SalesOrderListExcel(ordersList);
          
         excelList.generateExcel(response); 
         

@@ -13,18 +13,22 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "user_table")
+@Table(name = "warehouse_user")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends CommonColumns {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@SequenceGenerator(name = "userseq", sequenceName = "user_seq", initialValue = 201, allocationSize = 1)
+	@SequenceGenerator(name = "userseq", sequenceName = "user_seq", initialValue = 101, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userseq")
 	@Column(name = "user_id")
 	private Integer userId;
@@ -53,17 +57,20 @@ public class User {
 	@Column(name = "emp_type")
 	private String empType;
 	
+	@Column(name = "report_to")
+	private Integer reportTo;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "group_id")
-	private AccessGroup accessGroup;
+	private PermissionGroups permissionGroup;
 
-	@Column(name = "emp_status", nullable = false)
-	private Boolean empStatus;
+	@Column(name = "account_status", nullable = false)
+	private Boolean accountStatus;
 
-	@Column(name = "login_timestamp")  //*
+	@Column(name = "login_timestamp")
 	private String loginTimestamp;
 	
-	@Column(name = "user_comment")  //*
+	@Column(name = "user_comment")
 	private String userComment;
 	
 }
