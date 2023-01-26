@@ -1,4 +1,6 @@
-package e_appliance_warehouse.model;
+package e_appliance_warehouse.table;
+
+import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,7 +33,7 @@ public class User extends CommonColumns {
 	@SequenceGenerator(name = "userseq", sequenceName = "user_seq", initialValue = 101, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userseq")
 	@Column(name = "user_id")
-	private Integer userId;
+	private Long userId;
 	
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
@@ -49,16 +51,16 @@ public class User extends CommonColumns {
 	private String password;
 	
 	@Column(name = "pass_reset")
-	private Boolean passReset;
+	private Boolean passwordReset;
 	
 	@Column(name = "job_title", nullable = false)
 	private String jobTitle;
 	
 	@Column(name = "emp_type")
-	private String empType;
+	private String employmentType;
 	
 	@Column(name = "report_to")
-	private Integer reportTo;
+	private Long reportTo;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "group_id")
@@ -68,7 +70,7 @@ public class User extends CommonColumns {
 	private Boolean accountStatus;
 
 	@Column(name = "login_timestamp")
-	private String loginTimestamp;
+	private Timestamp loginTimestamp;
 	
 	@Column(name = "user_comment")
 	private String userComment;

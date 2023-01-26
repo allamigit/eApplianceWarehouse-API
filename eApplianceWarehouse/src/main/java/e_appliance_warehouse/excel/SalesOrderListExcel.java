@@ -14,7 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import e_appliance_warehouse.model.SalesOrder;
+import e_appliance_warehouse.table.SalesOrder;
 
 public class SalesOrderListExcel {
 	
@@ -72,7 +72,7 @@ public class SalesOrderListExcel {
             createCell(row, columnCount++, orders.getOrderDate().toString(), style);
             createCell(row, columnCount++, orders.getCustomerName(), style);
             createCell(row, columnCount++, orders.getTotalAmount(), style);
-            createCell(row, columnCount++, orders.getUser().getFirstName() + " " + orders.getUser().getLastName(), style);
+            //createCell(row, columnCount++, orders.getUser().getFirstName() + " " + orders.getUser().getLastName(), style);
             createCell(row, columnCount++, orders.getBillingStatus()?"Billed":"Not Billed", style);             
         }
 	}

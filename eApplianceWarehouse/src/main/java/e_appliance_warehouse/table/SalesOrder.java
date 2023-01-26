@@ -1,18 +1,17 @@
-package e_appliance_warehouse.model;
+package e_appliance_warehouse.table;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,9 +32,10 @@ public class SalesOrder extends CommonColumns {
 	@SequenceGenerator(name = "orderseq", sequenceName = "order_seq", initialValue = 2101, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderseq")
 	@Column(name = "order_id")
-	private Integer orderId;
+	private Long orderId;
 	
 	@Column(name = "order_date", nullable = false)
+	@ColumnDefault(value = "current_timestamp")
 	private LocalDate orderDate;
 	
 	@Column(name = "order_po")
@@ -53,38 +53,41 @@ public class SalesOrder extends CommonColumns {
 	@Column(name = "invoice_comment")
 	private String invoiceComment;
 	
-	@Column(name = "gross_total_amount")
-	private Double grossTotalAmount;
+	@Column(name = "gross_total_amount", precision = 10, scale = 2)
+	private BigDecimal grossTotalAmount;
 	
-	@Column(name = "order_cost_amount")
-	private Double orderCostAmount;
+	@Column(name = "order_cost_amount", precision = 10, scale = 2)
+	private BigDecimal orderCostAmount;
 
 	@Column(name = "discount_percent")
 	private Double discountPercent;
 
-	@Column(name = "discount_amount")
-	private Double discountAmount;
+	@Column(name = "discount_amount", precision = 10, scale = 2)
+	private BigDecimal discountAmount;
 
-	@Column(name = "discount_total_amount")
-	private Double discountTotalAmount;
+	@Column(name = "discount_total_amount", precision = 10, scale = 2)
+	private BigDecimal discountTotalAmount;
 
-	@Column(name = "total_amount")
-	private Double totalAmount;
+	@Column(name = "total_amount", precision = 10, scale = 2)
+	private BigDecimal totalAmount;
 
 	@Column(name = "tax_exempt_status")
 	private Boolean taxExemptStatus;
 
-	@Column(name = "sales_tax_amount")
-	private Double salesTaxAmount;
+	@Column(name = "sales_tax_percent")
+	private Double salesTaxPercent;
 
-	@Column(name = "order_total_amount")
-	private Double orderTotalAmount;
+	@Column(name = "sales_tax_amount", precision = 10, scale = 2)
+	private BigDecimal salesTaxAmount;
 
-	@Column(name = "amount_paid")
-	private Double amountPaid;
+	@Column(name = "order_total_amount", precision = 10, scale = 2)
+	private BigDecimal orderTotalAmount;
 
-	@Column(name = "amount_due")
-	private Double amountDue;
+	@Column(name = "amount_paid", precision = 10, scale = 2)
+	private BigDecimal amountPaid;
+
+	@Column(name = "amount_due", precision = 10, scale = 2)
+	private BigDecimal amountDue;
 
 	@Column(name = "items_weight")
 	private Double itemsWeight;
@@ -103,9 +106,5 @@ public class SalesOrder extends CommonColumns {
 	
 	@Column(name = "billing_date")
 	private LocalDate billingDate;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "order_id")
-	private SalesOrderItems orderItems;
 	
 }

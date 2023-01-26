@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.model.SalesOrderItems;
 import e_appliance_warehouse.service.SalesOrderItemsService;
+import e_appliance_warehouse.table.SalesOrderItems;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @AllArgsConstructor
 public class SalesOrderItemsController {
-
+/*
 	private SalesOrderItemsService saleOrderItemsService;
 
 	// ADD NEW ITEM TO SALE ORDER
@@ -111,5 +111,5 @@ public class SalesOrderItemsController {
 
 		return saleOrderItems;
 	}
-
+*/
 }

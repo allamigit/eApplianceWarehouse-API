@@ -1,4 +1,6 @@
-package e_appliance_warehouse.model;
+package e_appliance_warehouse.table;
+
+import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,7 +33,7 @@ public class Stock extends CommonColumns {
 	@SequenceGenerator(name = "stockseq", sequenceName = "stock_seq", initialValue = 201, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stockseq")
 	@Column(name = "item_code")
-	private Integer itemCode;
+	private Long itemCode;
 	
 	@Column(name = "item_name", nullable = false, unique = true)
 	private String itemName;
@@ -63,14 +65,14 @@ public class Stock extends CommonColumns {
 	@JoinColumn(name = "zone_id")
 	private Zone itemZone;
 	
-	@Column(name = "cost_price", nullable = false)
-	private Double costPrice;
+	@Column(name = "cost_price", precision = 10, scale = 2, nullable = false)
+	private BigDecimal costPrice;
 	
-	@Column(name = "selling_price", nullable = false)
-	private Double sellingPrice;
+	@Column(name = "selling_price", precision = 10, scale = 2, nullable = false)
+	private BigDecimal sellingPrice;
 	
-	@Column(name = "sale_price")
-	private Double salePrice;
+	@Column(name = "sale_price", precision = 10, scale = 2)
+	private BigDecimal salePrice;
 	
 	@Column(name = "item_defect_status")
 	private Boolean itemDefectStatus;

@@ -1,4 +1,4 @@
-package e_appliance_warehouse.model;
+package e_appliance_warehouse.table;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +27,7 @@ public class Zone extends CommonColumns {
 	@SequenceGenerator(name = "zoneseq", sequenceName = "zone_seq", initialValue = 501, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zoneseq")
 	@Column(name = "zone_id")
-	private Integer zoneId;
+	private Long zoneId;
 
 	@Column(name = "zone_name", nullable = false, unique = true)
 	private String zoneName;

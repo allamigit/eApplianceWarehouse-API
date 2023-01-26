@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.model.PermissionGroups;
 import e_appliance_warehouse.service.PermissionGroupsService;
+import e_appliance_warehouse.table.PermissionGroups;
 import lombok.AllArgsConstructor;
 
 @RestController

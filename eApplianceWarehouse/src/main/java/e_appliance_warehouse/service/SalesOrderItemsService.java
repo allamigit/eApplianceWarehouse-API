@@ -8,20 +8,20 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import e_appliance_warehouse.controller.UserController;
-import e_appliance_warehouse.model.PermissionGroups;
-import e_appliance_warehouse.model.SalesOrder;
-import e_appliance_warehouse.model.SalesOrderItems;
-import e_appliance_warehouse.model.User;
 import e_appliance_warehouse.repository.SalesOrderItemsRepository;
 import e_appliance_warehouse.repository.SalesOrderRepository;
 import e_appliance_warehouse.repository.StockRepository;
 import e_appliance_warehouse.repository.UserRepository;
+import e_appliance_warehouse.table.PermissionGroups;
+import e_appliance_warehouse.table.SalesOrder;
+import e_appliance_warehouse.table.SalesOrderItems;
+import e_appliance_warehouse.table.User;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class SalesOrderItemsService {
-	
+/*	
 	private StockRepository stockRepo;
 	private SalesOrderRepository saleOrderRepo;
 	private SalesOrderItemsRepository saleOrderItemsRepo;
@@ -286,5 +286,5 @@ public class SalesOrderItemsService {
 		
 		saleOrderRepo.save(saleOrder);
 	}
-
+*/
 }

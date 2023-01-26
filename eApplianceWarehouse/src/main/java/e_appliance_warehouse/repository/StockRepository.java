@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import e_appliance_warehouse.model.Stock;
+import e_appliance_warehouse.table.Stock;
 
 @Repository
 @Transactional

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import e_appliance_warehouse.model.PermissionGroups;
 import e_appliance_warehouse.repository.PermissionGroupsRepository;
+import e_appliance_warehouse.table.PermissionGroups;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -25,7 +25,7 @@ public class PermissionGroupsService {
 		
 		PermissionGroups sourceGroup = accessGroupRepo.getGroupById(sourceGroupId);
 		PermissionGroups targetGroup = sourceGroup;
-		targetGroup.setGroupId(0);
+		targetGroup.setGroupId(0L);
 		targetGroup.setGroupName(targetGroupName);
 		
 		if(targetGroupName != "") {

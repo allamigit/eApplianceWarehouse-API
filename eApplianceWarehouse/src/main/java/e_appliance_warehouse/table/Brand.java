@@ -1,4 +1,4 @@
-package e_appliance_warehouse.model;
+package e_appliance_warehouse.table;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,22 +14,22 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "color")
+@Table(name = "brand")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Color extends CommonColumns {
+public class Brand extends CommonColumns {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "colorseq", sequenceName = "color_seq", initialValue = 301, allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "colorseq")
-	@Column(name = "color_id")
-	private Integer colorId;
+	@SequenceGenerator(name = "brandseq", sequenceName = "brand_seq", initialValue = 401, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "brandseq")
+	@Column(name = "brand_id")
+	private Long brandId;
 
-	@Column(name = "color_name", nullable = false, unique = true)
-	private String colorName;
+	@Column(name = "brand_name", nullable = false, unique = true)
+	private String brandName;
 	
 }

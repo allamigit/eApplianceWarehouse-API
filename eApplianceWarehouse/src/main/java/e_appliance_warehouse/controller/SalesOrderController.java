@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import e_appliance_warehouse.excel.SalesOrderListExcel;
-import e_appliance_warehouse.model.SalesOrder;
 import e_appliance_warehouse.service.SalesOrderService;
+import e_appliance_warehouse.table.SalesOrder;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -33,7 +33,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @AllArgsConstructor
 public class SalesOrderController {
-	
+/*	
 	private SalesOrderService saleOrderService;
 	private List<SalesOrder> ordersList;
 	
@@ -150,5 +150,5 @@ public class SalesOrderController {
         
         //saleOrderService.sendEmail();
     }  
-	
+*/	
 }

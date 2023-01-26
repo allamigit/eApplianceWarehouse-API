@@ -1,4 +1,4 @@
-package e_appliance_warehouse.model;
+package e_appliance_warehouse.table;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ public class PermissionGroups extends CommonColumns {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "group_id")
-	private Integer groupId;
+	private Long groupId;
 	
 	@Column(name = "group_name", nullable = false, unique = true)
 	private String groupName;

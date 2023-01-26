@@ -10,16 +10,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import e_appliance_warehouse.controller.UserController;
-import e_appliance_warehouse.model.PermissionGroups;
-import e_appliance_warehouse.model.SalesOrder;
 import e_appliance_warehouse.repository.SalesOrderRepository;
 import e_appliance_warehouse.repository.UserRepository;
+import e_appliance_warehouse.table.PermissionGroups;
+import e_appliance_warehouse.table.SalesOrder;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class SalesOrderService {
-	
+/*	
 	private SalesOrderRepository saleOrderRepo;
 	private SalesOrderItemsService saleOrderItemsService;
 	private UserRepository userRepo;
@@ -69,7 +69,7 @@ public class SalesOrderService {
 			ordersList.get(i).setCreatedUser(fullName);
 			ordersList.get(i).setUser(null);
 		}*/
-		
+/*		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
 				ordersList.get(i).setOrderCost(null);
@@ -281,5 +281,5 @@ public class SalesOrderService {
 		 
 		mailSender.send(message);
 	}
-	
+*/	
 }
