@@ -123,4 +123,7 @@ public class PermissionGroups extends CommonColumns {
 	@Column(name = "order_pickup_readonly")
 	private Boolean orderPickupReadOnly;
 	
+	@Column(name = "order_approval")
+	private Boolean orderApproval;
+
 }

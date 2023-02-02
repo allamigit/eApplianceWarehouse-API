@@ -21,14 +21,14 @@ public class CommonColumns implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "created_user_id", nullable = false)
-	private Integer createdUserId;
+	private Long createdUserId;
 	
 	@Column(name = "created_timestamp", nullable = false)
 	@ColumnDefault(value = "current_timestamp")
 	private Timestamp createdTimestamp;
 	
 	@Column(name = "updated_user_id", nullable = false)
-	private Integer updatedUserId;
+	private Long updatedUserId;
 	
 	@Column(name = "updated_timestamp", nullable = false)
 	@ColumnDefault(value = "current_timestamp")

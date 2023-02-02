@@ -3,11 +3,15 @@ package e_appliance_warehouse.table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,7 +33,7 @@ public class SalesOrder extends CommonColumns {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "orderseq", sequenceName = "order_seq", initialValue = 2101, allocationSize = 1)
+	@SequenceGenerator(name = "orderseq", sequenceName = "order_seq", initialValue = 4101, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderseq")
 	@Column(name = "order_id")
 	private Long orderId;
@@ -41,12 +45,16 @@ public class SalesOrder extends CommonColumns {
 	@Column(name = "order_po")
 	private String orderPO;
 	
-	@Column(name = "approval_needed")
-	private Boolean approvalNeeded;
+	@Column(name = "approver_id")
+	private Long approverId;
 	
-	@Column(name = "customer_name", nullable = false)
-	private String customerName;
+	@Column(name = "project_id")
+	private Long projectId;
 	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
+
 	@Column(name = "order_comment")
 	private String orderComment;
 	
@@ -71,8 +79,8 @@ public class SalesOrder extends CommonColumns {
 	@Column(name = "total_amount", precision = 10, scale = 2)
 	private BigDecimal totalAmount;
 
-	@Column(name = "tax_exempt_status")
-	private Boolean taxExemptStatus;
+	@Column(name = "tax_status")
+	private Boolean taxStatus;
 
 	@Column(name = "sales_tax_percent")
 	private Double salesTaxPercent;

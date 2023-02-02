@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class UserService {
-	
+/*	
 	private UserRepository userRepo;
 	
 	// ADD NEW USER
@@ -84,5 +84,5 @@ public class UserService {
 	public void deleteUser(int userId) {
 		userRepo.deleteUser(userId);
 	}
-
+*/
 }

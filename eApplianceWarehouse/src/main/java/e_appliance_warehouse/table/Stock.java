@@ -1,6 +1,7 @@
 package e_appliance_warehouse.table;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ public class Stock extends CommonColumns {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "stockseq", sequenceName = "stock_seq", initialValue = 201, allocationSize = 1)
+	@SequenceGenerator(name = "stockseq", sequenceName = "stock_seq", initialValue = 2101, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stockseq")
 	@Column(name = "item_code")
 	private Long itemCode;
@@ -70,6 +71,12 @@ public class Stock extends CommonColumns {
 	
 	@Column(name = "selling_price", precision = 10, scale = 2, nullable = false)
 	private BigDecimal sellingPrice;
+	
+	@Column(name = "new_selling_price", precision = 10, scale = 2)
+	private BigDecimal newSellingPrice;
+	
+	@Column(name = "new_price_eff_date")
+	private LocalDate newPriceEffectiveDate;
 	
 	@Column(name = "sale_price", precision = 10, scale = 2)
 	private BigDecimal salePrice;
