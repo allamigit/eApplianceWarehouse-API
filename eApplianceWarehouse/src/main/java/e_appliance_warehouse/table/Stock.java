@@ -64,7 +64,7 @@ public class Stock extends CommonColumns {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "zone_id")
-	private Zone itemZone;
+	private ItemZone itemZone;
 	
 	@Column(name = "cost_price", precision = 10, scale = 2, nullable = false)
 	private BigDecimal costPrice;

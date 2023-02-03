@@ -66,5 +66,8 @@ public class Customer extends CommonColumns {
 	
 	@Column(name = "tax_exempt_end_date")
 	private LocalDate taxExemptEndDate;
-	
+
+	@Column(name = "account_status", nullable = false)
+	private Boolean accountStatus;
+
 }

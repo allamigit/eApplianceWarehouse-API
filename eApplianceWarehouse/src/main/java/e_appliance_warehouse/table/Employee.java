@@ -37,16 +37,28 @@ public class Employee extends CommonColumns {
 	private Long employeeId;
 	
 	@Column(name = "first_name", nullable = false)
-	private String firstName;
+	private String empFirstName;
 
 	@Column(name = "last_name", nullable = false)
-	private String lastName;
+	private String empLastName;
 
-	@Column(name = "phone", nullable = false, unique = true)
-	private String phone;
+	@Column(name= "employee_address")
+	private String employeeAddress;
+	
+	@Column(name= "employee_city")
+	private String employeeCity;
+	
+	@Column(name= "employee_state")
+	private String employeeState;
+	
+	@Column(name= "employee_zip")
+	private String employeeZip;
 
-	@Column(name = "email", nullable = false, unique = true)
-	private String email;
+	@Column(name = "employee_phone", nullable = false, unique = true)
+	private String employeePhone;
+
+	@Column(name = "employee_email", nullable = false, unique = true)
+	private String employeeEmail;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "job_title_id", nullable = false)

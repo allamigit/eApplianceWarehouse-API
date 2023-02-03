@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "zone")
+@Table(name = "item_zone")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Zone extends CommonColumns {
+public class ItemZone extends CommonColumns {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class Zone extends CommonColumns {
 	@Column(name = "zone_id")
 	private Long zoneId;
 
-	@Column(name = "zone_name", nullable = false, unique = true)
+	@Column(name = "zone_name", nullable = false)
 	private String zoneName;
 	
 	@Column(name = "zone_aisle")
