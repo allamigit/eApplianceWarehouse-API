@@ -9,15 +9,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import e_appliance_warehouse.model.SaleOrderItems;
+import e_appliance_warehouse.table.SalesOrderItems;
 
 @Repository
 @Transactional
-public interface SaleOrderItemsRepo extends JpaRepository<SaleOrderItems,Integer> {
+public interface SalesOrderItemsRepository extends JpaRepository<SalesOrderItems,Integer> {
 	
 	// Get All Order Items by orderID
 	@Query(value = "SELECT * FROM sale_order_items WHERE order_id = ? ORDER BY item_seq ASC", nativeQuery = true)
-	public List<SaleOrderItems> getAllOrderItems(int orderId);
+	public List<SalesOrderItems> getAllOrderItems(int orderId);
 	
 	// Calculate Order Items Total by orderID
 	@Query(value = "SELECT SUM(subtotal) FROM sale_order_items WHERE order_id = ?", nativeQuery = true)
@@ -45,7 +45,7 @@ public interface SaleOrderItemsRepo extends JpaRepository<SaleOrderItems,Integer
 	
 	// Get One Item from Order Items
 	@Query(value = "SELECT * FROM sale_order_items WHERE item_seq = ?", nativeQuery = true)
-	public SaleOrderItems getOrderItem(int itemSEQ);
+	public SalesOrderItems getOrderItem(int itemSEQ);
 	
 	// UPDATE soldQty, unitPrice, salePrice, subtotal, itemWeight & itemsLeft
 	@Modifying

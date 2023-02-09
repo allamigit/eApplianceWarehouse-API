@@ -14,15 +14,15 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import e_appliance_warehouse.model.SaleOrder;
+import e_appliance_warehouse.table.SalesOrder;
 
-public class SaleOrderListExcel {
+public class SalesOrderListExcel {
 	
 	private XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private List<SaleOrder> saleOrder;
+    private List<SalesOrder> saleOrder;
     
-	public SaleOrderListExcel(List<SaleOrder> saleOrder) {
+	public SalesOrderListExcel(List<SalesOrder> saleOrder) {
 		this.saleOrder = saleOrder;
 		workbook = new XSSFWorkbook();
 	}
@@ -39,7 +39,7 @@ public class SaleOrderListExcel {
     }
     
 	private void headerRow() {
-    	sheet = workbook.createSheet("Sale Orders List");
+    	sheet = workbook.createSheet("Sales Orders List");
     	CellStyle style = workbook.createCellStyle();
     	XSSFFont font = workbook.createFont();
     	font.setBold(true);
@@ -64,15 +64,15 @@ public class SaleOrderListExcel {
         font.setFontHeight(12);
         style.setFont(font);
                 
-        for (SaleOrder orders : saleOrder) {
+        for (SalesOrder orders : saleOrder) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
              
             createCell(row, columnCount++, orders.getOrderId(), style);
             createCell(row, columnCount++, orders.getOrderDate().toString(), style);
-            createCell(row, columnCount++, orders.getCustomerName(), style);
+            //createCell(row, columnCount++, orders.getCustomerName(), style);
             createCell(row, columnCount++, orders.getTotalAmount(), style);
-            createCell(row, columnCount++, orders.getUser().getFirstName() + " " + orders.getUser().getLastName(), style);
+            //createCell(row, columnCount++, orders.getUser().getFirstName() + " " + orders.getUser().getLastName(), style);
             createCell(row, columnCount++, orders.getBillingStatus()?"Billed":"Not Billed", style);             
         }
 	}

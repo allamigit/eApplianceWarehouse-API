@@ -10,28 +10,28 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import e_appliance_warehouse.controller.UserController;
-import e_appliance_warehouse.model.AccessGroup;
-import e_appliance_warehouse.model.SaleOrder;
-import e_appliance_warehouse.repository.SaleOrderRepo;
-import e_appliance_warehouse.repository.UserRepo;
+import e_appliance_warehouse.repository.SalesOrderRepository;
+import e_appliance_warehouse.repository.UserRepository;
+import e_appliance_warehouse.table.PermissionGroups;
+import e_appliance_warehouse.table.SalesOrder;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class SaleOrderService {
-	
-	private SaleOrderRepo saleOrderRepo;
-	private SaleOrderItemsService saleOrderItemsService;
-	private UserRepo userRepo;
+public class SalesOrderService {
+/*	
+	private SalesOrderRepository saleOrderRepo;
+	private SalesOrderItemsService saleOrderItemsService;
+	private UserRepository userRepo;
 	private JavaMailSender mailSender;
 	
 	// GET USER PERMISSIONS
-	public AccessGroup getUserPermissions() {
+	public PermissionGroups getUserPermissions() {
 		return userRepo.getUserByUsername(UserController.uEmail).getAccessGroup();
 	}
 	
 	// ADD NEW SALE ORDER
-	public SaleOrder addSaleOrder(SaleOrder saleOrder) {
+	public SalesOrder addSaleOrder(SalesOrder saleOrder) {
 		saleOrder.setGrossTotal(0.0);
 		saleOrder.setOrderCost(0.0);
 		saleOrder.setDiscountPercent(0.0);
@@ -59,8 +59,8 @@ public class SaleOrderService {
 	}
 	
 	// GET ALL SALE ORDERS
-	public List<SaleOrder> getAllSaleOrders() {
-		List<SaleOrder> ordersList = saleOrderRepo.getAllOrders();
+	public List<SalesOrder> getAllSaleOrders() {
+		List<SalesOrder> ordersList = saleOrderRepo.getAllOrders();
 		
 		// Save user full name to the object attribute [createdUser]
 		/*String fullName = "";
@@ -69,7 +69,7 @@ public class SaleOrderService {
 			ordersList.get(i).setCreatedUser(fullName);
 			ordersList.get(i).setUser(null);
 		}*/
-		
+/*		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
 				ordersList.get(i).setOrderCost(null);
@@ -78,7 +78,7 @@ public class SaleOrderService {
 		
 		//if(getUserPermissions().getOrderCurrentUser() | !getUserPermissions().getOrderOtherUserFind()) {
 		if(!getUserPermissions().getOrderOtherUserFind()) {
-			List<SaleOrder> newOrdersList = new ArrayList<>();
+			List<SalesOrder> newOrdersList = new ArrayList<>();
 			
 			for(int i = 0; i < ordersList.size(); i++) {
 				if(ordersList.get(i).getUser().getUserId().intValue() == UserController.uId) {
@@ -93,8 +93,8 @@ public class SaleOrderService {
 	}
 	
 	// GET SALE ORDERS FOR TODAY DATE
-	public List<SaleOrder> getTodayOrders() {
-		List<SaleOrder> ordersList = saleOrderRepo.getTodayOrders();
+	public List<SalesOrder> getTodayOrders() {
+		List<SalesOrder> ordersList = saleOrderRepo.getTodayOrders();
 		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
@@ -103,7 +103,7 @@ public class SaleOrderService {
 		}
 		
 		if(!getUserPermissions().getOrderOtherUserFind()) {
-			List<SaleOrder> newOrdersList = new ArrayList<>();
+			List<SalesOrder> newOrdersList = new ArrayList<>();
 			
 			for(int i = 0; i < ordersList.size(); i++) {
 				if(ordersList.get(i).getUser().getUserId().intValue() == UserController.uId) {
@@ -118,8 +118,8 @@ public class SaleOrderService {
 	}
 	
 	// GET SALE ORDERS FOR DATE RANGE
-	public List<SaleOrder> getDateRangeOrders(LocalDate dateFrom, LocalDate dateTo) {
-		List<SaleOrder> ordersList = saleOrderRepo.getDateRangeOrders(dateFrom, dateTo);
+	public List<SalesOrder> getDateRangeOrders(LocalDate dateFrom, LocalDate dateTo) {
+		List<SalesOrder> ordersList = saleOrderRepo.getDateRangeOrders(dateFrom, dateTo);
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
 				ordersList.get(i).setOrderCost(null);
@@ -127,7 +127,7 @@ public class SaleOrderService {
 		}
 		
 		if(!getUserPermissions().getOrderOtherUserFind()) {
-			List<SaleOrder> newOrdersList = new ArrayList<>();
+			List<SalesOrder> newOrdersList = new ArrayList<>();
 			
 			for(int i = 0; i < ordersList.size(); i++) {
 				if(ordersList.get(i).getUser().getUserId().intValue() == UserController.uId) {
@@ -142,8 +142,8 @@ public class SaleOrderService {
 	}
 	
 	// GET SALE ORDER BY ID
-	public SaleOrder getOrderById(int orderId) {
-		SaleOrder saleOrder = saleOrderRepo.getOrderById(orderId);
+	public SalesOrder getOrderById(int orderId) {
+		SalesOrder saleOrder = saleOrderRepo.getOrderById(orderId);
 		
 		try {
 			if(!getUserPermissions().getOrderCost()) {
@@ -151,18 +151,18 @@ public class SaleOrderService {
 			}
 			
 			if(!getUserPermissions().getOrderOtherUserFind() & saleOrder.getUser().getUserId().intValue() != UserController.uId) {
-				saleOrder = new SaleOrder();
+				saleOrder = new SalesOrder();
 			}
 		} catch(NullPointerException e) {
-			saleOrder = new SaleOrder();
+			saleOrder = new SalesOrder();
 		}
 		
 		return saleOrder;
 	}
 	
 	// GET SALE ORDER BY CUSTOMER NAME
-	public List<SaleOrder> getOrdersByCustomerName(String customerName) {
-		List<SaleOrder> ordersList = saleOrderRepo.getOrdersByCustomerName(customerName);
+	public List<SalesOrder> getOrdersByCustomerName(String customerName) {
+		List<SalesOrder> ordersList = saleOrderRepo.getOrdersByCustomerName(customerName);
 		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
@@ -171,7 +171,7 @@ public class SaleOrderService {
 		}
 		
 		if(!getUserPermissions().getOrderOtherUserFind()) {
-			List<SaleOrder> newOrdersList = new ArrayList<>();
+			List<SalesOrder> newOrdersList = new ArrayList<>();
 			
 			for(int i = 0; i < ordersList.size(); i++) {
 				if(ordersList.get(i).getUser().getUserId().intValue() == UserController.uId) {
@@ -186,8 +186,8 @@ public class SaleOrderService {
 	}
 	
 	// GET SALE ORDER BY CREATED USER
-	public List<SaleOrder> getOrdersByCreatedUser(String createdUser) {
-		List<SaleOrder> ordersList = saleOrderRepo.getOrdersByCreatedUser(createdUser);
+	public List<SalesOrder> getOrdersByCreatedUser(String createdUser) {
+		List<SalesOrder> ordersList = saleOrderRepo.getOrdersByCreatedUser(createdUser);
 		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
@@ -199,8 +199,8 @@ public class SaleOrderService {
 	}
 	
 	// GET SALE ORDER BY CUSTOMER NAME & CREATED USER   // *** NOT USED
-	public List<SaleOrder> getOrdersByCustomerNameAndCreatedUser(String customerName, String createdUser) {
-		List<SaleOrder> ordersList = saleOrderRepo.getOrdersByCustomerNameAndCreatedUser(customerName, createdUser);
+	public List<SalesOrder> getOrdersByCustomerNameAndCreatedUser(String customerName, String createdUser) {
+		List<SalesOrder> ordersList = saleOrderRepo.getOrdersByCustomerNameAndCreatedUser(customerName, createdUser);
 		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
@@ -212,8 +212,8 @@ public class SaleOrderService {
 	}
 	
 	// GET ALL SALE ORDERS FOR STOCK ITEM BY itemID
-	public List<SaleOrder> getOrdersForStockItem(int itemId) {
-		List<SaleOrder> ordersList = saleOrderRepo.getOrdersForStockItem(itemId);
+	public List<SalesOrder> getOrdersForStockItem(int itemId) {
+		List<SalesOrder> ordersList = saleOrderRepo.getOrdersForStockItem(itemId);
 		
 		if(!getUserPermissions().getOrderCost()) {
 			for(int i = 0; i < ordersList.size(); i++) {
@@ -222,7 +222,7 @@ public class SaleOrderService {
 		}
 		
 		if(!getUserPermissions().getOrderOtherUserFind()) {
-			List<SaleOrder> newOrdersList = new ArrayList<>();
+			List<SalesOrder> newOrdersList = new ArrayList<>();
 			
 			for(int i = 0; i < ordersList.size(); i++) {
 				if(ordersList.get(i).getUser().getUserId().intValue() == UserController.uId) {
@@ -237,7 +237,7 @@ public class SaleOrderService {
 	}
 	
 	// UPDATE SALE ORDER
-	public SaleOrder updateOrder(SaleOrder saleOrder) {
+	public SalesOrder updateOrder(SalesOrder saleOrder) {
 		saleOrder.setUpdatedBy(UserController.uName + " - Order Summary Updated - Date: " + LocalDate.now() + ", Time: " + LocalTime.now());
 		saleOrderRepo.save(saleOrder);
 		
@@ -281,5 +281,5 @@ public class SaleOrderService {
 		 
 		mailSender.send(message);
 	}
-	
+*/	
 }

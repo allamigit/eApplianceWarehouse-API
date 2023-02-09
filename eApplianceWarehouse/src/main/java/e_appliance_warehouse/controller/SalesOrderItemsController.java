@@ -17,21 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.model.SaleOrderItems;
-import e_appliance_warehouse.service.SaleOrderItemsService;
+import e_appliance_warehouse.service.SalesOrderItemsService;
+import e_appliance_warehouse.table.SalesOrderItems;
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(value = "orderItems")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @AllArgsConstructor
-public class SaleOrderItemsController {
-
-	private SaleOrderItemsService saleOrderItemsService;
+public class SalesOrderItemsController {
+/*
+	private SalesOrderItemsService saleOrderItemsService;
 
 	// ADD NEW ITEM TO SALE ORDER
 	@PostMapping(value = "addNewOrderItem.iwh")
-	public SaleOrderItems addOrderItem(HttpServletRequest req, HttpServletResponse resp, @RequestBody SaleOrderItems saleOrderItems) {
+	public SalesOrderItems addOrderItem(HttpServletRequest req, HttpServletResponse resp, @RequestBody SalesOrderItems saleOrderItems) {
 		if(saleOrderItemsService.addOrderItem(saleOrderItems)) {
 			resp.setStatus(201);  // Item added successfully
 			
@@ -50,14 +50,14 @@ public class SaleOrderItemsController {
 	// GET ALL SALE ORDER ITEMS BY ORDER ID
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getAllOrderItems.iwh:orderId={orderId}")
-	public List<SaleOrderItems> getAllOrderItems(HttpServletRequest req, @PathVariable int orderId) {
+	public List<SalesOrderItems> getAllOrderItems(HttpServletRequest req, @PathVariable int orderId) {
 		return saleOrderItemsService.getAllOrderItems(orderId);
 	}
 	
 	// GET ONE ORDER ITEM
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getOrderItem.iwh:Seq={itemSEQ}")
-	public SaleOrderItems getOrderItem(HttpServletRequest req, @PathVariable int itemSEQ) {
+	public SalesOrderItems getOrderItem(HttpServletRequest req, @PathVariable int itemSEQ) {
 		return saleOrderItemsService.getOrderItem(itemSEQ);
 	}
 	
@@ -77,8 +77,8 @@ public class SaleOrderItemsController {
 	
 	// UPDATE ORDER ITEM (SOLD QTY, UNIT PRICE, SALE PRICE & SUBTOTAL)
 	@PutMapping(value = "updateOrderItem.iwh:Seq={itemSEQ}&soldQty={soldQty}&unitPrice={unitPrice}&salePrice={salePrice}&taxableItem={taxStatus}")
-	public SaleOrderItems updateOrderItem(HttpServletRequest req, HttpServletResponse resp, @PathVariable int soldQty, @PathVariable double unitPrice, @PathVariable double salePrice, @PathVariable boolean taxStatus, @PathVariable int itemSEQ) {
-		SaleOrderItems saleOrderItems = null;
+	public SalesOrderItems updateOrderItem(HttpServletRequest req, HttpServletResponse resp, @PathVariable int soldQty, @PathVariable double unitPrice, @PathVariable double salePrice, @PathVariable boolean taxStatus, @PathVariable int itemSEQ) {
+		SalesOrderItems saleOrderItems = null;
 		
 		if(saleOrderItemsService.updateOrderItem(soldQty, unitPrice, salePrice, taxStatus, itemSEQ)) {
 			resp.setStatus(200);  // Item updated successfully
@@ -99,8 +99,8 @@ public class SaleOrderItemsController {
 	// REMOVE ORDER ITEM
 	@ResponseStatus(value = HttpStatus.OK)
 	@DeleteMapping(value = "removeOrderItem.iwh:Seq={itemSEQ}")
-	public SaleOrderItems removeOrderItem(HttpServletRequest req, @PathVariable int itemSEQ) {
-		SaleOrderItems saleOrderItems = saleOrderItemsService.getOrderItem(itemSEQ);
+	public SalesOrderItems removeOrderItem(HttpServletRequest req, @PathVariable int itemSEQ) {
+		SalesOrderItems saleOrderItems = saleOrderItemsService.getOrderItem(itemSEQ);
 		saleOrderItemsService.removeOrderItem(itemSEQ);
 		
 		if(!saleOrderItemsService.getUserPermissions().getOrderCost()) {
@@ -111,5 +111,5 @@ public class SaleOrderItemsController {
 
 		return saleOrderItems;
 	}
-
+*/
 }

@@ -17,22 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.model.AccessGroup;
-import e_appliance_warehouse.service.AccessGroupService;
+import e_appliance_warehouse.service.PermissionGroupsService;
+import e_appliance_warehouse.table.PermissionGroups;
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(value = "group")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @AllArgsConstructor
-public class AccessGroupController {
+public class PermissionGroupsController {
 
-	private AccessGroupService accessGroupService;
+	private PermissionGroupsService accessGroupService;
 	
 	// ADD NEW GROUP
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping(value = "addNewGroup.iwh")
-	public void addGroup(HttpServletRequest req, @RequestBody AccessGroup group) {
+	public void addGroup(HttpServletRequest req, @RequestBody PermissionGroups group) {
 		accessGroupService.addGroup(group);
 	}
 	
@@ -48,28 +48,28 @@ public class AccessGroupController {
 	// GET ALL GROUPS
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "listAllGroups.iwh")
-	public List<AccessGroup> getAllGroups(HttpServletRequest req) {
+	public List<PermissionGroups> getAllGroups(HttpServletRequest req) {
 		return accessGroupService.getAllGroups();
 	}
 	
 	// GET GROUP BY groupID
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getGroup.iwh:Id={groupId}")
-	public AccessGroup getGroupById(HttpServletRequest req, @PathVariable int groupId) {
+	public PermissionGroups getGroupById(HttpServletRequest req, @PathVariable int groupId) {
 		return accessGroupService.getGroupById(groupId);
 	}
 	
 	// GET GROUP BY groupNAME (OR CONTAINS PART OF THE NAME)
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getGroup.iwh:Contains={groupName}")
-	public List<AccessGroup> getGroupByName(HttpServletRequest req, @PathVariable String groupName) {
+	public List<PermissionGroups> getGroupByName(HttpServletRequest req, @PathVariable String groupName) {
 		return accessGroupService.getGroupByName(groupName);
 	}
 	
 	// UPDATE GROUP
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping(value = "updateGroup.iwh:Id={groupId}")
-	public void updateGroup(HttpServletRequest req, @RequestBody AccessGroup group, @PathVariable int groupId) {
+	public void updateGroup(HttpServletRequest req, @RequestBody PermissionGroups group, @PathVariable int groupId) {
 		accessGroupService.updateGroup(group);
 	}
 		

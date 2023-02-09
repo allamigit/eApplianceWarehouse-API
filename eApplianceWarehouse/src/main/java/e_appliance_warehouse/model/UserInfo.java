@@ -1,5 +1,7 @@
 package e_appliance_warehouse.model;
 
+import java.sql.Timestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserInfo {
 
-	private Integer userId;
+	private Long userId;
 	
 	private String fullName;
 
@@ -17,8 +19,8 @@ public class UserInfo {
 
 	private String jobTitle;
 
-	private String loginTimestamp;  //*
+	private Timestamp loginTimestamp;
 
-	private String userComment;  //*
+	private String userComment;
 
 }

@@ -1,4 +1,4 @@
-package e_appliance_warehouse.model;
+package e_appliance_warehouse.table;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,20 +8,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "access_group")
+@Table(name = "permission_groups")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccessGroup {
+public class PermissionGroups extends CommonColumns {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "group_id")
-	private Integer groupId;
+	private Long groupId;
 	
 	@Column(name = "group_name", nullable = false, unique = true)
 	private String groupName;
@@ -36,17 +40,17 @@ public class AccessGroup {
 	@Column(name = "users_readonly")
 	private Boolean usersReadOnly;
 	
-	@Column(name = "groups")
-	private Boolean groups;
+	@Column(name = "permission_groups")
+	private Boolean permissionGroups;
 	
-	@Column(name = "groups_readonly")
-	private Boolean groupsReadOnly;
+	@Column(name = "permission_groups_readonly")
+	private Boolean permissionGroupsReadOnly;
 	
-	@Column(name = "general")  //*
-	private Boolean general;
+	@Column(name = "general_config")
+	private Boolean generalConfig;
 	
-	@Column(name = "general_readonly")  //*
-	private Boolean generalReadOnly;
+	@Column(name = "general_config_readonly")
+	private Boolean generalConfigReadOnly;
 	
 	// STOCK
 	@Column(name = "stock")
@@ -70,9 +74,9 @@ public class AccessGroup {
 	@Column(name = "stock_info")
 	private Boolean stockInfo;
 	
-	// SALE ORDER
-	@Column(name = "sale_order")
-	private Boolean saleOrder;
+	// SALES ORDER
+	@Column(name = "sales_order")
+	private Boolean salesOrder;
 	
 	@Column(name = "all_orders")
 	private Boolean allOrders;
@@ -107,7 +111,7 @@ public class AccessGroup {
 	@Column(name = "order_info")
 	private Boolean orderInfo;
 	
-	@Column(name = "order_invoice")  //***
+	@Column(name = "order_invoice")
 	private Boolean orderInvoice;
 	
 	@Column(name = "order_payment")
@@ -116,7 +120,10 @@ public class AccessGroup {
 	@Column(name = "order_pickup")
 	private Boolean orderPickup;
 	
-	@Column(name = "order_pickup_readonly")  //***
+	@Column(name = "order_pickup_readonly")
 	private Boolean orderPickupReadOnly;
 	
+	@Column(name = "order_approval")
+	private Boolean orderApproval;
+
 }
