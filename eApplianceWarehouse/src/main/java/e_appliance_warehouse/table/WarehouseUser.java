@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends CommonColumns {
+public class WarehouseUser extends CommonColumns {
 	
 	private static final long serialVersionUID = 1L;
 

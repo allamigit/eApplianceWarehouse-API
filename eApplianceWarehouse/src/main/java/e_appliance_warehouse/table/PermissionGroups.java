@@ -40,17 +40,17 @@ public class PermissionGroups extends CommonColumns {
 	@Column(name = "users_readonly")
 	private Boolean usersReadOnly;
 	
-	@Column(name = "groups")
-	private Boolean groups;
+	@Column(name = "permission_groups")
+	private Boolean permissionGroups;
 	
-	@Column(name = "groups_readonly")
-	private Boolean groupsReadOnly;
+	@Column(name = "permission_groups_readonly")
+	private Boolean permissionGroupsReadOnly;
 	
-	@Column(name = "general")
-	private Boolean general;
+	@Column(name = "general_config")
+	private Boolean generalConfig;
 	
-	@Column(name = "general_readonly")
-	private Boolean generalReadOnly;
+	@Column(name = "general_config_readonly")
+	private Boolean generalConfigReadOnly;
 	
 	// STOCK
 	@Column(name = "stock")
@@ -74,9 +74,9 @@ public class PermissionGroups extends CommonColumns {
 	@Column(name = "stock_info")
 	private Boolean stockInfo;
 	
-	// SALE ORDER
-	@Column(name = "sale_order")
-	private Boolean saleOrder;
+	// SALES ORDER
+	@Column(name = "sales_order")
+	private Boolean salesOrder;
 	
 	@Column(name = "all_orders")
 	private Boolean allOrders;

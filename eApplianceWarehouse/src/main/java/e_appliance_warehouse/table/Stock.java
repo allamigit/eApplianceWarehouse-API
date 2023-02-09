@@ -41,11 +41,11 @@ public class Stock extends CommonColumns {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "color_id")
-	private Color itemColor;
+	private ItemColor itemColor;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "brand_id")
-	private Brand itemBrand;
+	private ItemBrand itemBrand;
 	
 	@Column(name = "item_photo")
 	private Byte[] itemPhoto;

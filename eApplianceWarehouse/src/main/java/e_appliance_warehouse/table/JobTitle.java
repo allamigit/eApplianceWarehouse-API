@@ -24,12 +24,12 @@ public class JobTitle extends CommonColumns {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "jobtitleseq", sequenceName = "jobtitle_seq", initialValue = 221, allocationSize = 1)
+	@SequenceGenerator(name = "jobtitleseq", sequenceName = "job_title_seq", initialValue = 221, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jobtitleseq")
 	@Column(name = "job_title_id")
 	private Long jobTitleId;
 	
-	@Column(name = "job_title_name", nullable = false)
+	@Column(name = "job_title_name", nullable = false, unique = true)
 	private String jobTitleName;
 	
 }

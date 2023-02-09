@@ -29,7 +29,7 @@ public class PayrollType extends CommonColumns {
 	@Column(name = "payroll_type_id")
 	private Long payrollTypeId;
 	
-	@Column(name = "payroll_type_name", nullable = false)
+	@Column(name = "payroll_type_name", nullable = false, unique = true)
 	private String payrollTypeName;
 
 }

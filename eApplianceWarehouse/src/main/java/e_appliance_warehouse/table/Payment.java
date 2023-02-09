@@ -38,7 +38,7 @@ public class Payment extends CommonColumns {
 	private LocalDate paymentDate;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "pmt_method_id")
+	@JoinColumn(name = "payment_method_id")
 	private PaymentMethod paymentMethod;
 	
 	@Column(name = "payment_amount", precision = 10, scale = 2)

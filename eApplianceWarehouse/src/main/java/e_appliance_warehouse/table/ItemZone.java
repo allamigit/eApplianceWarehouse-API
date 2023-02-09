@@ -24,7 +24,7 @@ public class ItemZone extends CommonColumns {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "zoneseq", sequenceName = "zone_seq", initialValue = 501, allocationSize = 1)
+	@SequenceGenerator(name = "zoneseq", sequenceName = "item_zone_seq", initialValue = 501, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zoneseq")
 	@Column(name = "zone_id")
 	private Long zoneId;

@@ -9,35 +9,35 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import e_appliance_warehouse.table.User;
+import e_appliance_warehouse.table.WarehouseUser;
 
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<WarehouseUser,Integer> {
 
 	// Get List of All Users
 	@Query(value = "SELECT * FROM user_table ORDER BY first_name ASC", nativeQuery = true)
-	public List<User> getAllUsers();
+	public List<WarehouseUser> getAllUsers();
 	
 	// Get List of Inactive Users
 	@Query(value = "SELECT * FROM user_table WHERE emp_status = false ORDER BY first_name ASC", nativeQuery = true)
-	public List<User> getInactiveUsers();
+	public List<WarehouseUser> getInactiveUsers();
 	
 	// Get List of Active Users
 	@Query(value = "SELECT * FROM user_table WHERE emp_status = true ORDER BY first_name ASC", nativeQuery = true)
-	public List<User> getActiveUsers();
+	public List<WarehouseUser> getActiveUsers();
 
 	// Get User by userID
 	@Query(value = "SELECT * FROM user_table WHERE user_id = ?", nativeQuery = true)
-	public User getUserById(int userId);
+	public WarehouseUser getUserById(int userId);
 
 	// Get User by firstName (or if contains part of the name)
 	@Query(value = "SELECT * FROM user_table WHERE LOWER(first_name) LIKE %?% ORDER BY first_name ASC", nativeQuery = true)
-	public List<User> getUserByName(String firstName);
+	public List<WarehouseUser> getUserByName(String firstName);
 
 	// Get User by userName - Active Only
 	@Query(value = "SELECT * FROM user_table WHERE LOWER(email) = ? AND emp_status = true", nativeQuery = true)
-	public User getUserByUsername(String email);
+	public WarehouseUser getUserByUsername(String email);
 
 	// Change Password
 	@Modifying

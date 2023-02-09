@@ -15,7 +15,7 @@ import e_appliance_warehouse.repository.UserRepository;
 import e_appliance_warehouse.table.PermissionGroups;
 import e_appliance_warehouse.table.SalesOrder;
 import e_appliance_warehouse.table.SalesOrderItems;
-import e_appliance_warehouse.table.User;
+import e_appliance_warehouse.table.WarehouseUser;
 import lombok.AllArgsConstructor;
 
 @Service

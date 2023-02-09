@@ -24,12 +24,12 @@ public class PaymentMethod extends CommonColumns {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@SequenceGenerator(name = "pmtmethodseq", sequenceName = "pmt_method_seq", initialValue = 601, allocationSize = 1)
+	@SequenceGenerator(name = "pmtmethodseq", sequenceName = "payment_method_seq", initialValue = 601, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pmtmethodseq")
-	@Column(name = "pmt_method_id")
-	private Long pmtMethodId;
+	@Column(name = "payment_method_id")
+	private Long paymentMethodId;
 	
-	@Column(name = "pmt_method_name", nullable = false, unique = true)
-	private String pmtMethodName;
+	@Column(name = "payment_method_name", nullable = false, unique = true)
+	private String paymentMethodName;
 	
 }

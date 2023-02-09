@@ -29,7 +29,7 @@ public class EmploymentType extends CommonColumns {
 	@Column(name = "employment_type_id")
 	private Long employmentTypeId;
 	
-	@Column(name = "employment_type_name", nullable = false)
+	@Column(name = "employment_type_name", nullable = false, unique = true)
 	private String employmentTypeName;
 
 }

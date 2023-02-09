@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import e_appliance_warehouse.model.UserInfo;
 import e_appliance_warehouse.service.UserService;
 import e_appliance_warehouse.table.PermissionGroups;
-import e_appliance_warehouse.table.User;
+import e_appliance_warehouse.table.WarehouseUser;
 import lombok.AllArgsConstructor;
 
 @RestController

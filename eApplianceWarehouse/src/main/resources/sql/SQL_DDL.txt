@@ -1,0 +1,475 @@
+
+-- DATA TABLES
+
+CREATE SEQUENCE "e-appliance-warehouse".item_brand_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 401
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".item_brand (
+	brand_id int8 NOT NULL DEFAULT nextval('item_brand_seq'),
+	brand_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_item_brand PRIMARY KEY (brand_id),
+	CONSTRAINT uk_brand_name UNIQUE (brand_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".item_color_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 301
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".item_color (
+	color_id int8 NOT NULL DEFAULT nextval('item_color_seq'),
+	color_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_item_color PRIMARY KEY (color_id),
+	CONSTRAINT uk_color_name UNIQUE (color_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".item_zone_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 501
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".item_zone (
+	zone_id int8 NOT NULL DEFAULT nextval('item_zone_seq'),
+	zone_name varchar(255) NOT NULL,
+	zone_aisle varchar(255) NULL,
+	zone_rack varchar(255) NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_item_zone PRIMARY KEY (zone_id)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".employment_type_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 241
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".employment_type (
+	employment_type_id int8 NOT NULL DEFAULT nextval('employment_type_seq'),
+	employment_type_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_employment_type PRIMARY KEY (employment_type_id),
+	CONSTRAINT uk_jemployment_type_name UNIQUE (employment_type_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".job_title_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 221
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".job_title (
+	job_title_id int8 NOT NULL DEFAULT nextval('job_title_seq'),
+	job_title_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_job_title PRIMARY KEY (job_title_id),
+	CONSTRAINT uk_job_title_name UNIQUE (job_title_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".payment_method_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 601
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".payment_method (
+	payment_method_id int8 NOT NULL DEFAULT nextval('payment_method_seq'),
+	payment_method_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_payment_method PRIMARY KEY (payment_method_id),
+	CONSTRAINT uk_payment_method_name UNIQUE (payment_method_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".payroll_type_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 261
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".payroll_type (
+	payroll_type_id int8 NOT NULL DEFAULT nextval('payroll_type_seq'),
+	payroll_type_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_payroll_type PRIMARY KEY (payroll_type_id),
+	CONSTRAINT uk_payroll_type_name UNIQUE (payroll_type_name)
+);
+
+CREATE TABLE "e-appliance-warehouse".general_config (
+	company_code varchar(255) NOT NULL,
+	company_name varchar(255) NULL,
+	company_address varchar(255) NULL,
+	company_city varchar(255) NULL,
+	company_state varchar(255) NULL,
+	company_zip varchar(255) NULL,
+	company_phone varchar(255) NULL,
+	company_email varchar(255) NULL,
+	company_website varchar(255) NULL,
+	sales_tax_percent float8 NOT NULL,
+	min_stock_item_qty int4 NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_general_config PRIMARY KEY (company_code),
+	CONSTRAINT uk_company_phone UNIQUE (company_phone)
+);
+
+CREATE TABLE "e-appliance-warehouse".order_number (
+	number_id varchar(255) NOT NULL,
+	number_value int8 NOT NULL,
+	CONSTRAINT pk_order_number PRIMARY KEY (number_id)
+);
+
+
+
+-- TRANSACTION TABLES
+
+CREATE SEQUENCE "e-appliance-warehouse".permission_groups_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".permission_groups (
+	group_id int8 NOT NULL DEFAULT nextval('permission_groups_seq'),
+	group_name varchar(255) NOT NULL,
+	settings bool NULL,
+	users bool NULL,
+	users_readonly bool NULL,
+	permission_groups bool NULL,
+	permission_groups_readonly bool NULL,
+	general_config bool NULL,
+	general_config_readonly bool NULL,
+	stock bool NULL,
+	new_stock bool NULL,
+	cost_price bool NULL,
+	cost_price_readonly bool NULL,
+	stock_delete bool NULL,
+	stock_update bool NULL,
+	stock_info bool NULL,
+	sales_order bool NULL,
+	all_orders bool NULL,
+	order_cost bool NULL,
+	order_change_price bool NULL,
+	order_delete bool NULL,
+	order_update bool NULL,
+	new_order bool NULL,
+	order_current_user bool NULL,
+	order_other_user_readonly bool NULL,
+	order_other_user_open bool NULL,
+	order_other_user_find bool NULL,	
+	order_info bool NULL,
+	order_invoice bool NULL,
+	order_payment bool NULL,
+	order_pickup bool NULL,
+	order_pickup_readonly bool NULL,
+	order_approval bool NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_permission_groups PRIMARY KEY (group_id),
+	CONSTRAINT uk_group_name UNIQUE (group_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".employee_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 101
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".employee (
+	employee_id int8 NOT NULL DEFAULT nextval('employee_seq'),
+	first_name varchar(255) NOT NULL,
+	last_name varchar(255) NOT NULL,
+	employee_address varchar(255) NULL,
+	employee_city varchar(255) NULL,
+	employee_state varchar(255) NULL,
+	employee_zip varchar(255) NULL,
+	employee_phone varchar(255) NOT NULL,
+	employee_email varchar(255) NOT NULL,
+	job_title_id int8 NOT NULL,
+	employment_type_id int8 NOT NULL,
+	report_to int8 NULL,
+	start_date date NULL,
+	end_date date NULL,
+	annual_compensation numeric(10, 2) NOT NULL,
+	hourly_rate numeric(10, 2) NULL,
+	payroll_type_id int8 NOT NULL,
+	group_id int8 NULL,
+	account_status bool NOT NULL,	
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_employee PRIMARY KEY (employee_id),
+	CONSTRAINT uk_employee_phone UNIQUE (employee_phone),
+	CONSTRAINT uk_employee_email UNIQUE (employee_email),
+	CONSTRAINT fk_employee_job_title_id FOREIGN KEY (job_title_id) REFERENCES "e-appliance-warehouse".job_title(job_title_id),
+	CONSTRAINT fk_employee_employment_type_id FOREIGN KEY (employment_type_id) REFERENCES "e-appliance-warehouse".employment_type(employment_type_id),
+	CONSTRAINT fk_employee_payroll_type_id FOREIGN KEY (payroll_type_id) REFERENCES "e-appliance-warehouse".payroll_type(payroll_type_id),
+	CONSTRAINT fk_employee_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_groups(group_id)
+);
+
+CREATE TABLE "e-appliance-warehouse".warehouse_user (
+	user_id varchar(255) NOT NULL,
+	user_full_name varchar(255) NULL,
+	passwd text NOT NULL,
+	passwd_reset bool NULL,
+	job_title_id int8 NULL,
+	group_id int8 NULL,
+	account_status bool NOT NULL,
+	login_timestamp timestamp NULL,
+	user_comment varchar(255) NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_warehouse_user PRIMARY KEY (user_id),
+	CONSTRAINT fk_warehouse_user_job_title_id FOREIGN KEY (job_title_id) REFERENCES "e-appliance-warehouse".job_title(job_title_id),
+	CONSTRAINT fk_warehouse_user_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_groups(group_id)
+);
+
+
+CREATE SEQUENCE "e-appliance-warehouse".customer_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 3101
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".customer (
+	customer_id int8 NOT NULL DEFAULT nextval('customer_seq'),
+	customer_name varchar(255) NULL,
+	customer_address varchar(255) NULL,
+	customer_city varchar(255) NULL,
+	customer_state varchar(255) NULL,
+	customer_zip varchar(255) NULL,
+	customer_phone varchar(255) NULL,
+	customer_email varchar(255) NULL,
+	customer_website varchar(255) NULL,
+	payment_term_days int4 NULL,
+	tax_exempt_status bool NULL,
+	tax_exempt_certificate varchar(255) NULL,
+	tax_exempt_end_date date NULL,
+	account_status bool NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_customer PRIMARY KEY (customer_id),
+	CONSTRAINT uk_customer_phone UNIQUE (customer_phone)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".stock_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 201
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".stock (
+	item_code int8 NOT NULL DEFAULT nextval('stock_seq'),
+	item_name varchar(255) NOT NULL,
+	color_id int8 NULL,
+	brand_id int8 NULL,
+	item_photo bytea NULL,
+	item_size float8 NULL,
+	size_unit varchar(255) NULL,
+	item_qty int4 NOT NULL,
+	item_weight float8 NULL,
+	zone_id int8 NULL,
+	cost_price numeric(10, 2) NOT NULL,
+	selling_price numeric(10, 2) NOT NULL,
+	new_selling_price numeric(10, 2) NULL,
+	new_price_eff_date date NULL,
+	sale_price numeric(10, 2) NULL,
+	item_defect_status bool NULL,
+	item_list_status bool NOT NULL,	
+	tax_status bool NULL,
+	item_comment varchar(255) NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_stock PRIMARY KEY (item_code),
+	CONSTRAINT uk_item_name UNIQUE (item_name),
+	CONSTRAINT fk_stock_color_id FOREIGN KEY (color_id) REFERENCES "e-appliance-warehouse".item_color(color_id),
+	CONSTRAINT fk_stock_brand_id FOREIGN KEY (brand_id) REFERENCES "e-appliance-warehouse".item_brand(brand_id),
+	CONSTRAINT fk_stock_zone_id FOREIGN KEY (zone_id) REFERENCES "e-appliance-warehouse".item_zone(zone_id)
+);
+
+CREATE TABLE "e-appliance-warehouse".sales_order (
+	order_id int8 NOT NULL,
+	order_date date NOT NULL DEFAULT now(),
+	order_po varchar(255) NULL,
+	approver_id int8 NULL,
+	project_id int8 NULL,
+	customer_id int8 NULL,
+	order_comment varchar(255) NULL,
+	invoice_comment varchar(255) NULL,
+	gross_total_amount numeric(10, 2) NULL,
+	order_cost_amount numeric(10, 2) NULL,
+	discount_percent float8 NULL,
+	discount_amount numeric(10, 2) NULL,
+	discount_total_amount numeric(10, 2) NULL,
+	total_amount numeric(10, 2) NULL,
+	tax_status bool NULL,
+	sales_tax_percent float8 NULL,
+	sales_tax_amount numeric(10, 2) NULL,
+	order_total_amount numeric(10, 2) NULL,
+	amount_paid numeric(10, 2) NULL,
+	amount_due numeric(10, 2) NULL,
+	items_weight float8 NULL,
+	items_count int4 NULL,
+	pickup_count int4 NULL,
+	items_left int4 NULL,
+	billing_status bool NULL,	
+	billing_date date NULL,	
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_sales_order PRIMARY KEY (order_id),
+	CONSTRAINT fk_sales_order_customer_id FOREIGN KEY (customer_id) REFERENCES "e-appliance-warehouse".customer(customer_id)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".sales_order_items_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".sales_order_items (
+	item_seq int8 NOT NULL DEFAULT nextval('sales_order_items_seq'),
+	order_id int8 NULL,
+	item_code int8 NULL,
+	sold_qty int4 NOT NULL,	
+	cost_price numeric(10, 2) NOT NULL,
+	selling_price numeric(10, 2) NOT NULL,
+	sale_price numeric(10, 2) NULL,
+	subtotal numeric(10, 2) NULL,
+	tax_status bool NULL,	
+	item_weight float8 NULL,
+	pickup_count int4 NULL,
+	items_left int4 NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_sales_order_items PRIMARY KEY (item_seq),
+	CONSTRAINT fk_sales_order_items_order_id FOREIGN KEY (order_id) REFERENCES "e-appliance-warehouse".sales_order(order_id),
+	CONSTRAINT fk_sales_order_items_item_code FOREIGN KEY (item_code) REFERENCES "e-appliance-warehouse".stock(item_code)
+);
+
+CREATE TABLE "e-appliance-warehouse".pickup (
+	pickup_id varchar(255) NOT NULL,
+	pickup_date date NOT NULL DEFAULT now(),
+	order_id int8 NULL,	
+	item_code int8 NULL,
+	sold_qty int4 NULL,	
+	item_weight float8 NULL,
+	pickup_count int4 NULL,
+	items_left int4 NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_pickup PRIMARY KEY (pickup_id),
+	CONSTRAINT fk_pickup_order_id FOREIGN KEY (order_id) REFERENCES "e-appliance-warehouse".sales_order(order_id),
+	CONSTRAINT fk_pickup_item_code FOREIGN KEY (item_code) REFERENCES "e-appliance-warehouse".stock(item_code)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".payment_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".payment (
+	payment_id int8 NOT NULL DEFAULT nextval('payment_seq'),
+	payment_date date NULL,
+	payment_method_id int8 NULL,
+	payment_amount numeric(10, 2) NULL,	
+	order_id int8 NULL,
+	payment_comment varchar(255) NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_payment PRIMARY KEY (payment_id),
+	CONSTRAINT fk_payment_payment_method_id FOREIGN KEY (payment_method_id) REFERENCES "e-appliance-warehouse".payment_method(payment_method_id),
+	CONSTRAINT fk_payment_order_id FOREIGN KEY (order_id) REFERENCES "e-appliance-warehouse".sales_order(order_id)
+);
+
+CREATE TABLE "e-appliance-warehouse".memo (
+	memo_id varchar(255) NOT NULL,
+	memo_date date NULL,
+	memo_amount numeric(10, 2) NULL,
+	order_id int8 NULL,
+	customer_id int8 NULL,
+	memo_comment varchar(255) NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_memo PRIMARY KEY (memo_id),
+	CONSTRAINT fk_memo_customer_id FOREIGN KEY (customer_id) REFERENCES "e-appliance-warehouse".customer(customer_id)
+);
+CREATE INDEX idx_memo_order_id ON "e-appliance-warehouse".memo(order_id);

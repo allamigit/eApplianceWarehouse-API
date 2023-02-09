@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import e_appliance_warehouse.repository.UserRepository;
-import e_appliance_warehouse.table.User;
+import e_appliance_warehouse.table.WarehouseUser;
 import lombok.AllArgsConstructor;
 
 @Service
