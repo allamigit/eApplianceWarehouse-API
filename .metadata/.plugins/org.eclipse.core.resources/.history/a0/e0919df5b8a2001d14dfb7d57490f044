@@ -1,0 +1,82 @@
+package e_appliance_warehouse.table;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "employee")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+public class Employee extends CommonColumns {
+	
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@SequenceGenerator(name = "employeeseq", sequenceName = "employee_seq", initialValue = 101, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employeeseq")
+	@Column(name = "employee_id")
+	private Long employeeId;
+	
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
+
+	@Column(name = "last_name", nullable = false)
+	private String lastName;
+
+	@Column(name = "phone", nullable = false, unique = true)
+	private String phone;
+
+	@Column(name = "email", nullable = false, unique = true)
+	private String email;
+
+	@Column(name = "job_title", nullable = false)
+	private String jobTitle;
+	
+	@Column(name = "employment_type")
+	private String employmentType;
+	
+	@Column(name = "report_to")
+	private Long reportTo;
+	
+	@Column(name = "start_date")
+	private LocalDate startDate;
+	
+	@Column(name = "end_date")
+	private LocalDate endDate;
+	
+	@Column(name = "annual_compensation", precision = 10, scale = 2, nullable = false)
+	private BigDecimal annualCompensation;
+	
+	@Column(name = "hourly_rate", precision = 10, scale = 2)
+	private BigDecimal hourlyRate;
+	
+	@Column(name = "payroll_id")
+	private Long payrollId;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "group_id")
+	private PermissionGroups permissionGroup;
+
+	@Column(name = "account_status", nullable = false)
+	private Boolean accountStatus;
+
+}

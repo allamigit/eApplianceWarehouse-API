@@ -1,0 +1,13 @@
+server.port=8001
+server.servlet.context-path=/e-appliance-warehouse
+
+spring.datasource.url=${DB_URL}
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.username=${DB_NAME}
+spring.datasource.password=${DB_PASSWD}
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.open-in-view=true
+spring.jpa.show-sql=true
