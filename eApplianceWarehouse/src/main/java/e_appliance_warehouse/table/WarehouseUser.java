@@ -15,10 +15,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "warehouse_user")
 @Data
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,7 +33,7 @@ public class WarehouseUser extends CommonColumns {
 	private String userId;
 	
 	@Column(name = "user_full_name")
-	private String userFulltName;
+	private String userFullName;
 
 	@Column(name = "passwd", nullable = false)
 	private String password;

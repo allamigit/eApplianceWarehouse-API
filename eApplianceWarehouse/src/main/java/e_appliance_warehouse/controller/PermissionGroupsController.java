@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @AllArgsConstructor
 public class PermissionGroupsController {
-
+/*
 	private PermissionGroupsService accessGroupService;
 	
 	// ADD NEW GROUP
@@ -79,5 +79,5 @@ public class PermissionGroupsController {
 	public void deleteGroup(HttpServletRequest req, @PathVariable int groupId) {
 		accessGroupService.deleteGroup(groupId);
 	}
-
+*/
 }

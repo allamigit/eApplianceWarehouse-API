@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import e_appliance_warehouse.controller.UserController;
+import e_appliance_warehouse.controller.EmployeeController;
 import e_appliance_warehouse.repository.StockRepository;
-import e_appliance_warehouse.repository.UserRepository;
+import e_appliance_warehouse.repository.EmployeeRepository;
 import e_appliance_warehouse.table.PermissionGroups;
 import e_appliance_warehouse.table.Stock;
 import lombok.AllArgsConstructor;

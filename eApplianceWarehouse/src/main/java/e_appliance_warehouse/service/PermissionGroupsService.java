@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class PermissionGroupsService {
-
+/*
 	private PermissionGroupsRepository accessGroupRepo;
 	
 	// ADD NEW GROUP
@@ -60,5 +60,5 @@ public class PermissionGroupsService {
 	public void deleteGroup(int groupId) {
 		accessGroupRepo.deleteGroup(groupId);
 	}
-	
+*/	
 }

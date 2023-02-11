@@ -17,10 +17,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "pickup")
 @Data
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,5 +57,11 @@ public class Pickup extends CommonColumns {
 	
 	@Column(name = "items_left")
 	private Integer itemsLeft;
+	
+	@Column(name = "pickup_comment")
+	private String pickupComment;
+	
+	@Column(name = "pickup_internal_comment")
+	private String pickupInternalComment;
 	
 }

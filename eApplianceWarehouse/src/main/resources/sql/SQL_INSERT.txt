@@ -107,9 +107,9 @@ insert into payment_method (payment_method_name, created_user_id, created_timest
 insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
 	values ('Cash', 'SYSTEM', now(), 'SYSTEM', now());
 insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Wire', 'SYSTEM', now(), 'SYSTEM', now());
-insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
 	values ('Transfer', 'SYSTEM', now(), 'SYSTEM', now());
+insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Refund', 'SYSTEM', now(), 'SYSTEM', now());
 
 --select * from payment_method;
 
