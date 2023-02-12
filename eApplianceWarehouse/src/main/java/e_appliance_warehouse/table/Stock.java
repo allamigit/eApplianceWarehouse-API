@@ -18,11 +18,13 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "stock")
 @Data
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -66,6 +68,14 @@ public class Stock extends CommonColumns {
 	@JoinColumn(name = "zone_id")
 	private ItemZone itemZone;
 	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "aisle_id")
+	private ItemAisle itemAisle;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "rack_id")
+	private ItemRack itemRack;
+
 	@Column(name = "cost_price", precision = 10, scale = 2, nullable = false)
 	private BigDecimal costPrice;
 	

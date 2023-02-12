@@ -18,10 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "sales_order")
 @Data
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -50,12 +52,6 @@ public class SalesOrder extends CommonColumns {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@Column(name = "order_comment")
-	private String orderComment;
-	
-	@Column(name = "invoice_comment")
-	private String invoiceComment;
-	
 	@Column(name = "gross_total_amount", precision = 10, scale = 2)
 	private BigDecimal grossTotalAmount;
 	
@@ -109,5 +105,14 @@ public class SalesOrder extends CommonColumns {
 	
 	@Column(name = "billing_date")
 	private LocalDate billingDate;
+	
+	@Column(name = "order_comment")
+	private String orderComment;
+	
+	@Column(name = "order_internal_comment")
+	private String orderInternalComment;
+	
+	@Column(name = "invoice_comment")
+	private String invoiceComment;
 	
 }

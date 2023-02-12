@@ -26,36 +26,42 @@ insert into item_color (color_name, created_user_id, created_timestamp, updated_
 --select * from item_color;
 
 -- Item_Zone Table
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-A', 'Aisle-1', 'Rack-1-A1', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-A', 'Aisle-1', 'Rack-1-A2', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-A', 'Aisle-2', 'Rack-2-A1', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-A', 'Aisle-2', 'Rack-2-A2', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-A', 'Aisle-2', 'Rack-2-A3', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-A', 'Aisle-3', null, 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-B', 'Aisle-1', 'Rack-1-B1', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-B', 'Aisle-1', 'Rack-1-B2', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-B', 'Aisle-1', 'Rack-1-B3', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-B', 'Aisle-2', 'Rack-2-B1', 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-B', 'Aisle-3', null, 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-C', 'Aisle-1', null, 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-C', 'Aisle-2', null, 'SYSTEM', now(), 'SYSTEM', now());
-insert into item_zone (zone_name, zone_aisle, zone_rack, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Zone-D', null, null, 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_zone (zone_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Zone-AA', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_zone (zone_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Zone-AB', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_zone (zone_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Zone-AC', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_zone (zone_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Zone-AD', 'SYSTEM', now(), 'SYSTEM', now());
 
 --select * from item_zone;
+
+-- Item_Aisle Table
+insert into item_aisle (aisle_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Aisle-1', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_aisle (aisle_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Aisle-2', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_aisle (aisle_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Aisle-3', 'SYSTEM', now(), 'SYSTEM', now());
+
+--select * from item_aisle;
+
+-- Item_Rack Table
+insert into item_rack (rack_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Rack-A', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_rack (rack_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Rack-B', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_rack (rack_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Rack-C', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_rack (rack_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Rack-D', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_rack (rack_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Rack-E', 'SYSTEM', now(), 'SYSTEM', now());
+insert into item_rack (rack_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Rack-F', 'SYSTEM', now(), 'SYSTEM', now());
+
+--select * from item_rack;
 
 -- Employment_Type Table
 insert into employment_type (employment_type_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
@@ -107,9 +113,11 @@ insert into payment_method (payment_method_name, created_user_id, created_timest
 insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
 	values ('Cash', 'SYSTEM', now(), 'SYSTEM', now());
 insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('Wire', 'SYSTEM', now(), 'SYSTEM', now());
-insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
 	values ('Transfer', 'SYSTEM', now(), 'SYSTEM', now());
+insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Refund', 'SYSTEM', now(), 'SYSTEM', now());
+insert into payment_method (payment_method_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Memo', 'SYSTEM', now(), 'SYSTEM', now());
 
 --select * from payment_method;
 

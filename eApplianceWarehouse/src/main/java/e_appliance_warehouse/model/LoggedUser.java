@@ -5,17 +5,17 @@ import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo {
+public class LoggedUser {
 
-	private Long userId;
+	private String userId;
 	
-	private String fullName;
-
-	private String email;
+	private String userFullName;
 
 	private String jobTitle;
 
