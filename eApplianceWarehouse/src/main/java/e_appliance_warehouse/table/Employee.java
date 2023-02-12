@@ -91,7 +91,19 @@ public class Employee extends CommonColumns {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "group_id")
-	private PermissionGroups permissionGroup;
+	private PermissionGroup permissionGroup;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "zone_id")
+	private ItemZone itemZone;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "aisle_id")
+	private ItemAisle itemAisle;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "rack_id")
+	private ItemRack itemRack;
 
 	@Column(name = "account_status", nullable = false)
 	private Boolean accountStatus;

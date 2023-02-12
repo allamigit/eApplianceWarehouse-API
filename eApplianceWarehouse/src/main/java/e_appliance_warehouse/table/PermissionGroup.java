@@ -14,13 +14,13 @@ import lombok.experimental.SuperBuilder;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "permission_groups")
+@Table(name = "permission_group")
 @Data
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class PermissionGroups extends CommonColumns {
+public class PermissionGroup extends CommonColumns {
 	
 	private static final long serialVersionUID = 1L;
 

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import e_appliance_warehouse.model.LoggedUser;
 import e_appliance_warehouse.service.EmployeeService;
 import e_appliance_warehouse.table.Employee;
-import e_appliance_warehouse.table.PermissionGroups;
+import e_appliance_warehouse.table.PermissionGroup;
 import e_appliance_warehouse.table.WarehouseUser;
 import lombok.AllArgsConstructor;
 
@@ -152,8 +152,8 @@ public class EmployeeController {
 	// GET USER PERMISSIONS
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "getUserPermissions.wh:Username={userId}")
-	public PermissionGroups getUserPermissions(HttpServletRequest req, @PathVariable String userId) {
-		PermissionGroups group = employeeService.getUserById(userId).getPermissionGroup();
+	public PermissionGroup getUserPermissions(HttpServletRequest req, @PathVariable String userId) {
+		PermissionGroup group = employeeService.getUserById(userId).getPermissionGroup();
 		return group;
 	}
 	

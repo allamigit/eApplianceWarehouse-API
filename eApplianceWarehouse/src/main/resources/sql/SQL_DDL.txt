@@ -49,14 +49,51 @@ CREATE SEQUENCE "e-appliance-warehouse".item_zone_seq
 CREATE TABLE "e-appliance-warehouse".item_zone (
 	zone_id int8 NOT NULL DEFAULT nextval('item_zone_seq'),
 	zone_name varchar(255) NOT NULL,
-	zone_aisle varchar(255) NULL,
-	zone_rack varchar(255) NULL,
 	created_user_id varchar(255) NOT NULL,
 	created_timestamp timestamp NOT NULL DEFAULT now(),
 	updated_user_id varchar(255) NOT NULL,
 	updated_timestamp timestamp NOT NULL DEFAULT now(),
 	update_summary varchar(255) NULL,
-	CONSTRAINT pk_item_zone PRIMARY KEY (zone_id)
+	CONSTRAINT pk_item_zone PRIMARY KEY (zone_id),
+	CONSTRAINT uk_zone_name UNIQUE (zone_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".item_aisle_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 531
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".item_aisle (
+	aisle_id int8 NOT NULL DEFAULT nextval('item_aisle_seq'),
+	aisle_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_item_aisle PRIMARY KEY (aisle_id),
+	CONSTRAINT uk_aisle_name UNIQUE (aisle_name)
+);
+
+CREATE SEQUENCE "e-appliance-warehouse".item_rack_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 561
+	CACHE 1
+	NO CYCLE;
+CREATE TABLE "e-appliance-warehouse".item_rack (
+	rack_id int8 NOT NULL DEFAULT nextval('item_rack_seq'),
+	rack_name varchar(255) NOT NULL,
+	created_user_id varchar(255) NOT NULL,
+	created_timestamp timestamp NOT NULL DEFAULT now(),
+	updated_user_id varchar(255) NOT NULL,
+	updated_timestamp timestamp NOT NULL DEFAULT now(),
+	update_summary varchar(255) NULL,
+	CONSTRAINT pk_item_rack PRIMARY KEY (rack_id),
+	CONSTRAINT uk_rack_name UNIQUE (rack_name)
 );
 
 CREATE SEQUENCE "e-appliance-warehouse".employment_type_seq
@@ -75,7 +112,7 @@ CREATE TABLE "e-appliance-warehouse".employment_type (
 	updated_timestamp timestamp NOT NULL DEFAULT now(),
 	update_summary varchar(255) NULL,
 	CONSTRAINT pk_employment_type PRIMARY KEY (employment_type_id),
-	CONSTRAINT uk_jemployment_type_name UNIQUE (employment_type_name)
+	CONSTRAINT uk_employment_type_name UNIQUE (employment_type_name)
 );
 
 CREATE SEQUENCE "e-appliance-warehouse".job_title_seq
@@ -166,15 +203,15 @@ CREATE TABLE "e-appliance-warehouse".order_number (
 
 -- TRANSACTION TABLES
 
-CREATE SEQUENCE "e-appliance-warehouse".permission_groups_seq
+CREATE SEQUENCE "e-appliance-warehouse".permission_group_seq
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 9223372036854775807
 	START 1
 	CACHE 1
 	NO CYCLE;
-CREATE TABLE "e-appliance-warehouse".permission_groups (
-	group_id int8 NOT NULL DEFAULT nextval('permission_groups_seq'),
+CREATE TABLE "e-appliance-warehouse".permission_group (
+	group_id int8 NOT NULL DEFAULT nextval('permission_group_seq'),
 	group_name varchar(255) NOT NULL,
 	settings bool NULL,
 	users bool NULL,
@@ -212,7 +249,7 @@ CREATE TABLE "e-appliance-warehouse".permission_groups (
 	updated_user_id varchar(255) NOT NULL,
 	updated_timestamp timestamp NOT NULL DEFAULT now(),
 	update_summary varchar(255) NULL,
-	CONSTRAINT pk_permission_groups PRIMARY KEY (group_id),
+	CONSTRAINT pk_permission_group PRIMARY KEY (group_id),
 	CONSTRAINT uk_group_name UNIQUE (group_name)
 );
 
@@ -242,6 +279,9 @@ CREATE TABLE "e-appliance-warehouse".employee (
 	hourly_rate numeric(10, 2) NULL,
 	payroll_type_id int8 NOT NULL,
 	group_id int8 NULL,
+	zone_id int8 NULL,
+	aisle_id int8 NULL,
+	rack_id int8 NULL,
 	account_status bool NOT NULL,	
 	created_user_id varchar(255) NOT NULL,
 	created_timestamp timestamp NOT NULL DEFAULT now(),
@@ -254,7 +294,10 @@ CREATE TABLE "e-appliance-warehouse".employee (
 	CONSTRAINT fk_employee_job_title_id FOREIGN KEY (job_title_id) REFERENCES "e-appliance-warehouse".job_title(job_title_id),
 	CONSTRAINT fk_employee_employment_type_id FOREIGN KEY (employment_type_id) REFERENCES "e-appliance-warehouse".employment_type(employment_type_id),
 	CONSTRAINT fk_employee_payroll_type_id FOREIGN KEY (payroll_type_id) REFERENCES "e-appliance-warehouse".payroll_type(payroll_type_id),
-	CONSTRAINT fk_employee_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_groups(group_id)
+	CONSTRAINT fk_employee_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_group(group_id),
+	CONSTRAINT fk_employee_zone_id FOREIGN KEY (zone_id) REFERENCES "e-appliance-warehouse".item_zone(zone_id),
+	CONSTRAINT fk_employee_aisle_id FOREIGN KEY (aisle_id) REFERENCES "e-appliance-warehouse".item_aisle(aisle_id),
+	CONSTRAINT fk_employee_rack_id FOREIGN KEY (rack_id) REFERENCES "e-appliance-warehouse".item_rack(rack_id)
 );
 
 CREATE TABLE "e-appliance-warehouse".warehouse_user (
@@ -274,7 +317,7 @@ CREATE TABLE "e-appliance-warehouse".warehouse_user (
 	update_summary varchar(255) NULL,
 	CONSTRAINT pk_warehouse_user PRIMARY KEY (user_id),
 	CONSTRAINT fk_warehouse_user_job_title_id FOREIGN KEY (job_title_id) REFERENCES "e-appliance-warehouse".job_title(job_title_id),
-	CONSTRAINT fk_warehouse_user_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_groups(group_id)
+	CONSTRAINT fk_warehouse_user_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_group(group_id)
 );
 
 
@@ -327,6 +370,8 @@ CREATE TABLE "e-appliance-warehouse".stock (
 	item_qty int4 NOT NULL,
 	item_weight float8 NULL,
 	zone_id int8 NULL,
+	aisle_id int8 NULL,
+	rack_id int8 NULL,
 	cost_price numeric(10, 2) NOT NULL,
 	selling_price numeric(10, 2) NOT NULL,
 	new_selling_price numeric(10, 2) NULL,
@@ -345,7 +390,9 @@ CREATE TABLE "e-appliance-warehouse".stock (
 	CONSTRAINT uk_item_name UNIQUE (item_name),
 	CONSTRAINT fk_stock_color_id FOREIGN KEY (color_id) REFERENCES "e-appliance-warehouse".item_color(color_id),
 	CONSTRAINT fk_stock_brand_id FOREIGN KEY (brand_id) REFERENCES "e-appliance-warehouse".item_brand(brand_id),
-	CONSTRAINT fk_stock_zone_id FOREIGN KEY (zone_id) REFERENCES "e-appliance-warehouse".item_zone(zone_id)
+	CONSTRAINT fk_stock_zone_id FOREIGN KEY (zone_id) REFERENCES "e-appliance-warehouse".item_zone(zone_id),
+	CONSTRAINT fk_stock_aisle_id FOREIGN KEY (aisle_id) REFERENCES "e-appliance-warehouse".item_aisle(aisle_id),
+	CONSTRAINT fk_stock_rack_id FOREIGN KEY (rack_id) REFERENCES "e-appliance-warehouse".item_rack(rack_id)
 );
 
 CREATE TABLE "e-appliance-warehouse".sales_order (

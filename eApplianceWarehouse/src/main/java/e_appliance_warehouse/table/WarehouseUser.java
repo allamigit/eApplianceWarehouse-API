@@ -47,7 +47,7 @@ public class WarehouseUser extends CommonColumns {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "group_id")
-	private PermissionGroups permissionGroup;
+	private PermissionGroup permissionGroup;
 
 	@Column(name = "account_status")
 	private Boolean accountStatus;

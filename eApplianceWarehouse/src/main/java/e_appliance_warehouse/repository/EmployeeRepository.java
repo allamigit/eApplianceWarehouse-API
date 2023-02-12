@@ -15,33 +15,33 @@ import e_appliance_warehouse.table.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 	// Get List of All Employees
-	@Query(value = "SELECT * FROM Employee ORDER BY empFirstName ASC")
+	@Query(value = "SELECT e FROM Employee e ORDER BY empFirstName ASC")
 	public List<Employee> getAllEmployees();
 	
 	// Get List of Inactive Employees
-	@Query(value = "SELECT * FROM Employee WHERE accountStatus = false ORDER BY empFirstName ASC")
+	@Query(value = "SELECT e FROM Employee e WHERE accountStatus = false ORDER BY empFirstName ASC")
 	public List<Employee> getInactiveEmployees();
 	
 	// Get List of Active Employees
-	@Query(value = "SELECT * FROM Employee WHERE accountStatus = true ORDER BY empFirstName ASC")
+	@Query(value = "SELECT e FROM Employee e WHERE accountStatus = true ORDER BY empFirstName ASC")
 	public List<Employee> getActiveEmployees();
 
 	// Get Employee by employeeID
-	@Query(value = "SELECT * FROM Employee WHERE employeeId = ?1")
+	@Query(value = "SELECT e FROM Employee e WHERE employeeId = ?1")
 	public Employee getEmployeeById(Long employeeId);
 
 	// Get Employee by empFirstName (or if contains part of the name)
-	@Query(value = "SELECT * FROM Employee WHERE LOWER(empFirstName) LIKE %?1% ORDER BY empFirstName ASC")
+	@Query(value = "SELECT e FROM Employee e WHERE LOWER(empFirstName) LIKE %?1% ORDER BY empFirstName ASC")
 	public List<Employee> getEmployeeByFirstName(String empFirstName);
 
 	// Get Employee by empFirstName and empLastName
-	@Query(value = "SELECT * FROM Employee WHERE empFirstName = ?1 AND empLastName = ?2")
+	@Query(value = "SELECT e FROM Employee e WHERE empFirstName = ?1 AND empLastName = ?2")
 	public Employee getEmployeeByFirstAndLastName(String empFirstName, String empLastName);
 
 	// Delete Employee by employeeID
 	@Transactional
 	@Modifying
-	@Query(value = "DELETE FROM Employee WHERE employeeId = ?1")
+	@Query(value = "DELETE FROM Employee e WHERE employeeId = ?1")
 	public void deleteEmployee(Long employeeId);
 
 }
