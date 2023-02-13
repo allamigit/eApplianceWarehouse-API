@@ -41,7 +41,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	// Delete Employee by employeeID
 	@Transactional
 	@Modifying
-	@Query(value = "DELETE FROM Employee e WHERE employeeId = ?1")
+	@Query(value = "DELETE FROM Employee WHERE employeeId = ?1")
 	public void deleteEmployee(Long employeeId);
 
 }

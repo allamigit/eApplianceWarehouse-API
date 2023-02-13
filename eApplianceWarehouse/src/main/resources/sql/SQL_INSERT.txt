@@ -140,3 +140,8 @@ insert into order_number values ('ESTIMATE_ORDER', 3100);
 insert into order_number values ('SALES_ORDER', 4100);
 
 --select * from order_number;
+
+-- Permission-Group Table
+insert into permission_group
+	(group_name, settings, users, users_readonly, permission_groups, permission_groups_readonly, general_config, general_config_readonly, stock, new_stock, cost_price, cost_price_readonly, stock_delete, stock_update, stock_info, sales_order, all_orders, order_cost, order_change_price, order_delete, order_update, new_order, order_current_user, order_other_user_readonly, order_other_user_open, order_other_user_find, order_info, order_invoice, order_payment, order_pickup, order_pickup_readonly, order_approval, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('System Administrator', true, true, false, true, false, true, false, true, true, true, false, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, false, false, 'SYSTEM', now(), 'SYSTEM', now());

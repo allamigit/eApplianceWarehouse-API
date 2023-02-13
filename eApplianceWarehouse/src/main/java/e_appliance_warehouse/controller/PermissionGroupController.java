@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import e_appliance_warehouse.model.RequestStatus;
 import e_appliance_warehouse.service.PermissionGroupService;
 import e_appliance_warehouse.table.PermissionGroup;
 import lombok.AllArgsConstructor;
@@ -32,18 +34,36 @@ public class PermissionGroupController {
 	// ADD NEW GROUP
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping(value = "addNewGroup.wh")
-	public void addGroup(HttpServletRequest req, @RequestBody PermissionGroup group) {
+	public RequestStatus addGroup(HttpServletRequest req, @RequestBody PermissionGroup group) {
 		permissionGroupService.addGroup(group);
+		RequestStatus requestStatus = RequestStatus.builder()
+				.statusCode(HttpServletResponse.SC_CREATED)
+				.statusName(HttpStatus.CREATED)
+				.statusDescription("New Permission Group was added: " + group.getGroupName())
+				.build();
+		return requestStatus;
 	}
 	
 	// CLONE GROUP 
-	@ResponseStatus(value = HttpStatus.CREATED)
-	@PostMapping(value = "cloneGroup.wh:sourceGroupId={sourceGroupId}&targetGroupName={targetGroupName}")
-	public void cloneGroup(HttpServletRequest req, HttpServletResponse resp, @PathVariable Long sourceGroupId, @PathVariable String targetGroupName) {
+	@PostMapping(value = "cloneGroup.wh")
+	public RequestStatus cloneGroup(HttpServletRequest req, HttpServletResponse resp, 
+			@Param(value = "sourceGroupId") Long sourceGroupId, @Param(value = "targetGroupName") String targetGroupName) {
 		if(permissionGroupService.cloneGroup(sourceGroupId, targetGroupName)) {
 			resp.setStatus(201);
+			RequestStatus requestStatus = RequestStatus.builder()
+					.statusCode(HttpServletResponse.SC_CREATED)
+					.statusName(HttpStatus.CREATED)
+					.statusDescription("New Permission Group was cloned: " + targetGroupName)
+					.build();
+			return requestStatus;
 		} else {
 			resp.setStatus(406);
+			RequestStatus requestStatus = RequestStatus.builder()
+					.statusCode(HttpServletResponse.SC_NOT_ACCEPTABLE)
+					.statusName(HttpStatus.NOT_ACCEPTABLE)
+					.statusDescription("Missing target Permission Group name")
+					.build();
+			return requestStatus;
 		}
 	}
 	

@@ -279,9 +279,6 @@ CREATE TABLE "e-appliance-warehouse".employee (
 	hourly_rate numeric(10, 2) NULL,
 	payroll_type_id int8 NOT NULL,
 	group_id int8 NULL,
-	zone_id int8 NULL,
-	aisle_id int8 NULL,
-	rack_id int8 NULL,
 	account_status bool NOT NULL,	
 	created_user_id varchar(255) NOT NULL,
 	created_timestamp timestamp NOT NULL DEFAULT now(),
@@ -294,10 +291,7 @@ CREATE TABLE "e-appliance-warehouse".employee (
 	CONSTRAINT fk_employee_job_title_id FOREIGN KEY (job_title_id) REFERENCES "e-appliance-warehouse".job_title(job_title_id),
 	CONSTRAINT fk_employee_employment_type_id FOREIGN KEY (employment_type_id) REFERENCES "e-appliance-warehouse".employment_type(employment_type_id),
 	CONSTRAINT fk_employee_payroll_type_id FOREIGN KEY (payroll_type_id) REFERENCES "e-appliance-warehouse".payroll_type(payroll_type_id),
-	CONSTRAINT fk_employee_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_group(group_id),
-	CONSTRAINT fk_employee_zone_id FOREIGN KEY (zone_id) REFERENCES "e-appliance-warehouse".item_zone(zone_id),
-	CONSTRAINT fk_employee_aisle_id FOREIGN KEY (aisle_id) REFERENCES "e-appliance-warehouse".item_aisle(aisle_id),
-	CONSTRAINT fk_employee_rack_id FOREIGN KEY (rack_id) REFERENCES "e-appliance-warehouse".item_rack(rack_id)
+	CONSTRAINT fk_employee_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_group(group_id)
 );
 
 CREATE TABLE "e-appliance-warehouse".warehouse_user (
@@ -307,6 +301,9 @@ CREATE TABLE "e-appliance-warehouse".warehouse_user (
 	passwd_reset bool NULL,
 	job_title_id int8 NULL,
 	group_id int8 NULL,
+	zone_id int8 NULL,
+	aisle_id int8 NULL,
+	rack_id int8 NULL,
 	account_status bool NOT NULL,
 	login_timestamp timestamp NULL,
 	user_comment varchar(255) NULL,
@@ -317,7 +314,10 @@ CREATE TABLE "e-appliance-warehouse".warehouse_user (
 	update_summary varchar(255) NULL,
 	CONSTRAINT pk_warehouse_user PRIMARY KEY (user_id),
 	CONSTRAINT fk_warehouse_user_job_title_id FOREIGN KEY (job_title_id) REFERENCES "e-appliance-warehouse".job_title(job_title_id),
-	CONSTRAINT fk_warehouse_user_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_group(group_id)
+	CONSTRAINT fk_warehouse_user_group_id FOREIGN KEY (group_id) REFERENCES "e-appliance-warehouse".permission_group(group_id),
+	CONSTRAINT fk_warehouse_user_zone_id FOREIGN KEY (zone_id) REFERENCES "e-appliance-warehouse".item_zone(zone_id),
+	CONSTRAINT fk_warehouse_user_aisle_id FOREIGN KEY (aisle_id) REFERENCES "e-appliance-warehouse".item_aisle(aisle_id),
+	CONSTRAINT fk_warehouse_user_rack_id FOREIGN KEY (rack_id) REFERENCES "e-appliance-warehouse".item_rack(rack_id)
 );
 
 

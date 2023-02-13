@@ -28,8 +28,9 @@ public class PermissionGroupService {
 	// CLONE GROUP
 	public Boolean cloneGroup(Long sourceGroupId, String targetGroupName) {
 		boolean resp = false;
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 				
-		if(targetGroupName != null) {
+		if(targetGroupName != null & !targetGroupName.equals("")) {
 			resp = true;
 			PermissionGroup sourceGroup = permissionGroupRepository.getGroupById(sourceGroupId);
 			PermissionGroup targetGroup = PermissionGroup.builder()
@@ -65,8 +66,12 @@ public class PermissionGroupService {
 					.orderPickup(sourceGroup.getOrderPickup())
 					.orderPickupReadOnly(sourceGroup.getOrderPickupReadOnly())
 					.orderApproval(sourceGroup.getOrderApproval())
+					.createdUserId(sourceGroup.getCreatedUserId())
+					.createdTimestamp(sourceGroup.getCreatedTimestamp())
+					.updatedUserId("SYSTEM")
+					.updatedTimestamp(currentTimestamp)
 					.build();
-			addGroup(targetGroup);
+			permissionGroupRepository.save(targetGroup);
 		}
 		
 		return resp;
