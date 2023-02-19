@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import e_appliance_warehouse.controller.EmployeeController;
 import e_appliance_warehouse.repository.PermissionGroupRepository;
 import e_appliance_warehouse.table.PermissionGroup;
 import lombok.AllArgsConstructor;
@@ -18,9 +19,9 @@ public class PermissionGroupService {
 	// ADD NEW GROUP
 	public void addGroup(PermissionGroup group) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		group.setCreatedUserId("SYSTEM");
+		group.setCreatedUserId(EmployeeController.uId);
 		group.setCreatedTimestamp(currentTimestamp);
-		group.setUpdatedUserId("SYSTEM");
+		group.setUpdatedUserId(EmployeeController.uId);
 		group.setUpdatedTimestamp(currentTimestamp);
 		permissionGroupRepository.save(group);
 	}
@@ -68,7 +69,7 @@ public class PermissionGroupService {
 					.orderApproval(sourceGroup.getOrderApproval())
 					.createdUserId(sourceGroup.getCreatedUserId())
 					.createdTimestamp(sourceGroup.getCreatedTimestamp())
-					.updatedUserId("SYSTEM")
+					.updatedUserId(EmployeeController.uId)
 					.updatedTimestamp(currentTimestamp)
 					.build();
 			permissionGroupRepository.save(targetGroup);
@@ -95,7 +96,7 @@ public class PermissionGroupService {
 	// UPDATE GROUP
 	public void updateGroup(PermissionGroup group) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());	
-		group.setUpdatedUserId("SYSTEM");
+		group.setUpdatedUserId(EmployeeController.uId);
 		group.setUpdatedTimestamp(currentTimestamp);
 		permissionGroupRepository.save(group);
 	}

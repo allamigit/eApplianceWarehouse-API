@@ -29,7 +29,7 @@ public class PermissionGroup extends CommonColumns {
 	@Column(name = "group_id")
 	private Long groupId;
 	
-	@Column(name = "group_name", nullable = false, unique = true)
+	@Column(name = "group_name")
 	private String groupName;
 
 	// SETTINGS

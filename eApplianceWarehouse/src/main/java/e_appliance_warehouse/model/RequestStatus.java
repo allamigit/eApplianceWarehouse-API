@@ -15,8 +15,6 @@ public class RequestStatus {
 
 	private Integer statusCode;
 	
-	private HttpStatus statusName;
-	
 	private String statusDescription;
 
 }

@@ -2,6 +2,7 @@ package e_appliance_warehouse.model;
 
 import java.sql.Timestamp;
 
+import e_appliance_warehouse.table.PermissionGroup;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,9 @@ public class LoggedUser {
 	private Timestamp loginTimestamp;
 
 	private String userComment;
+	
+	private PermissionGroup permissionList;
+	
+	private RequestStatus loginStatus;
 
 }
