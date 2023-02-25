@@ -36,7 +36,7 @@ public class EmployeeService {
 		WarehouseUser newUser = WarehouseUser.builder()
 				.userId(userId)
 				.password("password1234")
-				.passwordReset(Boolean.FALSE)
+				.passwordReset(Boolean.TRUE)
 				.createdUserId(EmployeeController.uId)
 				.createdTimestamp(currentTimestamp)
 				.updatedUserId(EmployeeController.uId)
@@ -120,13 +120,29 @@ public class EmployeeService {
 	}
 	
 	// CHANGE PASSWORD
-	public void changePassword(String password, String userId) {
-		warehouseUserRepository.changePassword(password, userId);
+	public String changePassword(String userId, String oldPassword, String newPassword) {
+		userId = userId.toLowerCase();
+		WarehouseUser user = warehouseUserRepository.getUserById(userId);
+		String statusMessage = null;
+		if(user != null && oldPassword != "" && newPassword != ""
+				&& user.getUserId().equals(userId.toUpperCase()) 
+				&& user.getPassword().equals(oldPassword)
+				&& !newPassword.equals(oldPassword)) {		
+			warehouseUserRepository.changePassword(userId, newPassword);
+			statusMessage = "Password Changed Successfully";
+		} else {
+			if(userId != null && user == null) statusMessage = "Invalid Username";
+			if(user != null && !user.getPassword().equals(oldPassword)) statusMessage = "Invalid Old Password";
+			if(oldPassword != "" && newPassword != "" && newPassword.equals(oldPassword)) statusMessage = "Invalid New Password/Same Old Password";
+			if(userId == null || (user != null && oldPassword == "") || (user != null && newPassword == "")) statusMessage = "Missing Parameters";
+		}
+		
+		return statusMessage;
 	}
 	
-	// SAVE LOGIN TIMESTAMP & USER COMMENT
-	public void saveUserLoginTimestampAndComment(String loginTimestamp, String userComment, String userId) {
-		warehouseUserRepository.saveUserLoginTimestampAndComment(loginTimestamp, userComment, userId);
+	// SAVE LAST LOGIN TIMESTAMP & USER COMMENT
+	public void saveUserLastLoginTimestampAndComment(String lastLoginTimestamp, String userComment, String userId) {
+		warehouseUserRepository.saveUserLastLoginTimestampAndComment(lastLoginTimestamp, userComment, userId);
 	}
 	
 }

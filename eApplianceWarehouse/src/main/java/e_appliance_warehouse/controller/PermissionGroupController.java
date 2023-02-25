@@ -1,12 +1,10 @@
 package e_appliance_warehouse.controller;
 
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.model.RequestStatus;
+import e_appliance_warehouse.model.QueryStatus;
 import e_appliance_warehouse.service.PermissionGroupService;
 import e_appliance_warehouse.table.PermissionGroup;
 import lombok.AllArgsConstructor;
@@ -35,10 +33,10 @@ public class PermissionGroupController {
 	// ADD NEW GROUP
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping(value = "addNewGroup.wh")
-	public RequestStatus addGroup(HttpServletResponse resp, @RequestBody PermissionGroup group) {
+	public QueryStatus addGroup(HttpServletResponse resp, @RequestBody PermissionGroup group) {
 		permissionGroupService.addGroup(group);
 		
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription("New Permission Group was added: " + group.getGroupName())
 				.build();
@@ -46,7 +44,7 @@ public class PermissionGroupController {
 	
 	// CLONE GROUP 
 	@PostMapping(value = "cloneGroup.wh")
-	public RequestStatus cloneGroup(HttpServletResponse resp, 
+	public QueryStatus cloneGroup(HttpServletResponse resp, 
 			@Param(value = "sourceGroupId") Long sourceGroupId, @Param(value = "targetGroupName") String targetGroupName) 
 					throws SQLException {
 		
@@ -59,7 +57,7 @@ public class PermissionGroupController {
 			statusDescription = "Missing target Permission Group name";
 		}
 		
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription(statusDescription)
 				.build();
@@ -89,10 +87,10 @@ public class PermissionGroupController {
 	// UPDATE GROUP
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping(value = "updateGroup.wh")
-	public RequestStatus updateGroup(HttpServletResponse resp, @RequestBody PermissionGroup group) {
+	public QueryStatus updateGroup(HttpServletResponse resp, @RequestBody PermissionGroup group) {
 		permissionGroupService.updateGroup(group);
 		
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription("Permission Group was updated: " + group.getGroupName())
 				.build();
@@ -101,11 +99,11 @@ public class PermissionGroupController {
 	// DELETE GROUP BY groupID
 	@ResponseStatus(value = HttpStatus.OK)
 	@DeleteMapping(value = "deleteGroup.wh")
-	public RequestStatus deleteGroup(HttpServletResponse resp, @Param(value = "groupId") Long groupId) {
+	public QueryStatus deleteGroup(HttpServletResponse resp, @Param(value = "groupId") Long groupId) {
 		String groupName = getGroupById(groupId).getGroupName();
 		permissionGroupService.deleteGroup(groupId);
 		
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription("Permission Group was deleted: " + groupName)
 				.build();

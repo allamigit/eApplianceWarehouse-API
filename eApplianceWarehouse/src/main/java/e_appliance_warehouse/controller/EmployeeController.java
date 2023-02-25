@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import e_appliance_warehouse.model.LoggedUser;
-import e_appliance_warehouse.model.RequestStatus;
+import e_appliance_warehouse.model.QueryStatus;
 import e_appliance_warehouse.repository.JobTitleRepository;
 import e_appliance_warehouse.service.EmployeeService;
 import e_appliance_warehouse.service.PermissionGroupService;
@@ -38,16 +39,16 @@ public class EmployeeController {
 	private PermissionGroupService permissionGroupService;
 	private JobTitleRepository jobTitleRepository;
 	public static String uId;
-	public static Timestamp loginTimestamp;
+	public static Timestamp lastLoginTimestamp;
 	public static LoggedUser loggedUser;
 	
 	// ADD NEW EMPLOYEE
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping(value = "addNewEmployee.wh")
-	public RequestStatus addEmployee(HttpServletResponse resp, @RequestBody Employee employee) {		
+	public QueryStatus addEmployee(HttpServletResponse resp, @RequestBody Employee employee) {		
 		employeeService.addEmployee(employee);
 				
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription("New employee was added: " + employee.getEmpFirstName() + " " + employee.getEmpLastName())
 				.build();
@@ -98,10 +99,10 @@ public class EmployeeController {
 	// UPDATE EMPLOYEE
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping(value = "updateEmployee.wh")
-	public RequestStatus updateUser(HttpServletResponse resp, @RequestBody Employee employee) {
+	public QueryStatus updateUser(HttpServletResponse resp, @RequestBody Employee employee) {
 		employeeService.updateEmployee(employee);
 
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription("Employee was updated: " + employee.getEmpFirstName() + " " + employee.getEmpLastName())
 				.build();
@@ -110,12 +111,12 @@ public class EmployeeController {
 	// DELETE EMPLOYEE By employeeID
 	@ResponseStatus(value = HttpStatus.OK)
 	@DeleteMapping(value = "deleteEmployee.wh")
-	public RequestStatus deleteEmployee(HttpServletResponse resp, @Param("employeeId") Long employeeId) {
+	public QueryStatus deleteEmployee(HttpServletResponse resp, @Param("employeeId") Long employeeId) {
 		Employee employee = employeeService.getEmployeeById(employeeId);
 		String fullName = employee.getEmpFirstName() + " " + employee.getEmpLastName();
 		employeeService.deleteEmployee(employeeId);
 		
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription("Employee was deleted: " + fullName)
 				.build();
@@ -147,17 +148,17 @@ public class EmployeeController {
 		
 		loggedUser = null;
 		String statusMessage = null;
-		if(employeeService.userLogin(userId, password) & accountStatus) {
+		if(employeeService.userLogin(userId, password) && accountStatus) {
 			loggedUser = LoggedUser.builder()
 					.userId(userId.toUpperCase())
 					.userFullName(employee.getEmpFirstName() + " " + employee.getEmpLastName())
 					.jobTitle(jobTitleRepository.getJobTitleName(employee.getJobTitleId()))
-					.loginTimestamp(user.getLoginTimestamp())
+					.lastLoginTimestamp(user.getLastLoginTimestamp())
 					.userComment(user.getUserComment())
 					.permissionList(getUserPermissions(userId))
 					.build();
 			uId = user.getUserId();
-			loginTimestamp = new Timestamp(System.currentTimeMillis());
+			lastLoginTimestamp = new Timestamp(System.currentTimeMillis());
 			statusMessage = "Login Successful";
 		} else {
 			resp.setStatus(401);
@@ -171,7 +172,7 @@ public class EmployeeController {
 				statusMessage = "Missing Credentials";
 		}
 		
-		RequestStatus requestStatus = RequestStatus.builder()
+		QueryStatus querytStatus = QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription(statusMessage)
 				.build();
@@ -181,7 +182,7 @@ public class EmployeeController {
 					.userId(userId.toUpperCase())
 					.build();
 		}
-		loggedUser.setLoginStatus(requestStatus);
+		loggedUser.setLoginStatus(querytStatus);
 		if(loggedUser != null) req.getSession().setAttribute("currentUser", uId);
 
 		return loggedUser;
@@ -189,42 +190,44 @@ public class EmployeeController {
 	
 	// USER LOGOUT
 	@GetMapping(value = "userLogout.wh")
-	public RequestStatus userLogout(HttpServletRequest req, HttpServletResponse resp) {
+	public QueryStatus userLogout(HttpServletRequest req, HttpServletResponse resp) {
 		if(uId == null) resp.setStatus(404);
 		req.getSession().invalidate();		
 		uId = null;
 		
-		return RequestStatus.builder()
+		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
 				.statusDescription(resp.getStatus()==200?"Logout Successful":"Logout Failed/No Session Found")
 				.build();
 	}
 	
+	// CHANGE PASSWORD
+	@PatchMapping(value = "changePassword.wh")
+	public QueryStatus changePassword(HttpServletResponse resp, 
+			@Param("userId") String userId, 
+			@Param("oldPassword") String oldPassword, 
+			@Param("newPassword") String newPassword) {
+		
+		return QueryStatus.builder()
+				.statusCode(resp.getStatus())
+				.statusDescription(employeeService.changePassword(userId, oldPassword, newPassword))
+				.build();
+	}
+	
+	// SAVE LAST LOGIN TIMESTAMP & USER COMMENT
+	@PatchMapping(value = "saveUserLastLoginTimestampAndComment.wh")
+	public void saveUserLastLoginTimestampAndComment(
+			@Param("lastLoginTimestamp") String lastLoginTimestamp, 
+			@Param("userComment") String userComment, 
+			@Param("userId") String userId) {
+		employeeService.saveUserLastLoginTimestampAndComment(lastLoginTimestamp, userComment, userId);
+	}
+	
 	// GET USER PERMISSIONS
-	@ResponseStatus(value = HttpStatus.OK)
-	@GetMapping(value = "getUserPermissions.wh")
-	public PermissionGroup getUserPermissions(@Param("userId") String userId) {
+	private PermissionGroup getUserPermissions(String userId) {
 		Long groupId = employeeService.getEmployeeByUserId(userId).getGroupId();
 		PermissionGroup group = permissionGroupService.getGroupById(groupId);
 		return group;
-	}
-	
-	// CHANGE PASSWORD
-	@ResponseStatus(value = HttpStatus.OK)
-	@PutMapping(value = "changePassword.wh")
-	public String changePassword(@Param("password") String password, @Param("userId") String userId) {
-		employeeService.changePassword(password, userId);
-		return "Password changed successfully";
-	}
-	
-	// SAVE LOGIN TIMESTAMP & USER COMMENT
-	@ResponseStatus(value = HttpStatus.OK)
-	@PutMapping(value = "saveUserLoginTimestampAndComment.wh")
-	public void saveUserLoginTimestampAndComment(
-			@Param("loginTimestamp") String loginTimestamp, 
-			@Param("userComment") String userComment, 
-			@Param("userId") String userId) {
-		employeeService.saveUserLoginTimestampAndComment(loginTimestamp, userComment, userId);
 	}
 	
 }

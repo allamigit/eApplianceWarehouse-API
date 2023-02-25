@@ -72,12 +72,6 @@ public class Customer extends CommonColumns {
 	@Column(name = "cc_number")
 	private String ccNumber;
 	
-	@Column(name = "cc_expiry_date")
-	private LocalDate ccExpiryDate;
-
-	@Column(name = "cc_security_code")
-	private String ccSecurityCode;
-	
 	@Column(name = "customer_comment")
 	private String customerComment;
 	

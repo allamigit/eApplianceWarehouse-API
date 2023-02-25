@@ -20,12 +20,12 @@ public class LoggedUser {
 
 	private String jobTitle;
 
-	private Timestamp loginTimestamp;
+	private Timestamp lastLoginTimestamp;
 
 	private String userComment;
 	
 	private PermissionGroup permissionList;
 	
-	private RequestStatus loginStatus;
+	private QueryStatus loginStatus;
 
 }

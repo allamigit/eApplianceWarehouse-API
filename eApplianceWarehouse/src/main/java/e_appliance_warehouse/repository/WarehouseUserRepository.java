@@ -25,13 +25,13 @@ public interface WarehouseUserRepository extends JpaRepository <WarehouseUser, S
 	// Change Password
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE WarehouseUser SET password = ?1, passwordReset = false WHERE LOWER(userId) = LOWER(?2)")
-	public void changePassword(String password, String userId);
+	@Query(value = "UPDATE WarehouseUser SET password = ?2, passwordReset = false WHERE LOWER(userId) = LOWER(?1)")
+	public void changePassword(String userId, String newPassword);
 
-	// Save Login Timestamp & User Comment
+	// Save Last Login Timestamp & User Comment
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE WarehouseUser SET loginTimestamp = ?1, userComment = ?2 WHERE LOWER(userId) = LOWER(?3)")
-	public void saveUserLoginTimestampAndComment(String loginTimestamp, String userComment, String userId);
+	@Query(value = "UPDATE WarehouseUser SET lastLoginTimestamp = ?1, userComment = ?2 WHERE LOWER(userId) = LOWER(?3)")
+	public void saveUserLastLoginTimestampAndComment(String lastLoginTimestamp, String userComment, String userId);
 
 }

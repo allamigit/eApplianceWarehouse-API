@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestStatus {
+public class QueryStatus {
 
 	private Integer statusCode;
 	

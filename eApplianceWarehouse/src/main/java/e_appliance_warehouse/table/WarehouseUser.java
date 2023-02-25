@@ -43,8 +43,8 @@ public class WarehouseUser extends CommonColumns {
 	@Column(name = "rack_id")
 	private Long rackId;
 
-	@Column(name = "login_timestamp")
-	private Timestamp loginTimestamp;
+	@Column(name = "last_login_timestamp")
+	private Timestamp lastLoginTimestamp;
 	
 	@Column(name = "user_comment")
 	private String userComment;

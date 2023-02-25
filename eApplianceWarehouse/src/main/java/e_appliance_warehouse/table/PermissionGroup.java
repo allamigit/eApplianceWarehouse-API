@@ -54,6 +54,24 @@ public class PermissionGroup extends CommonColumns {
 	@Column(name = "general_config_readonly")
 	private Boolean generalConfigReadOnly;
 	
+	@Column(name = "employees")
+	private Boolean employees;
+	
+	@Column(name = "employees_readonly")
+	private Boolean employeesReadOnly;
+	
+	@Column(name = "customers")
+	private Boolean customers;
+	
+	@Column(name = "customers_readonly")
+	private Boolean customersReadOnly;
+	
+	@Column(name = "payments")
+	private Boolean payments;
+	
+	@Column(name = "payments_readonly")
+	private Boolean paymentsReadOnly;
+	
 	// STOCK
 	@Column(name = "stock")
 	private Boolean stock;
