@@ -1,9 +1,11 @@
 package e_appliance_warehouse.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import e_appliance_warehouse.controller.EmployeeController;
 import e_appliance_warehouse.repository.EmployeeRepository;
 import e_appliance_warehouse.repository.WarehouseUserRepository;
 import e_appliance_warehouse.table.Employee;
@@ -18,21 +20,32 @@ public class EmployeeService {
 	private WarehouseUserRepository warehouseUserRepository;
 	
 	// ADD NEW EMPLOYEE
-	public void addEmployee(Employee employee, String password) {
-		employee.setEmployeeEmail(employee.getEmployeeEmail().toLowerCase());
+	public void addEmployee(Employee employee) {
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		employee.setAccountStatus(Boolean.TRUE);
+		employee.setEmployeeEmail(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com");
+		employee.setCreatedUserId(EmployeeController.uId);
+		employee.setCreatedTimestamp(currentTimestamp);
+		employee.setUpdatedUserId(EmployeeController.uId);
+		employee.setUpdatedTimestamp(currentTimestamp);
 		employeeRepository.save(employee);
 		
-		Employee emp = getEmployeeByFirstAndLastName(employee.getEmpFirstName(), employee.getEmpLastName());
+		employee = getEmployeeByFirstAndLastName(employee.getEmpFirstName(), employee.getEmpLastName());
+		String userId = employee.getEmpFirstName().substring(0, 1).toUpperCase() + "-" + employee.getEmployeeId();
+		
 		WarehouseUser newUser = WarehouseUser.builder()
-				.userId(emp.getEmpFirstName().substring(0, 1).toLowerCase() + "-" + emp.getEmployeeId())
-				.userFullName(emp.getEmpFirstName() + " " + emp.getEmpLastName())
-				.password(password)
-				.passwordReset(false)
-				.jobTitle(emp.getJobTitle())
-				.permissionGroup(emp.getPermissionGroup()).accountStatus(true)
+				.userId(userId)
+				.password("password1234")
+				.passwordReset(Boolean.TRUE)
+				.createdUserId(EmployeeController.uId)
+				.createdTimestamp(currentTimestamp)
+				.updatedUserId(EmployeeController.uId)
+				.updatedTimestamp(currentTimestamp)
 				.build();
-		System.out.println(newUser);
 		warehouseUserRepository.save(newUser);
+
+		employee.setUserId(userId);
+		employeeRepository.save(employee);
 	}
 	
 	// GET ALL EMPLOYEES
@@ -55,6 +68,11 @@ public class EmployeeService {
 		return employeeRepository.getEmployeeById(employeeId);
 	}
 	
+	// GET EMPLOYEE BY userID
+	public Employee getEmployeeByUserId(String userId) {
+		return employeeRepository.getEmployeeByUserId(userId);
+	}
+	
 	// GET EMPLOYEE BY empFirstName (OR CONTAINS PART OF THE NAME)
 	public List<Employee> getEmployeeByFirstName(String empFirstName) {
 		return employeeRepository.getEmployeeByFirstName(empFirstName);
@@ -67,7 +85,10 @@ public class EmployeeService {
 	
 	// UPDATE EMPLOYEE
 	public void updateEmployee(Employee employee) {
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		employee.setEmployeeEmail(employee.getEmployeeEmail().toLowerCase());
+		employee.setUpdatedUserId(EmployeeController.uId);
+		employee.setUpdatedTimestamp(currentTimestamp);
 		employeeRepository.save(employee);
 	}
 	
@@ -76,6 +97,11 @@ public class EmployeeService {
 		employeeRepository.deleteEmployee(employeeId);
 	}
 
+	// GET ALL USERS
+	public List<WarehouseUser> getAllUsers() {
+		return warehouseUserRepository.getAllUsers();
+	}
+	
 	// GET USER BY userID
 	public WarehouseUser getUserById(String userId) {
 		return warehouseUserRepository.getUserById(userId);
@@ -86,23 +112,37 @@ public class EmployeeService {
 		boolean resp = false;
 		WarehouseUser user = getUserById(userId);
 		
-		if(user != null) {
-			if(user.getUserId().equalsIgnoreCase(userId) & user.getPassword().equals(password)) {
+		if(user != null) 
+			if(user.getUserId().equalsIgnoreCase(userId) & user.getPassword().equals(password)) 
 				resp = true;
-			}
-		}
-		
+					
 		return resp;
 	}
 	
 	// CHANGE PASSWORD
-	public void changePassword(String password, String userId) {
-		warehouseUserRepository.changePassword(password, userId);
+	public String changePassword(String userId, String oldPassword, String newPassword) {
+		userId = userId.toLowerCase();
+		WarehouseUser user = warehouseUserRepository.getUserById(userId);
+		String statusMessage = null;
+		if(user != null && oldPassword != "" && newPassword != ""
+				&& user.getUserId().equals(userId.toUpperCase()) 
+				&& user.getPassword().equals(oldPassword)
+				&& !newPassword.equals(oldPassword)) {		
+			warehouseUserRepository.changePassword(userId, newPassword);
+			statusMessage = "Password Changed Successfully";
+		} else {
+			if(userId != null && user == null) statusMessage = "Invalid Username";
+			if(user != null && !user.getPassword().equals(oldPassword)) statusMessage = "Invalid Old Password";
+			if(oldPassword != "" && newPassword != "" && newPassword.equals(oldPassword)) statusMessage = "Invalid New Password/Same Old Password";
+			if(userId == null || (user != null && oldPassword == "") || (user != null && newPassword == "")) statusMessage = "Missing Parameters";
+		}
+		
+		return statusMessage;
 	}
 	
-	// SAVE LOGIN TIMESTAMP & USER COMMENT
-	public void saveUserLoginTimestampAndComment(String loginTimestamp, String userComment, String userId) {
-		warehouseUserRepository.saveUserLoginTimestampAndComment(loginTimestamp, userComment, userId);
+	// SAVE LAST LOGIN TIMESTAMP & USER COMMENT
+	public void saveUserLastLoginTimestampAndComment(String lastLoginTimestamp, String userComment, String userId) {
+		warehouseUserRepository.saveUserLastLoginTimestampAndComment(lastLoginTimestamp, userComment, userId);
 	}
 	
 }

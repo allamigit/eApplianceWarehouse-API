@@ -29,7 +29,7 @@ public interface PermissionGroupRepository extends JpaRepository<PermissionGroup
 	// Delete Group by groupID
 	@Transactional
 	@Modifying
-	@Query(value = "DELETE FROM PermissionGroup p WHERE groupId = ?1")
+	@Query(value = "DELETE FROM PermissionGroup WHERE groupId = ?1")
 	public void deleteGroup(Long groupId);
 
 }

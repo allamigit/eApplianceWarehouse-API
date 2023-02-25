@@ -48,7 +48,7 @@ public class Customer extends CommonColumns {
 	@Column(name= "customer_zip")
 	private String customerZip;
 	
-	@Column(name= "customer_phone", unique = true)
+	@Column(name= "customer_phone")
 	private String customerPhone;
 	
 	@Column(name= "customer_email")
@@ -69,7 +69,13 @@ public class Customer extends CommonColumns {
 	@Column(name = "tax_exempt_end_date")
 	private LocalDate taxExemptEndDate;
 
-	@Column(name = "account_status", nullable = false)
+	@Column(name = "cc_number")
+	private String ccNumber;
+	
+	@Column(name = "customer_comment")
+	private String customerComment;
+	
+	@Column(name = "account_status")
 	private Boolean accountStatus;
 
 }

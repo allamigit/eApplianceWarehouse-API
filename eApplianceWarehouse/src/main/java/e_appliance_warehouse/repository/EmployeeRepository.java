@@ -30,18 +30,22 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	@Query(value = "SELECT e FROM Employee e WHERE employeeId = ?1")
 	public Employee getEmployeeById(Long employeeId);
 
+	// Get Employee by userID
+	@Query(value = "SELECT e FROM Employee e WHERE LOWER(userId) = LOWER(?1)")
+	public Employee getEmployeeByUserId(String userId);
+
 	// Get Employee by empFirstName (or if contains part of the name)
 	@Query(value = "SELECT e FROM Employee e WHERE LOWER(empFirstName) LIKE %?1% ORDER BY empFirstName ASC")
 	public List<Employee> getEmployeeByFirstName(String empFirstName);
 
 	// Get Employee by empFirstName and empLastName
-	@Query(value = "SELECT e FROM Employee e WHERE empFirstName = ?1 AND empLastName = ?2")
+	@Query(value = "SELECT e FROM Employee e WHERE LOWER(empFirstName) = LOWER(?1) AND LOWER(empLastName) = LOWER(?2)")
 	public Employee getEmployeeByFirstAndLastName(String empFirstName, String empLastName);
 
 	// Delete Employee by employeeID
 	@Transactional
 	@Modifying
-	@Query(value = "DELETE FROM Employee e WHERE employeeId = ?1")
+	@Query(value = "DELETE FROM Employee WHERE employeeId = ?1")
 	public void deleteEmployee(Long employeeId);
 
 }

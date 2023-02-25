@@ -3,15 +3,11 @@ package e_appliance_warehouse.table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -38,10 +34,10 @@ public class Employee extends CommonColumns {
 	@Column(name = "employee_id")
 	private Long employeeId;
 	
-	@Column(name = "first_name", nullable = false)
+	@Column(name = "first_name")
 	private String empFirstName;
 
-	@Column(name = "last_name", nullable = false)
+	@Column(name = "last_name")
 	private String empLastName;
 
 	@Column(name= "employee_address")
@@ -56,19 +52,17 @@ public class Employee extends CommonColumns {
 	@Column(name= "employee_zip")
 	private String employeeZip;
 
-	@Column(name = "employee_phone", nullable = false, unique = true)
+	@Column(name = "employee_phone")
 	private String employeePhone;
 
-	@Column(name = "employee_email", nullable = false, unique = true)
+	@Column(name = "employee_email")
 	private String employeeEmail;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "job_title_id", nullable = false)
-	private JobTitle jobTitle;
+	@Column(name = "job_title_id")
+	private Long jobTitleId;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "employment_type_id", nullable = false)
-	private EmploymentType employmentType;
+	@Column(name = "employment_type_id")
+	private Long employmentTypeId;
 	
 	@Column(name = "report_to")
 	private Long reportTo;
@@ -79,33 +73,22 @@ public class Employee extends CommonColumns {
 	@Column(name = "end_date")
 	private LocalDate endDate;
 	
-	@Column(name = "annual_compensation", precision = 10, scale = 2, nullable = false)
+	@Column(name = "annual_compensation")
 	private BigDecimal annualCompensation;
 	
-	@Column(name = "hourly_rate", precision = 10, scale = 2)
+	@Column(name = "hourly_rate")
 	private BigDecimal hourlyRate;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "payroll_type_id", nullable = false)
-	private PayrollType payrollType;
+	@Column(name = "payroll_type_id")
+	private Long payrollTypeId;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "group_id")
-	private PermissionGroup permissionGroup;
+	@Column(name = "group_id")
+	private Long groupId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "zone_id")
-	private ItemZone itemZone;
+	@Column(name = "user_id")
+	private String userId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "aisle_id")
-	private ItemAisle itemAisle;
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "rack_id")
-	private ItemRack itemRack;
-
-	@Column(name = "account_status", nullable = false)
+	@Column(name = "account_status")
 	private Boolean accountStatus;
 
 }

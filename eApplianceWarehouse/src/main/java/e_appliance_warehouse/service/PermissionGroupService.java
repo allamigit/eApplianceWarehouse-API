@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import e_appliance_warehouse.controller.EmployeeController;
 import e_appliance_warehouse.repository.PermissionGroupRepository;
 import e_appliance_warehouse.table.PermissionGroup;
 import lombok.AllArgsConstructor;
@@ -18,9 +19,9 @@ public class PermissionGroupService {
 	// ADD NEW GROUP
 	public void addGroup(PermissionGroup group) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		group.setCreatedUserId("SYSTEM");
+		group.setCreatedUserId(EmployeeController.uId);
 		group.setCreatedTimestamp(currentTimestamp);
-		group.setUpdatedUserId("SYSTEM");
+		group.setUpdatedUserId(EmployeeController.uId);
 		group.setUpdatedTimestamp(currentTimestamp);
 		permissionGroupRepository.save(group);
 	}
@@ -28,8 +29,9 @@ public class PermissionGroupService {
 	// CLONE GROUP
 	public Boolean cloneGroup(Long sourceGroupId, String targetGroupName) {
 		boolean resp = false;
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 				
-		if(targetGroupName != null) {
+		if(targetGroupName != null & !targetGroupName.equals("")) {
 			resp = true;
 			PermissionGroup sourceGroup = permissionGroupRepository.getGroupById(sourceGroupId);
 			PermissionGroup targetGroup = PermissionGroup.builder()
@@ -65,8 +67,12 @@ public class PermissionGroupService {
 					.orderPickup(sourceGroup.getOrderPickup())
 					.orderPickupReadOnly(sourceGroup.getOrderPickupReadOnly())
 					.orderApproval(sourceGroup.getOrderApproval())
+					.createdUserId(sourceGroup.getCreatedUserId())
+					.createdTimestamp(sourceGroup.getCreatedTimestamp())
+					.updatedUserId(EmployeeController.uId)
+					.updatedTimestamp(currentTimestamp)
 					.build();
-			addGroup(targetGroup);
+			permissionGroupRepository.save(targetGroup);
 		}
 		
 		return resp;
@@ -90,7 +96,7 @@ public class PermissionGroupService {
 	// UPDATE GROUP
 	public void updateGroup(PermissionGroup group) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());	
-		group.setUpdatedUserId("SYSTEM");
+		group.setUpdatedUserId(EmployeeController.uId);
 		group.setUpdatedTimestamp(currentTimestamp);
 		permissionGroupRepository.save(group);
 	}
