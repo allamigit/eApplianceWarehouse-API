@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,8 @@ public class WarehouseUser extends CommonColumns {
 	@Column(name = "passwd")
 	private String password;
 	
-	@Column(name = "passwd_reset")
-	private Boolean passwordReset;
+	@Column(name = "reset_passwd")
+	private Boolean resetPassword;
 	
 	@Column(name = "zone_id")
 	private Long zoneId;

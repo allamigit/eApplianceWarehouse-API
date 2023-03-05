@@ -1,4 +1,4 @@
-package e_appliance_warehouse.table;
+package e_appliance_warehouse.table.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -100,6 +100,10 @@ insert into job_title (job_title_name, created_user_id, created_timestamp, updat
 	values ('Secretary', 'SYSTEM', now(), 'SYSTEM', now());
 insert into job_title (job_title_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
 	values ('Trainee', 'SYSTEM', now(), 'SYSTEM', now());
+insert into job_title (job_title_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Accounting Manager', 'SYSTEM', now(), 'SYSTEM', now());
+insert into job_title (job_title_name, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('Accounting Clerk', 'SYSTEM', now(), 'SYSTEM', now());
 
 --select * from job_title;
 
@@ -131,7 +135,7 @@ insert into payroll_type (payroll_type_name, created_user_id, created_timestamp,
 
 -- General_Config Table
 insert into general_config values ('OH-COL-1', 'eApplianceWarehouse', '123 ABC Street', 'Columbus', 'Ohio', '12345', 
-'123-456-7890', 'info@eappwh.com', 'www.eappwh.com', 7.5, 10, 'SYSTEM', now(), 'SYSTEM', now(), null);
+'123-456-7890', 'info@eappwh.com', 'www.eappwh.com', 7.5, 10, null, null, 10.0, 'SYSTEM', now(), 'SYSTEM', now(), null);
 
 --select * from general_config;
 
@@ -144,5 +148,5 @@ insert into order_number values ('PURCHASE_ORDER', 5100);
 
 -- Permission-Group Table
 insert into permission_group
-	(group_name, settings, users, users_readonly, permission_groups, permission_groups_readonly, general_config, general_config_readonly, employees, employees_readonly, customers, customers_readonly, payments, payments_readonly, stock, new_stock, cost_price, cost_price_readonly, stock_delete, stock_update, stock_info, sales_order, all_orders, order_cost, order_change_price, order_delete, order_update, new_order, order_current_user, order_other_user_readonly, order_other_user_open, order_other_user_find, order_info, order_invoice, order_payment, order_pickup, order_pickup_readonly, order_approval, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
-	values ('SYSTEM_ADMIN', true, true, false, true, false, true, false, true, false, true, false, true, false, true, true, true, false, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, false, false, 'SYSTEM', now(), 'SYSTEM', now());
+	(group_name, settings, users, users_readonly, permission_groups, permission_groups_readonly, general_config, general_config_readonly, employees, employees_readonly, customers, customers_readonly, payments, payments_readonly, stock, new_stock, cost_price, cost_price_readonly, stock_delete, stock_update, stock_info, sales_order, all_orders, order_cost, order_change_price, order_delete, order_update, new_order, order_current_user, order_other_user_readonly, order_other_user_open, order_other_user_find, order_info, order_invoice, order_payment, order_pickup, order_pickup_readonly, order_approval, order_refund, order_restocking_fee, created_user_id, created_timestamp, updated_user_id, updated_timestamp)
+	values ('SYSTEM_ADMIN', true, true, false, true, false, true, false, true, false, true, false, true, false, true, true, true, false, true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, true, true, true, false, false, true, true, 'SYSTEM', now(), 'SYSTEM', now());

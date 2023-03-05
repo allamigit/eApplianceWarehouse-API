@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import e_appliance_warehouse.controller.EmployeeController;
+import e_appliance_warehouse.controller.WarehouseUserController;
 import e_appliance_warehouse.repository.PermissionGroupRepository;
 import e_appliance_warehouse.table.PermissionGroup;
 import lombok.AllArgsConstructor;
@@ -19,9 +19,9 @@ public class PermissionGroupService {
 	// ADD NEW GROUP
 	public void addGroup(PermissionGroup group) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		group.setCreatedUserId(EmployeeController.uId);
+		group.setCreatedUserId(WarehouseUserController.uId);
 		group.setCreatedTimestamp(currentTimestamp);
-		group.setUpdatedUserId(EmployeeController.uId);
+		group.setUpdatedUserId(WarehouseUserController.uId);
 		group.setUpdatedTimestamp(currentTimestamp);
 		permissionGroupRepository.save(group);
 	}
@@ -31,9 +31,9 @@ public class PermissionGroupService {
 		boolean resp = false;
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 				
-		if(targetGroupName != null & !targetGroupName.equals("")) {
+		PermissionGroup sourceGroup = permissionGroupRepository.getGroupById(sourceGroupId);
+		if(sourceGroup != null && targetGroupName != null && !targetGroupName.equals("")) {
 			resp = true;
-			PermissionGroup sourceGroup = permissionGroupRepository.getGroupById(sourceGroupId);
 			PermissionGroup targetGroup = PermissionGroup.builder()
 					.groupName(targetGroupName)
 					.settings(sourceGroup.getSettings())
@@ -69,7 +69,7 @@ public class PermissionGroupService {
 					.orderApproval(sourceGroup.getOrderApproval())
 					.createdUserId(sourceGroup.getCreatedUserId())
 					.createdTimestamp(sourceGroup.getCreatedTimestamp())
-					.updatedUserId(EmployeeController.uId)
+					.updatedUserId(WarehouseUserController.uId)
 					.updatedTimestamp(currentTimestamp)
 					.build();
 			permissionGroupRepository.save(targetGroup);
@@ -94,16 +94,28 @@ public class PermissionGroupService {
 	}
 	
 	// UPDATE GROUP
-	public void updateGroup(PermissionGroup group) {
+	public Boolean updateGroup(PermissionGroup group) {
+		boolean resp = false;
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());	
-		group.setUpdatedUserId(EmployeeController.uId);
-		group.setUpdatedTimestamp(currentTimestamp);
-		permissionGroupRepository.save(group);
+		if(permissionGroupRepository.getGroupById(group.getGroupId()) != null) {
+			resp = true;
+			group.setUpdatedUserId(WarehouseUserController.uId);
+			group.setUpdatedTimestamp(currentTimestamp);
+			permissionGroupRepository.save(group);
+		}
+		
+		return resp;
 	}
 		
 	// DELETE GROUP BY groupID
-	public void deleteGroup(Long groupId) {
-		permissionGroupRepository.deleteGroup(groupId);
+	public Boolean deleteGroup(Long groupId) {
+		boolean resp = false;
+		if(permissionGroupRepository.getGroupById(groupId) != null) {
+			resp = true;
+			permissionGroupRepository.deleteGroup(groupId);
+		}
+		
+		return resp;
 	}
 
 }

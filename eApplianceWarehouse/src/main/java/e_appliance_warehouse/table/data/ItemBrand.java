@@ -1,4 +1,4 @@
-package e_appliance_warehouse.table;
+package e_appliance_warehouse.table.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,30 +8,31 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "item_aisle")
+@Table(name = "item_brand")
 @Data
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemAisle extends CommonColumns {
+public class ItemBrand extends CommonColumns {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "aisleseq", sequenceName = "item_aisle_seq", initialValue = 531, allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aisleseq")
-	@Column(name = "aisle_id")
-	private Long aisleId;
+	@SequenceGenerator(name = "brandseq", sequenceName = "item_brand_seq", initialValue = 401, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "brandseq")
+	@Column(name = "brand_id")
+	private Long brandId;
 
-	@Column(name = "aisle_name", nullable = false, unique = true)
-	private String aisleName;
+	@Column(name = "brand_name", nullable = false, unique = true)
+	private String brandName;
 	
 }

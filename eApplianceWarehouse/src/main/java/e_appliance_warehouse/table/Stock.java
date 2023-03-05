@@ -3,18 +3,15 @@ package e_appliance_warehouse.table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,16 +35,14 @@ public class Stock extends CommonColumns {
 	@Column(name = "item_code")
 	private Long itemCode;
 	
-	@Column(name = "item_name", nullable = false, unique = true)
+	@Column(name = "item_name")
 	private String itemName;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "color_id")
-	private ItemColor itemColor;
+	@Column(name = "color_id")
+	private Long colorId;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "brand_id")
-	private ItemBrand itemBrand;
+	@Column(name = "brand_id")
+	private Long brandId;
 	
 	@Column(name = "item_photo")
 	private Byte[] itemPhoto;
@@ -58,43 +53,37 @@ public class Stock extends CommonColumns {
 	@Column(name = "size_unit")
 	private String sizeUnit;
 	
-	@Column(name = "item_qty", nullable = false)
+	@Column(name = "item_qty")
 	private Integer itemQTY;
 	
 	@Column(name = "item_weight")
 	private Double itemWeight;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "zone_id")
-	private ItemZone itemZone;
+	@Column(name = "zone_id")
+	private Long zoneId;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "aisle_id")
-	private ItemAisle itemAisle;
+	@Column(name = "aisle_id")
+	private Long aisleId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "rack_id")
-	private ItemRack itemRack;
+	@Column(name = "rack_id")
+	private Long rackId;
 
-	@Column(name = "cost_price", precision = 10, scale = 2, nullable = false)
+	@Column(name = "cost_price")
 	private BigDecimal costPrice;
 	
-	@Column(name = "selling_price", precision = 10, scale = 2, nullable = false)
+	@Column(name = "selling_price")
 	private BigDecimal sellingPrice;
 	
-	@Column(name = "new_selling_price", precision = 10, scale = 2)
+	@Column(name = "new_selling_price")
 	private BigDecimal newSellingPrice;
 	
 	@Column(name = "new_price_eff_date")
 	private LocalDate newPriceEffectiveDate;
 	
-	@Column(name = "sale_price", precision = 10, scale = 2)
+	@Column(name = "sale_price")
 	private BigDecimal salePrice;
 	
-	@Column(name = "item_defect_status")
-	private Boolean itemDefectStatus;
-	
-	@Column(name = "item_list_status", nullable = false)
+	@Column(name = "item_list_status")
 	private Boolean itemListStatus;
 	
 	@Column(name = "tax_status")

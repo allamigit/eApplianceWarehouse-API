@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import e_appliance_warehouse.controller.EmployeeController;
+import e_appliance_warehouse.controller.WarehouseUserController;
 import e_appliance_warehouse.repository.EmployeeRepository;
 import e_appliance_warehouse.repository.WarehouseUserRepository;
 import e_appliance_warehouse.table.Employee;
@@ -24,9 +24,9 @@ public class EmployeeService {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		employee.setAccountStatus(Boolean.TRUE);
 		employee.setEmployeeEmail(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com");
-		employee.setCreatedUserId(EmployeeController.uId);
+		employee.setCreatedUserId(WarehouseUserController.uId);
 		employee.setCreatedTimestamp(currentTimestamp);
-		employee.setUpdatedUserId(EmployeeController.uId);
+		employee.setUpdatedUserId(WarehouseUserController.uId);
 		employee.setUpdatedTimestamp(currentTimestamp);
 		employeeRepository.save(employee);
 		
@@ -36,10 +36,10 @@ public class EmployeeService {
 		WarehouseUser newUser = WarehouseUser.builder()
 				.userId(userId)
 				.password("password1234")
-				.passwordReset(Boolean.TRUE)
-				.createdUserId(EmployeeController.uId)
+				.resetPassword(Boolean.TRUE)
+				.createdUserId(WarehouseUserController.uId)
 				.createdTimestamp(currentTimestamp)
-				.updatedUserId(EmployeeController.uId)
+				.updatedUserId(WarehouseUserController.uId)
 				.updatedTimestamp(currentTimestamp)
 				.build();
 		warehouseUserRepository.save(newUser);
@@ -84,65 +84,31 @@ public class EmployeeService {
 	}
 	
 	// UPDATE EMPLOYEE
-	public void updateEmployee(Employee employee) {
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		employee.setEmployeeEmail(employee.getEmployeeEmail().toLowerCase());
-		employee.setUpdatedUserId(EmployeeController.uId);
-		employee.setUpdatedTimestamp(currentTimestamp);
-		employeeRepository.save(employee);
-	}
-	
-	// DELETE EMPLOYEE By employeeID
-	public void deleteEmployee(Long employeeId) {
-		employeeRepository.deleteEmployee(employeeId);
-	}
-
-	// GET ALL USERS
-	public List<WarehouseUser> getAllUsers() {
-		return warehouseUserRepository.getAllUsers();
-	}
-	
-	// GET USER BY userID
-	public WarehouseUser getUserById(String userId) {
-		return warehouseUserRepository.getUserById(userId);
-	}
-	
-	// USER LOGIN
-	public Boolean userLogin(String userId, String password) {
+	public Boolean updateEmployee(Employee employee) {
 		boolean resp = false;
-		WarehouseUser user = getUserById(userId);
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		if(employeeRepository.getEmployeeById(employee.getEmployeeId()) != null) {
+			resp = true;
+			employee.setEmployeeEmail(employee.getEmployeeEmail().toLowerCase());
+			employee.setUpdatedUserId(WarehouseUserController.uId);
+			employee.setUpdatedTimestamp(currentTimestamp);
+			employeeRepository.save(employee);
+		}
 		
-		if(user != null) 
-			if(user.getUserId().equalsIgnoreCase(userId) & user.getPassword().equals(password)) 
-				resp = true;
-					
 		return resp;
 	}
 	
-	// CHANGE PASSWORD
-	public String changePassword(String userId, String oldPassword, String newPassword) {
-		userId = userId.toLowerCase();
-		WarehouseUser user = warehouseUserRepository.getUserById(userId);
-		String statusMessage = null;
-		if(user != null && oldPassword != "" && newPassword != ""
-				&& user.getUserId().equals(userId.toUpperCase()) 
-				&& user.getPassword().equals(oldPassword)
-				&& !newPassword.equals(oldPassword)) {		
-			warehouseUserRepository.changePassword(userId, newPassword);
-			statusMessage = "Password Changed Successfully";
-		} else {
-			if(userId != null && user == null) statusMessage = "Invalid Username";
-			if(user != null && !user.getPassword().equals(oldPassword)) statusMessage = "Invalid Old Password";
-			if(oldPassword != "" && newPassword != "" && newPassword.equals(oldPassword)) statusMessage = "Invalid New Password/Same Old Password";
-			if(userId == null || (user != null && oldPassword == "") || (user != null && newPassword == "")) statusMessage = "Missing Parameters";
+	// DELETE EMPLOYEE By employeeID
+	public Boolean deleteEmployee(Long employeeId) {
+		boolean resp = false;
+		Employee employee = employeeRepository.getEmployeeById(employeeId);
+		if(employee != null) {
+			resp = true;
+			employeeRepository.deleteEmployee(employeeId);
+			warehouseUserRepository.deleteUser(employee.getUserId());
 		}
 		
-		return statusMessage;
-	}
-	
-	// SAVE LAST LOGIN TIMESTAMP & USER COMMENT
-	public void saveUserLastLoginTimestampAndComment(String lastLoginTimestamp, String userComment, String userId) {
-		warehouseUserRepository.saveUserLastLoginTimestampAndComment(lastLoginTimestamp, userComment, userId);
+		return resp;
 	}
 	
 }
