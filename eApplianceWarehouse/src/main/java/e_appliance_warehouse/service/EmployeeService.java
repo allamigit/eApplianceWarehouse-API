@@ -10,6 +10,8 @@ import e_appliance_warehouse.repository.EmployeeRepository;
 import e_appliance_warehouse.repository.WarehouseUserRepository;
 import e_appliance_warehouse.table.Employee;
 import e_appliance_warehouse.table.WarehouseUser;
+import e_appliance_warehouse.util.TextUtil;
+import e_appliance_warehouse.util.PasswordUtil;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -22,8 +24,10 @@ public class EmployeeService {
 	// ADD NEW EMPLOYEE
 	public void addEmployee(Employee employee) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		employee.setEmployeeAddress(TextUtil.encryptText(employee.getEmployeeAddress()));
+		employee.setEmployeePhone(TextUtil.encryptText(employee.getEmployeePhone()));
+		employee.setEmployeeEmail(TextUtil.encryptText(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com"));
 		employee.setAccountStatus(Boolean.TRUE);
-		employee.setEmployeeEmail(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com");
 		employee.setCreatedUserId(WarehouseUserController.uId);
 		employee.setCreatedTimestamp(currentTimestamp);
 		employee.setUpdatedUserId(WarehouseUserController.uId);
@@ -35,7 +39,7 @@ public class EmployeeService {
 		
 		WarehouseUser newUser = WarehouseUser.builder()
 				.userId(userId)
-				.password("password1234")
+				.password(PasswordUtil.hashPassword("password1234"))
 				.resetPassword(Boolean.TRUE)
 				.createdUserId(WarehouseUserController.uId)
 				.createdTimestamp(currentTimestamp)
@@ -50,37 +54,37 @@ public class EmployeeService {
 	
 	// GET ALL EMPLOYEES
 	public List<Employee> getAllEmployees() {
-		return employeeRepository.getAllEmployees();
+		return prepareResponseList(employeeRepository.getAllEmployees());
 	}
 	
 	// GET INACTIVE EMPLOYEES
 	public List<Employee> getInactiveEmployees() {
-		return employeeRepository.getInactiveEmployees();
+		return prepareResponseList(employeeRepository.getInactiveEmployees());
 	}
 	
 	// GET ACTIVE EMPLOYEES
 	public List<Employee> getActiveEmployees() {
-		return employeeRepository.getActiveEmployees();
+		return prepareResponseList(employeeRepository.getActiveEmployees());
 	}	
 	
 	// GET EMPLOYEE BY employeeID
 	public Employee getEmployeeById(Long employeeId) {
-		return employeeRepository.getEmployeeById(employeeId);
+		return prepareResponse(employeeRepository.getEmployeeById(employeeId));
 	}
 	
 	// GET EMPLOYEE BY userID
 	public Employee getEmployeeByUserId(String userId) {
-		return employeeRepository.getEmployeeByUserId(userId);
+		return prepareResponse(employeeRepository.getEmployeeByUserId(userId));
 	}
 	
 	// GET EMPLOYEE BY empFirstName (OR CONTAINS PART OF THE NAME)
 	public List<Employee> getEmployeeByFirstName(String empFirstName) {
-		return employeeRepository.getEmployeeByFirstName(empFirstName);
+		return prepareResponseList(employeeRepository.getEmployeeByFirstName(empFirstName));
 	}
 	
 	// GET EMPLOYEE BY empFirstName AND empLastName
 	public Employee getEmployeeByFirstAndLastName(String empFirstName, String empLastName) {
-		return employeeRepository.getEmployeeByFirstAndLastName(empFirstName, empLastName);
+		return prepareResponse(employeeRepository.getEmployeeByFirstAndLastName(empFirstName, empLastName));
 	}
 	
 	// UPDATE EMPLOYEE
@@ -89,7 +93,9 @@ public class EmployeeService {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		if(employeeRepository.getEmployeeById(employee.getEmployeeId()) != null) {
 			resp = true;
-			employee.setEmployeeEmail(employee.getEmployeeEmail().toLowerCase());
+			employee.setEmployeeAddress(TextUtil.encryptText(employee.getEmployeeAddress()));
+			employee.setEmployeePhone(TextUtil.encryptText(employee.getEmployeePhone()));
+			employee.setEmployeeEmail(TextUtil.encryptText(employee.getEmployeeEmail().toLowerCase()));
 			employee.setUpdatedUserId(WarehouseUserController.uId);
 			employee.setUpdatedTimestamp(currentTimestamp);
 			employeeRepository.save(employee);
@@ -111,4 +117,34 @@ public class EmployeeService {
 		return resp;
 	}
 	
+	//** PREPARE/UPDATE EMPLOYEE LIST
+	private List<Employee> prepareResponseList(List<Employee> employeeList) {
+		for(int i=0; i<employeeList.size(); i++) {
+			employeeList.get(i).setEmployeeAddress(TextUtil.decryptText(employeeList.get(i).getEmployeeAddress()));
+			employeeList.get(i).setEmployeePhone(TextUtil.decryptText(employeeList.get(i).getEmployeePhone()));
+			employeeList.get(i).setEmployeeEmail(TextUtil.decryptText(employeeList.get(i).getEmployeeEmail()));
+			if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
+				employeeList.get(i).setAnnualCompensation(null);
+				employeeList.get(i).setHourlyRate(null);
+				employeeList.get(i).setPayrollTypeId(null);
+			}
+		}
+		
+		return employeeList;
+	}
+	
+	//** PREPARE/UPDATE EMPLOYEE OBJECT
+	private Employee prepareResponse(Employee employee) {
+		employee.setEmployeeAddress(TextUtil.decryptText(employee.getEmployeeAddress()));
+		employee.setEmployeePhone(TextUtil.decryptText(employee.getEmployeePhone()));
+		employee.setEmployeeEmail(TextUtil.decryptText(employee.getEmployeeEmail()));
+		if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
+			employee.setAnnualCompensation(null);
+			employee.setHourlyRate(null);
+			employee.setPayrollTypeId(null);
+		}
+		
+		return employee;
+	}
+
 }

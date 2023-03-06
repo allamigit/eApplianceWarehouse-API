@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import e_appliance_warehouse.controller.WarehouseUserController;
 import e_appliance_warehouse.repository.WarehouseUserRepository;
 import e_appliance_warehouse.table.WarehouseUser;
+import e_appliance_warehouse.util.PasswordUtil;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -47,14 +48,15 @@ public class WarehouseUserService {
 		String statusMessage = null;
 		if(user != null && oldPassword != "" && newPassword != ""
 				&& user.getUserId().equals(userId.toUpperCase()) 
-				&& user.getPassword().equals(oldPassword)
-				&& !newPassword.equals(oldPassword)) {		
-			warehouseUserRepository.changePassword(userId, newPassword);
+				&& PasswordUtil.validatePassword(oldPassword, user.getPassword())
+				&& !PasswordUtil.validatePassword(oldPassword, PasswordUtil.hashPassword(newPassword))) {		
+			warehouseUserRepository.changePassword(userId, PasswordUtil.hashPassword(newPassword));
 			statusMessage = "Password Changed Successfully";
 		} else {
 			if(userId != null && user == null) statusMessage = "Invalid Username";
-			if(user != null && !user.getPassword().equals(oldPassword)) statusMessage = "Invalid Old Password";
-			if(oldPassword != "" && newPassword != "" && newPassword.equals(oldPassword)) statusMessage = "Invalid New Password/Same Old Password";
+			if(user != null && !PasswordUtil.validatePassword(oldPassword, user.getPassword())) statusMessage = "Invalid Old Password";
+			if(oldPassword != "" && newPassword != "" && 
+					PasswordUtil.validatePassword(oldPassword, PasswordUtil.hashPassword(newPassword))) statusMessage = "Invalid New Password/Same Old Password";
 			if(userId == null || (user != null && oldPassword == "") || (user != null && newPassword == "")) statusMessage = "Missing Parameters";
 		}
 		
@@ -82,7 +84,7 @@ public class WarehouseUserService {
 		boolean resp = false;
 		WarehouseUser user = getUserById(userId);
 		
-		if(user != null && user.getUserId().equalsIgnoreCase(userId) && user.getPassword().equals(password)) 
+		if(user != null && user.getUserId().equalsIgnoreCase(userId) && PasswordUtil.validatePassword(password, user.getPassword())) 
 			resp = true;
 					
 		return resp;

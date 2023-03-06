@@ -39,6 +39,9 @@ public class SalesOrder extends CommonColumns {
 	@Column(name = "order_po")
 	private String orderPO;
 	
+	@Column(name = "order_approval_status")
+	private Boolean orderApprovalStatus;
+
 	@Column(name = "approver_id")
 	private Long approverId;
 	

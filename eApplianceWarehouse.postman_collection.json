@@ -1,0 +1,1235 @@
+{
+	"info": {
+		"_postman_id": "88865d8d-6ce4-41a2-ac76-82f33a2d4633",
+		"name": "eApplianceWarehouse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PERMISSION GROUP",
+			"item": [
+				{
+					"name": "Add New Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"groupId\": 0,\r\n    \"groupName\": \"SYSTEM_ADMIN\",\r\n    \"settings\": true,\r\n    \"users\": true,\r\n    \"usersReadOnly\": false,\r\n    \"permissionGroups\": true,\r\n    \"permissionGroupsReadOnly\": false,\r\n    \"generalConfig\": true,\r\n    \"generalConfigReadOnly\": false,\r\n    \"employees\": true,\r\n    \"employeesReadOnly\": false,\r\n    \"customers\": true,\r\n    \"customerssReadOnly\": false,\r\n    \"payments\": true,\r\n    \"paymentsReadOnly\": false,\r\n    \"stock\": true,\r\n    \"newStock\": true,\r\n    \"costPrice\": true,\r\n    \"costPriceReadOnly\": false,\r\n    \"stockDelete\": true,\r\n    \"stockUpdate\": true,\r\n    \"stockInfo\": true,\r\n    \"salesOrder\": true,\r\n    \"allOrders\": true,\r\n    \"orderCost\": true,\r\n    \"orderChangePrice\": true,\r\n    \"orderDelete\": true,\r\n    \"orderUpdate\": true,\r\n    \"newOrder\": true,\r\n    \"orderCurrentUser\": false,\r\n    \"orderOtherUserReadOnly\": false,\r\n    \"orderOtherUserOpen\": true,\r\n    \"orderOtherUserFind\": true,\r\n    \"orderInfo\": true,\r\n    \"orderInvoice\": true,\r\n    \"orderPayment\": true,\r\n    \"orderPickup\": true,\r\n    \"orderPickupReadOnly\": false,\r\n    \"orderApproval\": false,\r\n    \"orderRefund\": true,\r\n    \"orderRestockingFee\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/permission-group/addNewGroup.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"permission-group",
+								"addNewGroup.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clone Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/permission-group/cloneGroup.wh?sourceGroupId=5&targetGroupName=STOCK_CLERK_2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"permission-group",
+								"cloneGroup.wh"
+							],
+							"query": [
+								{
+									"key": "sourceGroupId",
+									"value": "5"
+								},
+								{
+									"key": "targetGroupName",
+									"value": "STOCK_CLERK_2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/permission-group/getAllGroups.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"permission-group",
+								"getAllGroups.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Group by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/permission-group/getGroup.wh?groupId=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"permission-group",
+								"getGroup.wh"
+							],
+							"query": [
+								{
+									"key": "groupId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Group by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/permission-group/getGroupByName.wh?groupName=sale",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"permission-group",
+								"getGroupByName.wh"
+							],
+							"query": [
+								{
+									"key": "groupName",
+									"value": "sale"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"groupId\": 4,\r\n    \"groupName\": \"SALES_REP\",\r\n    \"settings\": false,\r\n    \"users\": false,\r\n    \"usersReadOnly\": false,\r\n    \"permissionGroups\": false,\r\n    \"permissionGroupsReadOnly\": false,\r\n    \"generalConfig\": false,\r\n    \"generalConfigReadOnly\": false,\r\n    \"employees\": false,\r\n    \"employeesReadOnly\": false,\r\n    \"customers\": false,\r\n    \"customerssReadOnly\": false,\r\n    \"payments\": false,\r\n    \"paymentsReadOnly\": false,\r\n    \"stock\": true,\r\n    \"newStock\": false,\r\n    \"costPrice\": false,\r\n    \"costPriceReadOnly\": false,\r\n    \"stockDelete\": false,\r\n    \"stockUpdate\": false,\r\n    \"stockInfo\": true,\r\n    \"salesOrder\": true,\r\n    \"allOrders\": true,\r\n    \"orderCost\": false,\r\n    \"orderChangePrice\": true,\r\n    \"orderDelete\": false,\r\n    \"orderUpdate\": true,\r\n    \"newOrder\": true,\r\n    \"orderCurrentUser\": true,\r\n    \"orderOtherUserReadOnly\": true,\r\n    \"orderOtherUserOpen\": false,\r\n    \"orderOtherUserFind\": true,\r\n    \"orderInfo\": true,\r\n    \"orderInvoice\": true,\r\n    \"orderPayment\": true,\r\n    \"orderPickup\": true,\r\n    \"orderPickupReadOnly\": false,\r\n    \"orderApproval\": false,\r\n    \"orderRefund\": false,\r\n    \"orderRestockingFee\": false,\r\n    \"createdUserId\": \"SYSTEM\",\r\n    \"createdTimestamp\": \"2023-02-11T23:17:52.583\",\r\n    \"updatedUserId\": \"SYSTEM\",\r\n    \"updatedTimestamp\": \"2023-02-11T23:17:52.583\",\r\n    \"updateSummary\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/permission-group/updateGroup.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"permission-group",
+								"updateGroup.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/permission-group/deleteGroup.wh?groupId=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"permission-group",
+								"deleteGroup.wh"
+							],
+							"query": [
+								{
+									"key": "groupId",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EMPLOYEE",
+			"item": [
+				{
+					"name": "Add New Employee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeId\": 0,\r\n    \"empFirstName\": \"Luis\",\r\n    \"empLastName\": \"Garcia\",\r\n    \"employeeAddress\": \"7703 Sun Shine Blvd\",\r\n    \"employeeCity\": \"Columbus\",\r\n    \"employeeState\": \"Ohio\",\r\n    \"employeeZip\": \"85451\",\r\n    \"employeePhone\": \"(832) 321-8989\",\r\n    \"jobTitleId\": 228,\r\n    \"employmentTypeId\": 242,\r\n    \"reportTo\": null,\r\n    \"startDate\": null,\r\n    \"endDate\": null,\r\n    \"annualCompensation\": 52000.00,\r\n    \"hourlyRate\": 25.00,\r\n    \"payrollTypeId\": 261,\r\n    \"groupId\": 5,\r\n    \"userId\": null,\r\n    \"accountStatus\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/addNewEmployee.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"addNewEmployee.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/getAllEmployees.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"getAllEmployees.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inactive Employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/getInactiveEmployees.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"getInactiveEmployees.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/getActiveEmployees.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"getActiveEmployees.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/getEmployee.wh?employeeId=102",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"getEmployee.wh"
+							],
+							"query": [
+								{
+									"key": "employeeId",
+									"value": "102"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee by firstName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/getEmployeeByName.wh?empFirstName=an",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"getEmployeeByName.wh"
+							],
+							"query": [
+								{
+									"key": "empFirstName",
+									"value": "an"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee by fullName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/getEmployeeByFullName.wh?empFirstName=frank&empLastName=jackson",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"getEmployeeByFullName.wh"
+							],
+							"query": [
+								{
+									"key": "empFirstName",
+									"value": "frank"
+								},
+								{
+									"key": "empLastName",
+									"value": "jackson"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeId\": 102,\r\n    \"empFirstName\": \"Frank\",\r\n    \"empLastName\": \"Jackson\",\r\n    \"employeeAddress\": \"123 Main Street\",\r\n    \"employeeCity\": \"Columbus\",\r\n    \"employeeState\": \"Ohio\",\r\n    \"employeeZip\": \"15904\",\r\n    \"employeePhone\": \"(832) 321-6633\",\r\n    \"employeeEmail\": \"frank.jackson@eappwh.com\",\r\n    \"jobTitleId\": 224,\r\n    \"employmentTypeId\": 241,\r\n    \"reportTo\": null,\r\n    \"startDate\": null,\r\n    \"endDate\": null,\r\n    \"annualCompensation\": 72800.00,\r\n    \"hourlyRate\": 35.00,\r\n    \"payrollTypeId\": 262,\r\n    \"groupId\": 3,\r\n    \"accountStatus\": true,\r\n    \"createdUserId\": \"SYSTEM\",\r\n    \"createdTimestamp\": \"2023-02-15T04:14:45.585+00:00\",\r\n    \"updatedUserId\": \"SYSTEM\",\r\n    \"updatedTimestamp\": \"2023-02-15T04:14:45.585+00:00\",\r\n    \"updateSummary\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/updateEmployee.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"updateEmployee.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/employee/deleteEmployee.wh?employeeId=109",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"employee",
+								"deleteEmployee.wh"
+							],
+							"query": [
+								{
+									"key": "employeeId",
+									"value": "109"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/listAllUsers.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"listAllUsers.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/getUser.wh?userId=r-103",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"getUser.wh"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "r-103"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"M-101\",\r\n    \"password\": \"pass1234\",\r\n    \"resetPassword\": false,\r\n    \"zoneId\": null,\r\n    \"aisleId\": null,\r\n    \"rackId\": null,\r\n    \"lastLoginTimestamp\": \"2023-03-04T20:55:11.067+00:00\",\r\n    \"userComment\": \"Test User Comment\",\r\n    \"createdUserId\": \"SYSTEM\",\r\n    \"createdTimestamp\": \"2023-03-04T20:55:11.067+00:00\",\r\n    \"updatedUserId\": \"SYSTEM\",\r\n    \"updatedTimestamp\": \"2023-03-04T20:55:11.067+00:00\",\r\n    \"updateSummary\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/updateUser.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"updateUser.wh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/changePassword.wh?userId=m-101&oldPassword=pass1234&newPassword=pass123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"changePassword.wh"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "m-101"
+								},
+								{
+									"key": "oldPassword",
+									"value": "pass1234"
+								},
+								{
+									"key": "newPassword",
+									"value": "pass123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/resetPassword.wh?userId=m-101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"resetPassword.wh"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "m-101"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Last Login and Comment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/saveUserLastLoginTimestampAndComment.wh?userId=m-101&userComment=Test User Comment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"saveUserLastLoginTimestampAndComment.wh"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "m-101"
+								},
+								{
+									"key": "userComment",
+									"value": "Test User Comment"
+								},
+								{
+									"key": "newPassword",
+									"value": "pass123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeId\": 0,\r\n    \"empFirstName\": \"Luis\",\r\n    \"empLastName\": \"Garcia\",\r\n    \"employeeAddress\": \"7703 Sun Shine Blvd\",\r\n    \"employeeCity\": \"Columbus\",\r\n    \"employeeState\": \"Ohio\",\r\n    \"employeeZip\": \"85451\",\r\n    \"employeePhone\": \"(832) 321-8989\",\r\n    \"jobTitleId\": 228,\r\n    \"employmentTypeId\": 242,\r\n    \"reportTo\": null,\r\n    \"startDate\": null,\r\n    \"endDate\": null,\r\n    \"annualCompensation\": 52000.00,\r\n    \"hourlyRate\": 25.00,\r\n    \"payrollTypeId\": 261,\r\n    \"groupId\": 5,\r\n    \"userId\": null,\r\n    \"accountStatus\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/userLogin.wh?userId=m-101&password=pass1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"userLogin.wh"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "m-101"
+								},
+								{
+									"key": "password",
+									"value": "pass1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/e-appliance-warehouse/user/userLogout.wh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"e-appliance-warehouse",
+								"user",
+								"userLogout.wh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CUSTOMER",
+			"item": []
+		},
+		{
+			"name": "STOCK",
+			"item": [
+				{
+					"name": "Add New Stock Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"itemId\": 0,\r\n    \"itemName\": \"ITEM-4\",\r\n    \"itemSize\": 60,\r\n    \"sizeUnit\": \"IN\",\r\n    \"itemQTY\": 4,\r\n    \"costPrice\": 320.0,\r\n    \"salePrice\": 400.0,\r\n    \"itemStatus\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Stock Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Stock Active Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/active",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Stock Inactive Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/inactive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"inactive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stock Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/getStockItem.iwh:Id=102",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"getStockItem.iwh:Id=102"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stock Item by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/item/name=-3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"item",
+								"name=-3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Stock Item by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/item/active=-2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"item",
+								"active=-2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Number of Orders for a Stock Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/count/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"count",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Stock Item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"itemId\": 110,\r\n    \"itemName\": \"ITEM-5\",\r\n    \"itemSize\": 55,\r\n    \"sizeUnit\": \"IN\",\r\n    \"itemQTY\": 4,\r\n    \"costPrice\": 290.0,\r\n    \"salePrice\": 370.0,\r\n    \"itemStatus\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Sale Price",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/updateSalePrice.iwh:Id=102&Percent=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"updateSalePrice.iwh:Id=102&Percent=10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Stock Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/stock/delete/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"stock",
+								"delete",
+								"101"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SALES ORDER",
+			"item": [
+				{
+					"name": "Add New Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": 0,\r\n    \"orderDate\": \"2021-07-04\",\r\n    \"customerName\": \"Customer-6\",\r\n    \"orderComment\": \"\",\r\n    \"pickupComment\": \"\",\r\n    \"invoiceComment\": \"\",\r\n    \"orderTotal\": 0,\r\n    \"orderCost\": 0,\r\n    \"createdUser\": \"\",\r\n    \"createdBy\": \"\",\r\n    \"updatedBy\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/Electronics/order/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"order",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/order/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"order",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/order/id=6101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"order",
+								"id=6101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order by Customer Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/order/name=ER",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"order",
+								"name=ER"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": 6105,\r\n    \"orderDate\": \"2021-03-31\",\r\n    \"customerName\": \"CUSTOMER-45\",\r\n    \"orderTotal\": 21.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/Electronics/order/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"order",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/order/cancel/6105",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"order",
+								"cancel",
+								"6105"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SALES ORDER ITEMS",
+			"item": [
+				{
+					"name": "Add New Order Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"itemSEQ\": 0,\r\n    \"saleOrder\": {\r\n        \"orderId\": 6106,\r\n        \"orderDate\": \"2021-03-30\",\r\n        \"customerName\": \"CUSTOMER-3\",\r\n        \"orderTotal\": 0\r\n    },\r\n    \"stock\": {\r\n        \"itemId\": 101,\r\n        \"itemName\": \"ITEM-1\",\r\n        \"itemSize\": 7.0,\r\n        \"sizeUnit\": \"FT\",\r\n        \"itemQTY\": 14,\r\n        \"costPrice\": 12.0,\r\n        \"salePrice\": 18.0,\r\n        \"itemStatus\": true\r\n    },\r\n    \"soldQTY\": 1,\r\n    \"unitPrice\": 0,\r\n    \"subtotal\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/Electronics/orderItems/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"orderItems",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Sale Order Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/orderItems/6101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"orderItems",
+								"6101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/orderItems/item/6106:101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"orderItems",
+								"item",
+								"6106:101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order Item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/orderItems/update/6106:101:3:18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"orderItems",
+								"update",
+								"6106:101:3:18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Order Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Electronics/orderItems/remove/6106:102",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Electronics",
+								"orderItems",
+								"remove",
+								"6106:102"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PICKUP",
+			"item": []
+		},
+		{
+			"name": "PAYMENT",
+			"item": []
+		},
+		{
+			"name": "DATA",
+			"item": []
+		}
+	]
+}

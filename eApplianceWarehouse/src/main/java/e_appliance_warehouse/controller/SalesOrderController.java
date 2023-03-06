@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import e_appliance_warehouse.excel.SalesOrderListExcel;
 import e_appliance_warehouse.service.SalesOrderService;
 import e_appliance_warehouse.table.SalesOrder;
+import e_appliance_warehouse.util.SalesOrderExcelUtil;
 import lombok.AllArgsConstructor;
 
 @RestController

@@ -143,7 +143,7 @@ public class EmployeeController {
 	
 	// DELETE EMPLOYEE By employeeID
 	@DeleteMapping(value = "deleteEmployee.wh")
-	public QueryStatus deleteEmployee(HttpServletResponse resp, @RequestParam(name = "employeeId") Long employeeId) {
+	public QueryStatus deleteEmployee(HttpServletResponse resp, @RequestParam(name = "employeeId") Long employeeId) throws Exception {
 		Employee employee = employeeService.getEmployeeById(employeeId);
 		String fullName = employee.getEmpFirstName() + " " + employee.getEmpLastName();
 		employeeService.deleteEmployee(employeeId);

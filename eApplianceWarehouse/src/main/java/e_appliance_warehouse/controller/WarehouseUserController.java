@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import e_appliance_warehouse.model.LoggedUser;
 import e_appliance_warehouse.model.QueryStatus;
 import e_appliance_warehouse.model.WarehouseUserResponse;
+import e_appliance_warehouse.repository.EmployeeRepository;
 import e_appliance_warehouse.repository.JobTitleRepository;
-import e_appliance_warehouse.service.EmployeeService;
 import e_appliance_warehouse.service.PermissionGroupService;
 import e_appliance_warehouse.service.WarehouseUserService;
 import e_appliance_warehouse.table.Employee;
@@ -36,7 +36,7 @@ public class WarehouseUserController {
 
 	private WarehouseUserService warehouseUserService;
 	private PermissionGroupService permissionGroupService;
-	private EmployeeService employeeService;
+	private EmployeeRepository employeeRepository;
 	private JobTitleRepository jobTitleRepository;
 	
 	public static String uId;
@@ -126,12 +126,12 @@ public class WarehouseUserController {
 		boolean accountStatus = false;
 		userId = userId.toLowerCase();
 		WarehouseUser user = warehouseUserService.getUserById(userId);
-		Employee employee = employeeService.getEmployeeByUserId(userId);
+		Employee employee = employeeRepository.getEmployeeByUserId(userId);
 		if(user != null) accountStatus = employee.getAccountStatus();
 		
 		loggedUser = null;
 		String statusDescription = null;
-		if(warehouseUserService.userLogin(userId, password) && accountStatus  && !user.getResetPassword()) {
+		if(warehouseUserService.userLogin(userId, password) && accountStatus && !user.getResetPassword()) {
 			loggedUser = LoggedUser.builder()
 					.userId(userId.toUpperCase())
 					.userFullName(employee.getEmpFirstName() + " " + employee.getEmpLastName())
@@ -139,7 +139,7 @@ public class WarehouseUserController {
 					.loginTimestamp(new Timestamp(System.currentTimeMillis()))
 					.lastLoginTimestamp(user.getLastLoginTimestamp())
 					.userComment(user.getUserComment())
-					.permissionList(permissionGroupService.getGroupById(employeeService.getEmployeeByUserId(userId).getGroupId()))
+					.permissionList(permissionGroupService.getGroupById(employee.getGroupId()))
 					.build();
 			uId = user.getUserId();
 			lastLoginTimestamp = new Timestamp(System.currentTimeMillis());

@@ -10,7 +10,7 @@ public class eApplianceWarehouse implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(eApplianceWarehouse.class, args);
 		
-		System.out.println("\n ... eApplianceWarehouse API started ...\n");
+        System.out.println("\n ... eApplianceWarehouse API started ...\n");
 	}
 
 	@Override

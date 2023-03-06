@@ -73,6 +73,12 @@ public class PermissionGroup extends CommonColumns {
 	@Column(name = "payments_readonly")
 	private Boolean paymentsReadOnly;
 	
+	@Column(name = "reports")
+	private Boolean reports;
+	
+	@Column(name = "reports_public")
+	private Boolean reportsPublic;
+	
 	// STOCK
 	@Column(name = "stock")
 	private Boolean stock;
