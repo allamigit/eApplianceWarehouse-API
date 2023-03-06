@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;

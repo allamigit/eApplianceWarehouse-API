@@ -1,10 +1,13 @@
-package e_appliance_warehouse.table;
+package e_appliance_warehouse.table.data;
+
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
@@ -41,7 +44,7 @@ public class GeneralConfig extends CommonColumns {
 	@Column(name= "company_zip")
 	private String companyZip;
 	
-	@Column(name= "company_phone", unique = true)
+	@Column(name= "company_phone")
 	private String companyPhone;
 	
 	@Column(name= "company_email")
@@ -50,10 +53,19 @@ public class GeneralConfig extends CommonColumns {
 	@Column(name= "company_website")
 	private String companyWebsite;
 	
-	@Column(name = "sales_tax_percent", nullable = false)
+	@Column(name = "sales_tax_percent")
 	private Double salesTaxPercent;
 
-	@Column(name = "min_stock_item_qty", nullable = false)
+	@Column(name = "min_stock_item_qty")
 	private Integer minStockItemQTY;
+
+	@Column(name = "admin_fee_percent")
+	private Double adminFeePercent;
+
+	@Column(name = "admin_fee_amount")
+	private BigDecimal adminFeeAmount;
+
+	@Column(name = "restocking_fee_percent")
+	private Double restockingFeePercent;
 
 }

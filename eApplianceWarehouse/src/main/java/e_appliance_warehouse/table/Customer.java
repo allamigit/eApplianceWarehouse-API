@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -69,9 +70,12 @@ public class Customer extends CommonColumns {
 	@Column(name = "tax_exempt_end_date")
 	private LocalDate taxExemptEndDate;
 
-	@Column(name = "cc_number")
-	private String ccNumber;
+	@Column(name = "payment_account_number")
+	private String paymentAccountNumber;
 	
+	@Column(name = "auto_pay")
+	private Boolean autoPay;
+
 	@Column(name = "customer_comment")
 	private String customerComment;
 	

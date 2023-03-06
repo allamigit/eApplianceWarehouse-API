@@ -1,5 +1,8 @@
 package e_appliance_warehouse.model;
 
+import java.util.List;
+
+import e_appliance_warehouse.table.PermissionGroup;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +12,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueryStatus {
-
-	private Integer statusCode;
+public class PermissionGroupResponse {
 	
-	private String statusDescription;
+	private QueryStatus queryStatus;
+	
+	private List<PermissionGroup> queryResult;
 
 }

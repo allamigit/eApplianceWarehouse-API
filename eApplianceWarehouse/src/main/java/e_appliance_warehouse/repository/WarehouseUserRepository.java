@@ -1,5 +1,6 @@
 package e_appliance_warehouse.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -25,13 +26,25 @@ public interface WarehouseUserRepository extends JpaRepository <WarehouseUser, S
 	// Change Password
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE WarehouseUser SET password = ?2, passwordReset = false WHERE LOWER(userId) = LOWER(?1)")
+	@Query(value = "UPDATE WarehouseUser SET password = ?2, resetPassword = false WHERE LOWER(userId) = LOWER(?1)")
 	public void changePassword(String userId, String newPassword);
+
+	// Reset Password
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE WarehouseUser SET resetPassword = true WHERE LOWER(userId) = LOWER(?1)")
+	public void resetPassword(String userId);
 
 	// Save Last Login Timestamp & User Comment
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE WarehouseUser SET lastLoginTimestamp = ?1, userComment = ?2 WHERE LOWER(userId) = LOWER(?3)")
-	public void saveUserLastLoginTimestampAndComment(String lastLoginTimestamp, String userComment, String userId);
+	@Query(value = "UPDATE WarehouseUser SET lastLoginTimestamp = ?2, userComment = ?3 WHERE LOWER(userId) = LOWER(?1)")
+	public void saveUserLastLoginTimestampAndComment(String userId, Timestamp lastLoginTimestamp, String userComment);
+
+	// Delete User by userID
+	@Transactional
+	@Modifying
+	@Query(value = "DELETE FROM WarehouseUser WHERE LOWER(userId) = LOWER(?1)")
+	public void deleteUser(String userId);
 
 }

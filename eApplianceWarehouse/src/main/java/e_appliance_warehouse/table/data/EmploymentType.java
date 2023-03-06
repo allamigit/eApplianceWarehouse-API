@@ -1,4 +1,4 @@
-package e_appliance_warehouse.table;
+package e_appliance_warehouse.table.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;

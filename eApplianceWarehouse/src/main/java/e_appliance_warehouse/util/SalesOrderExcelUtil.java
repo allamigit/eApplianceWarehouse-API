@@ -1,4 +1,4 @@
-package e_appliance_warehouse.excel;
+package e_appliance_warehouse.util;
 
 import java.io.IOException;
 import java.util.Date;
@@ -16,13 +16,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import e_appliance_warehouse.table.SalesOrder;
 
-public class SalesOrderListExcel {
+public class SalesOrderExcelUtil {
 	
 	private XSSFWorkbook workbook;
     private XSSFSheet sheet;
     private List<SalesOrder> saleOrder;
     
-	public SalesOrderListExcel(List<SalesOrder> saleOrder) {
+	public SalesOrderExcelUtil(List<SalesOrder> saleOrder) {
 		this.saleOrder = saleOrder;
 		workbook = new XSSFWorkbook();
 	}

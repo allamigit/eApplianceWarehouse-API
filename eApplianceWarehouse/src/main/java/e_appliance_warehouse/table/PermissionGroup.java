@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import e_appliance_warehouse.model.CommonColumns;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -71,6 +72,12 @@ public class PermissionGroup extends CommonColumns {
 	
 	@Column(name = "payments_readonly")
 	private Boolean paymentsReadOnly;
+	
+	@Column(name = "reports")
+	private Boolean reports;
+	
+	@Column(name = "reports_public")
+	private Boolean reportsPublic;
 	
 	// STOCK
 	@Column(name = "stock")
@@ -145,5 +152,11 @@ public class PermissionGroup extends CommonColumns {
 	
 	@Column(name = "order_approval")
 	private Boolean orderApproval;
+
+	@Column(name = "order_refund")
+	private Boolean orderRefund;
+
+	@Column(name = "order_restocking_fee")
+	private Boolean orderRestockingFee;
 
 }

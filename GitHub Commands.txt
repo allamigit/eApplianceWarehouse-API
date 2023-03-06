@@ -1,0 +1,8 @@
+
+git checkout dev
+
+git add [--all]
+
+git commit - am " "
+
+git push [--all]

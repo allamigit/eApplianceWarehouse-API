@@ -1,5 +1,8 @@
 package e_appliance_warehouse.model;
 
+import java.util.List;
+
+import e_appliance_warehouse.table.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +12,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueryStatus {
+public class EmployeeResponse {
 
-	private Integer statusCode;
+	private QueryStatus queryStatus;
 	
-	private String statusDescription;
+	private List<Employee> queryResult;
 
 }

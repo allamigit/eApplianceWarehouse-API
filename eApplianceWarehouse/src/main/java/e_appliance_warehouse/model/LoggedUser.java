@@ -14,11 +14,15 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class LoggedUser {
 
+	private QueryStatus loginStatus;
+
 	private String userId;
 	
 	private String userFullName;
 
 	private String jobTitle;
+
+	private Timestamp loginTimestamp;
 
 	private Timestamp lastLoginTimestamp;
 
@@ -26,6 +30,4 @@ public class LoggedUser {
 	
 	private PermissionGroup permissionList;
 	
-	private QueryStatus loginStatus;
-
 }

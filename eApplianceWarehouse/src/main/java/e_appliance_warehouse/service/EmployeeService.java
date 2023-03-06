@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import e_appliance_warehouse.controller.EmployeeController;
+import e_appliance_warehouse.controller.WarehouseUserController;
 import e_appliance_warehouse.repository.EmployeeRepository;
 import e_appliance_warehouse.repository.WarehouseUserRepository;
 import e_appliance_warehouse.table.Employee;
 import e_appliance_warehouse.table.WarehouseUser;
+import e_appliance_warehouse.util.TextUtil;
+import e_appliance_warehouse.util.PasswordUtil;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -22,11 +24,13 @@ public class EmployeeService {
 	// ADD NEW EMPLOYEE
 	public void addEmployee(Employee employee) {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		employee.setEmployeeAddress(TextUtil.encryptText(employee.getEmployeeAddress()));
+		employee.setEmployeePhone(TextUtil.encryptText(employee.getEmployeePhone()));
+		employee.setEmployeeEmail(TextUtil.encryptText(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com"));
 		employee.setAccountStatus(Boolean.TRUE);
-		employee.setEmployeeEmail(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com");
-		employee.setCreatedUserId(EmployeeController.uId);
+		employee.setCreatedUserId(WarehouseUserController.uId);
 		employee.setCreatedTimestamp(currentTimestamp);
-		employee.setUpdatedUserId(EmployeeController.uId);
+		employee.setUpdatedUserId(WarehouseUserController.uId);
 		employee.setUpdatedTimestamp(currentTimestamp);
 		employeeRepository.save(employee);
 		
@@ -35,11 +39,11 @@ public class EmployeeService {
 		
 		WarehouseUser newUser = WarehouseUser.builder()
 				.userId(userId)
-				.password("password1234")
-				.passwordReset(Boolean.TRUE)
-				.createdUserId(EmployeeController.uId)
+				.password(PasswordUtil.hashPassword("password1234"))
+				.resetPassword(Boolean.TRUE)
+				.createdUserId(WarehouseUserController.uId)
 				.createdTimestamp(currentTimestamp)
-				.updatedUserId(EmployeeController.uId)
+				.updatedUserId(WarehouseUserController.uId)
 				.updatedTimestamp(currentTimestamp)
 				.build();
 		warehouseUserRepository.save(newUser);
@@ -50,99 +54,97 @@ public class EmployeeService {
 	
 	// GET ALL EMPLOYEES
 	public List<Employee> getAllEmployees() {
-		return employeeRepository.getAllEmployees();
+		return prepareResponseList(employeeRepository.getAllEmployees());
 	}
 	
 	// GET INACTIVE EMPLOYEES
 	public List<Employee> getInactiveEmployees() {
-		return employeeRepository.getInactiveEmployees();
+		return prepareResponseList(employeeRepository.getInactiveEmployees());
 	}
 	
 	// GET ACTIVE EMPLOYEES
 	public List<Employee> getActiveEmployees() {
-		return employeeRepository.getActiveEmployees();
+		return prepareResponseList(employeeRepository.getActiveEmployees());
 	}	
 	
 	// GET EMPLOYEE BY employeeID
 	public Employee getEmployeeById(Long employeeId) {
-		return employeeRepository.getEmployeeById(employeeId);
+		return prepareResponse(employeeRepository.getEmployeeById(employeeId));
 	}
 	
 	// GET EMPLOYEE BY userID
 	public Employee getEmployeeByUserId(String userId) {
-		return employeeRepository.getEmployeeByUserId(userId);
+		return prepareResponse(employeeRepository.getEmployeeByUserId(userId));
 	}
 	
 	// GET EMPLOYEE BY empFirstName (OR CONTAINS PART OF THE NAME)
 	public List<Employee> getEmployeeByFirstName(String empFirstName) {
-		return employeeRepository.getEmployeeByFirstName(empFirstName);
+		return prepareResponseList(employeeRepository.getEmployeeByFirstName(empFirstName));
 	}
 	
 	// GET EMPLOYEE BY empFirstName AND empLastName
 	public Employee getEmployeeByFirstAndLastName(String empFirstName, String empLastName) {
-		return employeeRepository.getEmployeeByFirstAndLastName(empFirstName, empLastName);
+		return prepareResponse(employeeRepository.getEmployeeByFirstAndLastName(empFirstName, empLastName));
 	}
 	
 	// UPDATE EMPLOYEE
-	public void updateEmployee(Employee employee) {
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		employee.setEmployeeEmail(employee.getEmployeeEmail().toLowerCase());
-		employee.setUpdatedUserId(EmployeeController.uId);
-		employee.setUpdatedTimestamp(currentTimestamp);
-		employeeRepository.save(employee);
-	}
-	
-	// DELETE EMPLOYEE By employeeID
-	public void deleteEmployee(Long employeeId) {
-		employeeRepository.deleteEmployee(employeeId);
-	}
-
-	// GET ALL USERS
-	public List<WarehouseUser> getAllUsers() {
-		return warehouseUserRepository.getAllUsers();
-	}
-	
-	// GET USER BY userID
-	public WarehouseUser getUserById(String userId) {
-		return warehouseUserRepository.getUserById(userId);
-	}
-	
-	// USER LOGIN
-	public Boolean userLogin(String userId, String password) {
+	public Boolean updateEmployee(Employee employee) {
 		boolean resp = false;
-		WarehouseUser user = getUserById(userId);
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		if(employeeRepository.getEmployeeById(employee.getEmployeeId()) != null) {
+			resp = true;
+			employee.setEmployeeAddress(TextUtil.encryptText(employee.getEmployeeAddress()));
+			employee.setEmployeePhone(TextUtil.encryptText(employee.getEmployeePhone()));
+			employee.setEmployeeEmail(TextUtil.encryptText(employee.getEmployeeEmail().toLowerCase()));
+			employee.setUpdatedUserId(WarehouseUserController.uId);
+			employee.setUpdatedTimestamp(currentTimestamp);
+			employeeRepository.save(employee);
+		}
 		
-		if(user != null) 
-			if(user.getUserId().equalsIgnoreCase(userId) & user.getPassword().equals(password)) 
-				resp = true;
-					
 		return resp;
 	}
 	
-	// CHANGE PASSWORD
-	public String changePassword(String userId, String oldPassword, String newPassword) {
-		userId = userId.toLowerCase();
-		WarehouseUser user = warehouseUserRepository.getUserById(userId);
-		String statusMessage = null;
-		if(user != null && oldPassword != "" && newPassword != ""
-				&& user.getUserId().equals(userId.toUpperCase()) 
-				&& user.getPassword().equals(oldPassword)
-				&& !newPassword.equals(oldPassword)) {		
-			warehouseUserRepository.changePassword(userId, newPassword);
-			statusMessage = "Password Changed Successfully";
-		} else {
-			if(userId != null && user == null) statusMessage = "Invalid Username";
-			if(user != null && !user.getPassword().equals(oldPassword)) statusMessage = "Invalid Old Password";
-			if(oldPassword != "" && newPassword != "" && newPassword.equals(oldPassword)) statusMessage = "Invalid New Password/Same Old Password";
-			if(userId == null || (user != null && oldPassword == "") || (user != null && newPassword == "")) statusMessage = "Missing Parameters";
+	// DELETE EMPLOYEE By employeeID
+	public Boolean deleteEmployee(Long employeeId) {
+		boolean resp = false;
+		Employee employee = employeeRepository.getEmployeeById(employeeId);
+		if(employee != null) {
+			resp = true;
+			employeeRepository.deleteEmployee(employeeId);
+			warehouseUserRepository.deleteUser(employee.getUserId());
 		}
 		
-		return statusMessage;
+		return resp;
 	}
 	
-	// SAVE LAST LOGIN TIMESTAMP & USER COMMENT
-	public void saveUserLastLoginTimestampAndComment(String lastLoginTimestamp, String userComment, String userId) {
-		warehouseUserRepository.saveUserLastLoginTimestampAndComment(lastLoginTimestamp, userComment, userId);
+	//** PREPARE/UPDATE EMPLOYEE LIST
+	private List<Employee> prepareResponseList(List<Employee> employeeList) {
+		for(int i=0; i<employeeList.size(); i++) {
+			employeeList.get(i).setEmployeeAddress(TextUtil.decryptText(employeeList.get(i).getEmployeeAddress()));
+			employeeList.get(i).setEmployeePhone(TextUtil.decryptText(employeeList.get(i).getEmployeePhone()));
+			employeeList.get(i).setEmployeeEmail(TextUtil.decryptText(employeeList.get(i).getEmployeeEmail()));
+			if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
+				employeeList.get(i).setAnnualCompensation(null);
+				employeeList.get(i).setHourlyRate(null);
+				employeeList.get(i).setPayrollTypeId(null);
+			}
+		}
+		
+		return employeeList;
 	}
 	
+	//** PREPARE/UPDATE EMPLOYEE OBJECT
+	private Employee prepareResponse(Employee employee) {
+		employee.setEmployeeAddress(TextUtil.decryptText(employee.getEmployeeAddress()));
+		employee.setEmployeePhone(TextUtil.decryptText(employee.getEmployeePhone()));
+		employee.setEmployeeEmail(TextUtil.decryptText(employee.getEmployeeEmail()));
+		if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
+			employee.setAnnualCompensation(null);
+			employee.setHourlyRate(null);
+			employee.setPayrollTypeId(null);
+		}
+		
+		return employee;
+	}
+
 }

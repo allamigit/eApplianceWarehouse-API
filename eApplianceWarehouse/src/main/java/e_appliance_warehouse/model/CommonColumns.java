@@ -1,4 +1,4 @@
-package e_appliance_warehouse.table;
+package e_appliance_warehouse.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
