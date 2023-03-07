@@ -17,13 +17,19 @@ public class PermissionGroupService {
 	private PermissionGroupRepository permissionGroupRepository;
 	
 	// ADD NEW GROUP
-	public void addGroup(PermissionGroup group) {
-		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		group.setCreatedUserId(WarehouseUserController.uId);
-		group.setCreatedTimestamp(currentTimestamp);
-		group.setUpdatedUserId(WarehouseUserController.uId);
-		group.setUpdatedTimestamp(currentTimestamp);
-		permissionGroupRepository.save(group);
+	public Boolean addGroup(PermissionGroup group) {
+		boolean resp = false;
+		if(WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()) {
+			resp = true;
+			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+			group.setCreatedUserId(WarehouseUserController.uId);
+			group.setCreatedTimestamp(currentTimestamp);
+			group.setUpdatedUserId(WarehouseUserController.uId);
+			group.setUpdatedTimestamp(currentTimestamp);
+			permissionGroupRepository.save(group);
+		}
+		
+		return resp;
 	}
 	
 	// CLONE GROUP
@@ -32,7 +38,8 @@ public class PermissionGroupService {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 				
 		PermissionGroup sourceGroup = permissionGroupRepository.getGroupById(sourceGroupId);
-		if(sourceGroup != null && targetGroupName != null && !targetGroupName.equals("")) {
+		if(sourceGroup != null && targetGroupName != null && !targetGroupName.equals("") 
+				&& WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()) {
 			resp = true;
 			PermissionGroup targetGroup = PermissionGroup.builder()
 					.groupName(targetGroupName)
@@ -80,24 +87,25 @@ public class PermissionGroupService {
 	
 	// GET ALL GROUPS
 	public List<PermissionGroup> getAllGroups() {
-		return permissionGroupRepository.getAllGroups();
+		return WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()?permissionGroupRepository.getAllGroups():null;
 	}
 	
 	// GET GROUP BY groupID
 	public PermissionGroup getGroupById(Long groupId) {
-		return permissionGroupRepository.getGroupById(groupId);
+		return WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()?permissionGroupRepository.getGroupById(groupId):null;
 	}
 	
 	// GET GROUP BY groupName (OR CONTAINS PART OF THE NAME)
 	public List<PermissionGroup> getGroupByName(String groupName) {
-		return permissionGroupRepository.getGroupByName(groupName.toLowerCase());
+		return WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()?permissionGroupRepository.getGroupByName(groupName.toLowerCase()):null;
 	}
 	
 	// UPDATE GROUP
 	public Boolean updateGroup(PermissionGroup group) {
 		boolean resp = false;
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());	
-		if(permissionGroupRepository.getGroupById(group.getGroupId()) != null) {
+		if(permissionGroupRepository.getGroupById(group.getGroupId()) != null 
+				&& WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()) {
 			resp = true;
 			group.setUpdatedUserId(WarehouseUserController.uId);
 			group.setUpdatedTimestamp(currentTimestamp);
@@ -110,7 +118,8 @@ public class PermissionGroupService {
 	// DELETE GROUP BY groupID
 	public Boolean deleteGroup(Long groupId) {
 		boolean resp = false;
-		if(permissionGroupRepository.getGroupById(groupId) != null) {
+		if(permissionGroupRepository.getGroupById(groupId) != null 
+				&& WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()) {
 			resp = true;
 			permissionGroupRepository.deleteGroup(groupId);
 		}

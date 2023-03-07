@@ -32,11 +32,17 @@ public class PermissionGroupController {
 	// ADD NEW GROUP
 	@PostMapping(value = "addNewGroup.wh")
 	public QueryStatus addGroup(HttpServletResponse resp, @RequestBody PermissionGroup group) {
-		permissionGroupService.addGroup(group);
+		String statusDescription = null;
+		if(permissionGroupService.addGroup(group)) {
+			statusDescription = "New Permission Group Added";
+		} else {
+			resp.setStatus(401);
+			statusDescription = "No Add Permission";
+		}
 		
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription("New Permission Group was added: " + group.getGroupName())
+				.statusDescription(statusDescription)
 				.build();
 	}
 	
@@ -48,10 +54,14 @@ public class PermissionGroupController {
 		
 		String statusDescription = null;
 		if(permissionGroupService.cloneGroup(sourceGroupId, targetGroupName)) {
-			statusDescription = "New Permission Group Cloned: " + targetGroupName;
+			statusDescription = "New Permission Group Cloned";
 		} else {
 			resp.setStatus(409);
 			statusDescription = "Group not found or missing target Permission Group name";
+			if(!WarehouseUserController.loggedUser.getPermissionList().getPermissionGroups()) {
+				resp.setStatus(401);
+				statusDescription = "No Clone Permission";
+			}				
 		}
 		
 		return QueryStatus.builder()
@@ -68,7 +78,7 @@ public class PermissionGroupController {
 		return PermissionGroupResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(groupList.isEmpty()?"No Result Found":"All Permission Groups Retrieved Successfully")
+							.statusDescription(groupList==null || groupList.isEmpty()?"No Result Found/No Permission":"All Permission Groups Retrieved Successfully")
 							.build())
 				.queryResult(groupList)
 				.build();
@@ -83,7 +93,7 @@ public class PermissionGroupController {
 		return PermissionGroupResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(groupList.get(0)==null?"No Result Found":"Permission Group Retrieved Successfully")
+							.statusDescription(groupList.get(0)==null?"No Result Found/No Permission":"Permission Group Retrieved Successfully")
 							.build())
 				.queryResult(groupList)
 				.build();
@@ -97,7 +107,7 @@ public class PermissionGroupController {
 		return PermissionGroupResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(groupList.isEmpty()?"No Result Found":"Permission Groups by Group Name Retrieved Successfully")
+							.statusDescription(groupList==null || groupList.isEmpty()?"No Result Found/No Permission":"Permission Groups by Group Name Retrieved Successfully")
 							.build())
 				.queryResult(groupList)
 				.build();
@@ -109,20 +119,17 @@ public class PermissionGroupController {
 		
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription(!permissionGroupService.updateGroup(group)?"No Result Found":"Permission Group Updated: " + group.getGroupName())
+				.statusDescription(!permissionGroupService.updateGroup(group)?"No Result Found/No Permission":"Permission Group Updated")
 				.build();
 	}
 		
 	// DELETE GROUP BY groupID
 	@DeleteMapping(value = "deleteGroup.wh")
 	public QueryStatus deleteGroup(HttpServletResponse resp, @RequestParam(name = "groupId") Long groupId) {
-		PermissionGroup group = permissionGroupService.getGroupById(groupId);
-		String groupName = null;
-		if(group != null)  groupName = group.getGroupName();
 		
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription(!permissionGroupService.deleteGroup(groupId)?"No Result Found":"Permission Group Deleted: " + groupName)
+				.statusDescription(!permissionGroupService.deleteGroup(groupId)?"No Result Found/No Permission":"Permission Group Deleted")
 				.build();
 	}
 

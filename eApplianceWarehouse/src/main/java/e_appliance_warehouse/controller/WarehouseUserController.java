@@ -22,7 +22,8 @@ import e_appliance_warehouse.model.QueryStatus;
 import e_appliance_warehouse.model.WarehouseUserResponse;
 import e_appliance_warehouse.repository.EmployeeRepository;
 import e_appliance_warehouse.repository.JobTitleRepository;
-import e_appliance_warehouse.service.PermissionGroupService;
+import e_appliance_warehouse.repository.PermissionGroupRepository;
+import e_appliance_warehouse.repository.WarehouseUserRepository;
 import e_appliance_warehouse.service.WarehouseUserService;
 import e_appliance_warehouse.table.Employee;
 import e_appliance_warehouse.table.WarehouseUser;
@@ -35,7 +36,8 @@ import lombok.AllArgsConstructor;
 public class WarehouseUserController {
 
 	private WarehouseUserService warehouseUserService;
-	private PermissionGroupService permissionGroupService;
+	private WarehouseUserRepository warehouseUserRepository;
+	private PermissionGroupRepository permissionGroupRepository;
 	private EmployeeRepository employeeRepository;
 	private JobTitleRepository jobTitleRepository;
 	
@@ -51,7 +53,7 @@ public class WarehouseUserController {
 		return WarehouseUserResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(userList.isEmpty()?"No Result Found":"All Users Retrieved Successfully")
+							.statusDescription(userList==null || userList.isEmpty()?"No Result Found/No Permission":"All Users Retrieved Successfully")
 							.build())
 				.queryResult(userList)
 				.build();
@@ -66,7 +68,7 @@ public class WarehouseUserController {
 		return WarehouseUserResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(userList.get(0)==null?"No Result Found":"User Retrieved Successfully")
+							.statusDescription(userList.get(0)==null?"No Result Found/No Permission":"User Retrieved Successfully")
 							.build())
 				.queryResult(userList)
 				.build();
@@ -78,7 +80,7 @@ public class WarehouseUserController {
 
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription(warehouseUserService.updateUser(user)?"User Updated: " + user.getUserId():"User Not Found: " + user.getUserId())
+				.statusDescription(warehouseUserService.updateUser(user)?"User Updated":"User Not Found/No Permission")
 				.build();
 	}
 	
@@ -101,7 +103,7 @@ public class WarehouseUserController {
 		
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription(warehouseUserService.resetPassword(userId)?"Success: Reset Password":"Failed: Reset Password/User Not Found")
+				.statusDescription(warehouseUserService.resetPassword(userId)?"Reset Password Success":"Reset Password Failed: User Not Found/No Permission")
 				.build();
 	}
 	
@@ -125,10 +127,10 @@ public class WarehouseUserController {
 			@RequestParam(name = "userId") String userId, @RequestParam(name = "password") String password) {
 		boolean accountStatus = false;
 		userId = userId.toLowerCase();
-		WarehouseUser user = warehouseUserService.getUserById(userId);
+		WarehouseUser user = warehouseUserRepository.getUserById(userId);
 		Employee employee = employeeRepository.getEmployeeByUserId(userId);
 		if(user != null) accountStatus = employee.getAccountStatus();
-		
+		uId = user.getUserId();
 		loggedUser = null;
 		String statusDescription = null;
 		if(warehouseUserService.userLogin(userId, password) && accountStatus && !user.getResetPassword()) {
@@ -139,9 +141,8 @@ public class WarehouseUserController {
 					.loginTimestamp(new Timestamp(System.currentTimeMillis()))
 					.lastLoginTimestamp(user.getLastLoginTimestamp())
 					.userComment(user.getUserComment())
-					.permissionList(permissionGroupService.getGroupById(employee.getGroupId()))
+					.permissionList(permissionGroupRepository.getGroupById(employee.getGroupId()))
 					.build();
-			uId = user.getUserId();
 			lastLoginTimestamp = new Timestamp(System.currentTimeMillis());
 			statusDescription = "Login Successful";
 		} else if(user != null && user.getResetPassword()) {			

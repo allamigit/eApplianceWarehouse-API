@@ -19,19 +19,19 @@ public class WarehouseUserService {
 
 	// GET ALL USERS
 	public List<WarehouseUser> getAllUsers() {
-		return warehouseUserRepository.getAllUsers();
+		return WarehouseUserController.loggedUser.getPermissionList().getUsers()?warehouseUserRepository.getAllUsers():null;
 	}
 	
 	// GET USER BY userID
 	public WarehouseUser getUserById(String userId) {
-		return warehouseUserRepository.getUserById(userId);
+		return WarehouseUserController.loggedUser.getPermissionList().getUsers()?warehouseUserRepository.getUserById(userId):null;
 	}
 	
 	// UPDATE USER
 	public Boolean updateUser(WarehouseUser user) {
 		boolean resp = false;
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		if(warehouseUserRepository.getUserById(user.getUserId()) != null) {
+		if(warehouseUserRepository.getUserById(user.getUserId()) != null && WarehouseUserController.loggedUser.getPermissionList().getUsers()) {
 			resp = true;
 			user.setUpdatedUserId(WarehouseUserController.uId);
 			user.setUpdatedTimestamp(currentTimestamp);
@@ -47,13 +47,13 @@ public class WarehouseUserService {
 		WarehouseUser user = warehouseUserRepository.getUserById(userId);
 		String statusMessage = null;
 		if(user != null && oldPassword != "" && newPassword != ""
-				&& user.getUserId().equals(userId.toUpperCase()) 
+				&& userId.equalsIgnoreCase(WarehouseUserController.uId) 
 				&& PasswordUtil.validatePassword(oldPassword, user.getPassword())
 				&& !PasswordUtil.validatePassword(oldPassword, PasswordUtil.hashPassword(newPassword))) {		
 			warehouseUserRepository.changePassword(userId, PasswordUtil.hashPassword(newPassword));
 			statusMessage = "Password Changed Successfully";
 		} else {
-			if(userId != null && user == null) statusMessage = "Invalid Username";
+			if((userId != null && user == null) || !userId.equalsIgnoreCase(WarehouseUserController.uId)) statusMessage = "Invalid Username";
 			if(user != null && !PasswordUtil.validatePassword(oldPassword, user.getPassword())) statusMessage = "Invalid Old Password";
 			if(oldPassword != "" && newPassword != "" && 
 					PasswordUtil.validatePassword(oldPassword, PasswordUtil.hashPassword(newPassword))) statusMessage = "Invalid New Password/Same Old Password";
@@ -66,7 +66,7 @@ public class WarehouseUserService {
 	// RESET PASSWORD
 	public Boolean resetPassword(String userId) {
 		boolean resp = false;
-		if(warehouseUserRepository.getUserById(userId) != null) {
+		if(warehouseUserRepository.getUserById(userId) != null && WarehouseUserController.loggedUser.getPermissionList().getUsers()) {
 			resp = true;
 			warehouseUserRepository.resetPassword(userId);
 		}
@@ -82,7 +82,7 @@ public class WarehouseUserService {
 	// USER LOGIN
 	public Boolean userLogin(String userId, String password) {
 		boolean resp = false;
-		WarehouseUser user = getUserById(userId);
+		WarehouseUser user = warehouseUserRepository.getUserById(userId);
 		
 		if(user != null && user.getUserId().equalsIgnoreCase(userId) && PasswordUtil.validatePassword(password, user.getPassword())) 
 			resp = true;

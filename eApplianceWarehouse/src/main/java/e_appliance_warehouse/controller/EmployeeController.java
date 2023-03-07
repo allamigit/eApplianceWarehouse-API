@@ -32,11 +32,17 @@ public class EmployeeController {
 	// ADD NEW EMPLOYEE
 	@PostMapping(value = "addNewEmployee.wh")
 	public QueryStatus addEmployee(HttpServletResponse resp, @RequestBody Employee employee) {		
-		employeeService.addEmployee(employee);
+		String statusDescription = null;
+		if(employeeService.addEmployee(employee)) {
+			statusDescription = "New Employee Added";
+		} else {
+			resp.setStatus(401);
+			statusDescription = "No Add Permission";
+		}
 				
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription("New Employee Added: " + employee.getEmpFirstName() + " " + employee.getEmpLastName())
+				.statusDescription(statusDescription)
 				.build();
 	}
 	
@@ -48,7 +54,7 @@ public class EmployeeController {
 		return EmployeeResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(employeeList.isEmpty()?"No Result Found":"All Employees Retrieved Successfully")
+							.statusDescription(employeeList==null || employeeList.isEmpty()?"No Result Found/No Permission":"All Employees Retrieved Successfully")
 							.build())
 				.queryResult(employeeList)
 				.build();
@@ -62,7 +68,7 @@ public class EmployeeController {
 		return EmployeeResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(employeeList.isEmpty()?"No Result Found":"All Inactive Employees Retrieved Successfully")
+							.statusDescription(employeeList==null || employeeList.isEmpty()?"No Result Found/No Permission":"All Inactive Employees Retrieved Successfully")
 							.build())
 				.queryResult(employeeList)
 				.build();
@@ -76,7 +82,7 @@ public class EmployeeController {
 		return EmployeeResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(employeeList.isEmpty()?"No Result Found":"All Active Employees Retrieved Successfully")
+							.statusDescription(employeeList==null || employeeList.isEmpty()?"No Result Found/No Permission":"All Active Employees Retrieved Successfully")
 							.build())
 				.queryResult(employeeList)
 				.build();
@@ -91,7 +97,7 @@ public class EmployeeController {
 		return EmployeeResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(employeeList.get(0)==null?"No Result Found":"Employee Retrieved Successfully")
+							.statusDescription(employeeList.get(0)==null?"No Result Found/No Permission":"Employee Retrieved Successfully")
 							.build())
 				.queryResult(employeeList)
 				.build();
@@ -105,7 +111,7 @@ public class EmployeeController {
 		return EmployeeResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(employeeList.isEmpty()?"No Result Found":"Employees by First Name Retrieved Successfully")
+							.statusDescription(employeeList==null || employeeList.isEmpty()?"No Result Found/No Permission":"Employees by First Name Retrieved Successfully")
 							.build())
 				.queryResult(employeeList)
 				.build();
@@ -123,7 +129,7 @@ public class EmployeeController {
 		return EmployeeResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(employeeList.get(0)==null?"No Result Found":"Employee by First and Last Name Retrieved Successfully")
+							.statusDescription(employeeList.get(0)==null?"No Result Found/No Permission":"Employee by First and Last Name Retrieved Successfully")
 							.build())
 				.queryResult(employeeList)
 				.build();
@@ -132,25 +138,34 @@ public class EmployeeController {
 	// UPDATE EMPLOYEE
 	@PutMapping(value = "updateEmployee.wh")
 	public QueryStatus updateUser(HttpServletResponse resp, @RequestBody Employee employee) {
-		employeeService.updateEmployee(employee);
-		String fullName = employee.getEmpFirstName() + " " + employee.getEmpLastName();
+		String statusDescription = null;
+		if(employeeService.updateEmployee(employee)) {
+			statusDescription = "Employee Updated";
+		} else {
+			resp.setStatus(401);
+			statusDescription = "No Update Permission";
+		}
 		
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription("Employee Updated: " + fullName)
+				.statusDescription(statusDescription)
 				.build();
 	}
 	
 	// DELETE EMPLOYEE By employeeID
 	@DeleteMapping(value = "deleteEmployee.wh")
 	public QueryStatus deleteEmployee(HttpServletResponse resp, @RequestParam(name = "employeeId") Long employeeId) throws Exception {
-		Employee employee = employeeService.getEmployeeById(employeeId);
-		String fullName = employee.getEmpFirstName() + " " + employee.getEmpLastName();
-		employeeService.deleteEmployee(employeeId);
+		String statusDescription = null;
+		if(employeeService.deleteEmployee(employeeId)) {
+			statusDescription = "Employee Deleted";
+		} else {
+			resp.setStatus(401);
+			statusDescription = "No Delete Permission";
+		}
 		
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription("Employee Deleted: " + fullName)
+				.statusDescription(statusDescription)
 				.build();
 	}
 	
