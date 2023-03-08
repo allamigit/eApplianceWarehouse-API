@@ -53,7 +53,7 @@ public class WarehouseUserController {
 		return WarehouseUserResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(userList==null || userList.isEmpty()?"No Result Found/No Permission":"All Users Retrieved Successfully")
+							.statusDescription(userList.isEmpty()?"No Result Found":"All Users Retrieved Successfully")
 							.build())
 				.queryResult(userList)
 				.build();
@@ -68,7 +68,7 @@ public class WarehouseUserController {
 		return WarehouseUserResponse.builder()
 				.queryStatus(QueryStatus.builder()
 							.statusCode(resp.getStatus())
-							.statusDescription(userList.get(0)==null?"No Result Found/No Permission":"User Retrieved Successfully")
+							.statusDescription(userList.get(0)==null?"No Result Found":"User Retrieved Successfully")
 							.build())
 				.queryResult(userList)
 				.build();
@@ -80,7 +80,7 @@ public class WarehouseUserController {
 
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription(warehouseUserService.updateUser(user)?"User Updated":"User Not Found/No Permission")
+				.statusDescription(warehouseUserService.updateUser(user)?"User Updated":"User Not Found")
 				.build();
 	}
 	
@@ -103,7 +103,7 @@ public class WarehouseUserController {
 		
 		return QueryStatus.builder()
 				.statusCode(resp.getStatus())
-				.statusDescription(warehouseUserService.resetPassword(userId)?"Reset Password Success":"Reset Password Failed: User Not Found/No Permission")
+				.statusDescription(warehouseUserService.resetPassword(userId)?"Reset Password Success":"Reset Password Failed: User Not Found")
 				.build();
 	}
 	

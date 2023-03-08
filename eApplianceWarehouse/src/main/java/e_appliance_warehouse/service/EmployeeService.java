@@ -21,38 +21,32 @@ public class EmployeeService {
 	private WarehouseUserRepository warehouseUserRepository;
 	
 	// ADD NEW EMPLOYEE
-	public Boolean addEmployee(Employee employee) {
-		boolean resp = false;
-		if(WarehouseUserController.loggedUser.getPermissionList().getEmployees()) {
-			resp = true;
-			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-			employee.setEmployeeEmail(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com");
-			employee.setAccountStatus(Boolean.TRUE);
-			employee.setCreatedUserId(WarehouseUserController.uId);
-			employee.setCreatedTimestamp(currentTimestamp);
-			employee.setUpdatedUserId(WarehouseUserController.uId);
-			employee.setUpdatedTimestamp(currentTimestamp);
-			employeeRepository.save(employee);
-			
-			employee = getEmployeeByFirstAndLastName(employee.getEmpFirstName(), employee.getEmpLastName());
-			String userId = employee.getEmpFirstName().substring(0, 1).toUpperCase() + "-" + employee.getEmployeeId();
-			
-			WarehouseUser newUser = WarehouseUser.builder()
-					.userId(userId)
-					.password(PasswordUtil.hashPassword("password1234"))
-					.resetPassword(Boolean.TRUE)
-					.createdUserId(WarehouseUserController.uId)
-					.createdTimestamp(currentTimestamp)
-					.updatedUserId(WarehouseUserController.uId)
-					.updatedTimestamp(currentTimestamp)
-					.build();
-			warehouseUserRepository.save(newUser);
-	
-			employee.setUserId(userId);
-			employeeRepository.save(employee);
-		}
+	public void addEmployee(Employee employee) {
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		employee.setEmployeeEmail(employee.getEmpFirstName().toLowerCase() + "." + employee.getEmpLastName().toLowerCase() + "@eappwh.com");
+		employee.setAccountStatus(Boolean.TRUE);
+		employee.setCreatedUserId(WarehouseUserController.uId);
+		employee.setCreatedTimestamp(currentTimestamp);
+		employee.setUpdatedUserId(WarehouseUserController.uId);
+		employee.setUpdatedTimestamp(currentTimestamp);
+		employeeRepository.save(employee);
 		
-		return resp;		
+		employee = getEmployeeByFirstAndLastName(employee.getEmpFirstName(), employee.getEmpLastName());
+		String userId = employee.getEmpFirstName().substring(0, 1).toUpperCase() + "-" + employee.getEmployeeId();
+		
+		WarehouseUser newUser = WarehouseUser.builder()
+				.userId(userId)
+				.password(PasswordUtil.hashPassword("password1234"))
+				.resetPassword(Boolean.TRUE)
+				.createdUserId(WarehouseUserController.uId)
+				.createdTimestamp(currentTimestamp)
+				.updatedUserId(WarehouseUserController.uId)
+				.updatedTimestamp(currentTimestamp)
+				.build();
+		warehouseUserRepository.save(newUser);
+
+		employee.setUserId(userId);
+		employeeRepository.save(employee);
 	}
 	
 	// GET ALL EMPLOYEES
@@ -94,8 +88,7 @@ public class EmployeeService {
 	public Boolean updateEmployee(Employee employee) {
 		boolean resp = false;
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		if(employeeRepository.getEmployeeById(employee.getEmployeeId()) != null 
-				&& WarehouseUserController.loggedUser.getPermissionList().getEmployees()) {
+		if(employeeRepository.getEmployeeById(employee.getEmployeeId()) != null) {
 			resp = true;
 			employee.setEmployeeEmail(employee.getEmployeeEmail().toLowerCase());
 			employee.setUpdatedUserId(WarehouseUserController.uId);
@@ -110,7 +103,7 @@ public class EmployeeService {
 	public Boolean deleteEmployee(Long employeeId) {
 		boolean resp = false;
 		Employee employee = employeeRepository.getEmployeeById(employeeId);
-		if(employee != null && WarehouseUserController.loggedUser.getPermissionList().getEmployees()) {
+		if(employee != null) {
 			resp = true;
 			employeeRepository.deleteEmployee(employeeId);
 			warehouseUserRepository.deleteUser(employee.getUserId());
@@ -121,30 +114,24 @@ public class EmployeeService {
 	
 	//** PREPARE/UPDATE EMPLOYEE LIST
 	private List<Employee> prepareResponseList(List<Employee> employeeList) {
-		if(WarehouseUserController.loggedUser.getPermissionList().getEmployees() 
-				|| WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
-			for(int i=0; i<employeeList.size(); i++) {
-				if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
-					employeeList.get(i).setAnnualCompensation(null);
-					employeeList.get(i).setHourlyRate(null);
-					employeeList.get(i).setPayrollTypeId(null);
-				}
+		for(int i=0; i<employeeList.size(); i++) {
+			if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
+				employeeList.get(i).setAnnualCompensation(null);
+				employeeList.get(i).setHourlyRate(null);
+				employeeList.get(i).setPayrollTypeId(null);
 			}
-		} else employeeList = null;
+		}
 		
 		return employeeList;
 	}
 	
 	//** PREPARE/UPDATE EMPLOYEE OBJECT
 	private Employee prepareResponse(Employee employee) {
-		if(WarehouseUserController.loggedUser.getPermissionList().getEmployees() 
-				|| WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
-			if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
-				employee.setAnnualCompensation(null);
-				employee.setHourlyRate(null);
-				employee.setPayrollTypeId(null);
-			}
-		} else employee = null;
+		if(WarehouseUserController.loggedUser.getPermissionList().getEmployeesReadOnly()) {
+			employee.setAnnualCompensation(null);
+			employee.setHourlyRate(null);
+			employee.setPayrollTypeId(null);
+		}
 		
 		return employee;
 	}

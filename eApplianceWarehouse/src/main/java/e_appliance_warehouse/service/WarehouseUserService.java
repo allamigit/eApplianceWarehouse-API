@@ -19,19 +19,19 @@ public class WarehouseUserService {
 
 	// GET ALL USERS
 	public List<WarehouseUser> getAllUsers() {
-		return WarehouseUserController.loggedUser.getPermissionList().getUsers()?warehouseUserRepository.getAllUsers():null;
+		return warehouseUserRepository.getAllUsers();
 	}
 	
 	// GET USER BY userID
 	public WarehouseUser getUserById(String userId) {
-		return WarehouseUserController.loggedUser.getPermissionList().getUsers()?warehouseUserRepository.getUserById(userId):null;
+		return warehouseUserRepository.getUserById(userId);
 	}
 	
 	// UPDATE USER
 	public Boolean updateUser(WarehouseUser user) {
 		boolean resp = false;
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-		if(warehouseUserRepository.getUserById(user.getUserId()) != null && WarehouseUserController.loggedUser.getPermissionList().getUsers()) {
+		if(warehouseUserRepository.getUserById(user.getUserId()) != null) {
 			resp = true;
 			user.setUpdatedUserId(WarehouseUserController.uId);
 			user.setUpdatedTimestamp(currentTimestamp);
@@ -66,7 +66,7 @@ public class WarehouseUserService {
 	// RESET PASSWORD
 	public Boolean resetPassword(String userId) {
 		boolean resp = false;
-		if(warehouseUserRepository.getUserById(userId) != null && WarehouseUserController.loggedUser.getPermissionList().getUsers()) {
+		if(warehouseUserRepository.getUserById(userId) != null) {
 			resp = true;
 			warehouseUserRepository.resetPassword(userId);
 		}
